@@ -11,7 +11,7 @@ const initialState = {
   loading: false,
   error: null,
   loggedOut: false,
-};
+}
 
 // Async Thunk for User Login
 export const loginUser = createAsyncThunk(
