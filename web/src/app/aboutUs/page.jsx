@@ -8,9 +8,9 @@ const AboutUs = () => {
     <>
       <Navbar />
       <div className=" bg-gradient-to-b from-green-100 via-white to-slate-100 min-h-screen  ">
-        <div className=""></div>
+        {/* <div className=""></div> */}
         {/* Hero Section */}
-        <div className="relative bg-gradient-to-tr from-green-300 via-green-100 to-green-400 text-green-600 py-16 px-6 lg:px-16">
+        <div className="pt-48 relative bg-gradient-to-t from-green-300 via-slate-100 to-slate-600 text-green-600 py-16 px-6 lg:px-16">
           <div className="container mx-auto">
             <h1 className="text-5xl font-bold mb-4 text-center font-serif lg:text-left">
               About Agro Mart
@@ -229,7 +229,7 @@ const AboutUs = () => {
         {/* Call to Action */}
         <section className="bg-gradient-to-tr from-green-500 via-slate-200 to-green-400 text-green-700  py-16">
           <div className="container mx-auto text-center px-6 lg:px-16">
-            <h2 className="text-3xl font-bold mb-4">
+            <h2 className="text-3xl font-bold mb-4 font-serif">
               Join 🤝 the Agro Mart Revolution
             </h2>
             <p className="text-lg mb-8">
@@ -238,7 +238,7 @@ const AboutUs = () => {
             </p>
             <a
               href="/contact"
-              className="inline-block bg-white text-green-700 font-semibold px-6 py-3 rounded-lg hover:bg-gray-200 transition"
+              className="inline-block bg-white text-green-700 font-semibold px-6 py-3 rounded-lg hover:bg-gray-200 transition font-serif text-2xl"
             >
               Contact Us
             </a>
