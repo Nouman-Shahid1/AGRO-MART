@@ -21,3 +21,5 @@ func create_about(context *gin.Context){
     }
     context.JSON(http.StatusCreated, gin.H{"message": "Seller description added", "event": about})
 }
+
+

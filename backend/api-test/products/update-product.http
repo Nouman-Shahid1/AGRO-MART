@@ -1,10 +1,10 @@
-PUT http://localhost:8080/update-product/5
+PUT http://localhost:8080/products/update-product/10
 Content-type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inpvcm9AdGVzdC5jb20iLCJleHAiOjE3MzI5NjcwMjksInVzZXJJZCI6MX0.7oNcgjkOuDF79B50wDhCXRxoQ6Inn4RIbGFvuxfIuAo
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpvcnhAdGVzdC5jb20iLCJleHAiOjE3MzI5Njk1MjUsInVzZXJJZCI6Mn0.vNJjG3e5iZ8a_VYrFa1SOLrQ3Fx77i1CITPdfB-HR1o
 
 {
-    "name":"morx",
-    "description": "moshsi vent", 
-    "imagepath" : "A test location",
+    "name":"mordsadx",
+    "description": "moshsi sadsvent", 
+    "imagepath" : "new location",
     "userId" : 0
 }

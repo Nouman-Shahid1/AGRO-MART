@@ -81,7 +81,7 @@ func updateProduct(context *gin.Context){
 		context.JSON(http.StatusInternalServerError, gin.H{"message": fmt.Sprintf("Couldn't update product, error: %s", err)})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{"message": "Event updated"})
+	context.JSON(http.StatusOK, gin.H{"message": "Product updated"})
 }
 
 func deleteProduct(context *gin.Context){
@@ -104,7 +104,7 @@ func deleteProduct(context *gin.Context){
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product"})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{"message": "Event deleted"})
+	context.JSON(http.StatusOK, gin.H{"message": "Product deleted"})
 
 }	
 
@@ -122,4 +122,22 @@ func getProductsbyuserid(context *gin.Context){
     context.JSON(http.StatusOK, products) 
 }
 
+func searchProduct(context *gin.Context){
+    var request struct {
+        Search string `json:"search" binding:"required"`
+    }
+
+    // Bind JSON body to the struct
+    if err := context.ShouldBindJSON(&request); err != nil {
+        context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid input", "error": err.Error()})
+        return
+    }
+
+	products, err := models.GetProductsbySearch(request.Search)
+	if err != nil{
+        context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch products", "error":err.Error()})
+        return
+    }
+    context.JSON(http.StatusOK, products)
+}
 	

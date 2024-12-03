@@ -1,4 +1,4 @@
-curl.exe -X POST http://localhost:8080/new-product `
+curl.exe -X POST http://localhost:8080/products/new-product `
 -H "Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpvcnhAdGVzdC5jb20iLCJleHAiOjE3MzI5NjkwMTUsInVzZXJJZCI6Mn0.IftjXFJvfhdvVAREwH1cU42F9y059WfdSFZ-_fI1dVs" `
 -F "name=Tractor" `
 -F "description=Brand new tractor" `

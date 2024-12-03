@@ -134,3 +134,25 @@ func GetProductsbyUserID(id int64) ([]Product, error){
 }
 
 
+func GetProductsbySearch(search string) ([]Product, error){
+	query := "SELECT * FROM products WHERE name LIKE ?"
+	searchTerm := "%" + search + "%" 
+	rows, err := db.DB.Query(query, searchTerm)
+	if err != nil {
+		log.Printf("Error querying database for searchbar: %v\n", err)
+	}
+	defer rows.Close()
+	var products []Product
+	for rows.Next(){
+		var product Product
+		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID)
+		if err != nil{
+			log.Printf("Error scanning rows for searchbar: %v\n", err)
+			return nil, err
+		}
+		products = append(products, product)
+	}
+	return products,nil
+}
+
+

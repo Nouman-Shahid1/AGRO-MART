@@ -1,2 +1,2 @@
-DELETE http://localhost:8080/delete-product/5
+DELETE http://localhost:8080/products/delete-product/8
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpvcnhAdGVzdC5jb20iLCJleHAiOjE3MzI5NjkyODksInVzZXJJZCI6Mn0.38vJVTzrzctMET19ZwfLIwjwLUAfLFFm_-wrt-FUHfY

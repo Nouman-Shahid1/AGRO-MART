@@ -73,4 +73,6 @@ _, err = DB.Exec(createProductsTable)
 if err != nil {
     log.Fatal("Could not create products table:", err)
 }
+
+
 }
