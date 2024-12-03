@@ -5,8 +5,8 @@ const CreateProduct = ({showAddProduct,setShowAddProduct}) => {
     setShowAddProduct(false)
   }
   return (
-    <div className={`fixed w-full h-[900px] -top-8 right-0  bg-[rgb(0,0,0,0.5)] flex items-center justify-center   ${showAddProduct?'block':'hidden'}`}>
-    <form className="relative max-w-4xl  w-[600px] items-center h-[620px] overflow-scroll mx-auto bg-white  p-8 rounded-lg shadow-lg space-y-3">
+    <div className={`fixed w-full h-[900px] -top-8 right-0  bg-[rgb(0,0,0,0.5)] flex items-center justify-center  ${showAddProduct?'block':'hidden'}`}>
+    <form className="relative max-w-4xl  w-[600px] items-center h-[630px] overflow-scroll mx-auto bg-white  p-8 rounded-3xl shadow-lg space-y-3">
       <div className="absolute top-6 right-6" onClick={handleAddProduct}>
         <FaTimes style={{ color: "red", fontSize: "24px" }} />
 

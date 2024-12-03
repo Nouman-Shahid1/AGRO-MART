@@ -16,6 +16,10 @@ import {
   FaAddressBook,
   FaHeadset,
   FaCog,
+  FaSeedling,
+  FaCogs,
+  FaUserAlt,
+  FaWarehouse,
 } from "react-icons/fa";
 
 import Logo from "../../assets/images/logo.png";
@@ -27,11 +31,11 @@ const Sidebar = ({ role }) => {
 
   const menuLists = {
     seller: [
-      { label: "My Products", icon: <FaBox />, path: "/seller/products" },
-      { label: "Orders", icon: <FaTruck />, path: "/seller/orders" },
-      { label: "Earnings", icon: <FaMoneyBill />, path: "/seller/earnings" },
-      { label: "Analytics", icon: <FaChartLine />, path: "/seller/analytics" },
-      { label: "Settings", icon: <FaTools />, path: "/seller/settings" },
+      { label: "My Products", icon: <FaBox />, path: "/seller-profile/my-products" },
+      { label: "Orders", icon: <FaTruck />, path: "/seller-profile/orders" },
+      { label: "Earnings", icon: <FaMoneyBill />, path: "/seller-profile/earnings" },
+      { label: "Analytics", icon: <FaChartLine />, path: "/seller-profile/analytics" },
+      { label: "Settings", icon: <FaTools />, path: "/seller-profile/settings" },
     ],
     buyer: [
       { label: "Orders", icon: <FaTractor />, path: "/myaccount/orders" },
@@ -53,6 +57,14 @@ const Sidebar = ({ role }) => {
       { label: "Support", icon: <FaHeadset />, path: "/myaccount/support" },
       { label: "Settings", icon: <FaCog />, path: "/myaccount/settings" },
     ],
+    admin: [
+      { label: "Machines", icon: <FaCogs />, path: "/admin/machines" },
+      { label: "Seeds", icon: <FaSeedling />, path: "/admin/seeds" },
+      { label: "Crops", icon: <FaWarehouse />, path: "/admin/crops" },
+      { label: "Pesticides", icon: <FaCog />, path: "/admin/pesticides" },
+      { label: "Rentals", icon: <FaTruck />, path: "/admin/rentals" },
+      { label: "Users", icon: <FaUserAlt />, path: "/admin/users" },
+    ],
   };
 
   // Get the menuItems based on the role
@@ -72,6 +84,7 @@ const Sidebar = ({ role }) => {
       document.removeEventListener("click", closeSidebarOnOutsideClick);
     };
   }, [isSidebarOpen]);
+
   const backgroundImages = {
     seller: `
       linear-gradient(
@@ -89,6 +102,7 @@ const Sidebar = ({ role }) => {
 
   const backgroundImage =
     role === "seller" ? backgroundImages.seller : backgroundImages.default;
+
   return (
     <>
       {/* Sidebar toggle button */}
@@ -139,7 +153,7 @@ const Sidebar = ({ role }) => {
           />
         </div>
 
-        <Link href="/admin" passHref>
+        <Link href="/" passHref>
           <div className="rounded-lg text-lg font-semibold py-4 px-4 flex items-center gap-4 bg-gradient-to-br from-green-600 via-yellow-500 to-brown-500 text-white hover:bg-gradient-to-tl hover:from-brown-500 hover:via-yellow-600 hover:to-green-700 transition-all duration-300 shadow-xl transform hover:scale-105">
             <FaHome className="text-2xl" />
             Dashboard
