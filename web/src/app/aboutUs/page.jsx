@@ -8,60 +8,76 @@ const AboutUs = () => {
     <>
       <Navbar />
       <div className=" bg-gradient-to-b from-green-100 via-white to-slate-100 min-h-screen  ">
-        {/* <div className=""></div> */}
-        {/* Hero Section */}
-        <div className="pt-48 relative bg-gradient-to-t from-green-300 via-slate-100 to-slate-600 text-green-600 py-16 px-6 lg:px-16">
-          <div className="container mx-auto">
-            <h1 className="text-5xl font-bold mb-4 text-center font-serif lg:text-left">
-              About Agro Mart
-            </h1>
-            <p className="text-lg lg:text-xl  text-center lg:text-left">
-              At Agro Mart, we’re revolutionizing agriculture by blending modern
-              innovation with time-tested traditions to empower farmers and
-              businesses across the globe.
-            </p>
-          </div>
-        </div>
-
-        {/* Core Values Section */}
-        <section className="container mx-auto py-16 px-6 lg:px-16">
-          <h2 className="text-5xl font-serif  font-bold text-green-700 text-center mb-14">
-            Who We Are
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="flex justify-center items-center leading-8">
-              <p className="text-green-600 font-serif text-lg">
-                Agro Mart is a forward-thinking agricultural platform designed
-                to support farmers, agribusinesses, and entrepreneurs in their
-                journey toward sustainable growth. We believe agriculture is not
-                just an industry—it’s the backbone of our world and the key to a
-                brighter future.
+        <div className="relative bg-gradient-to-t from-green-800 via-green-700 to-green-600 text-white py-24 px-8 lg:px-20">
+          <div className="w-[88%] mx-auto flex flex-col mt-32 gap-12 lg:flex-row items-center justify-between">
+            <div className="text-center lg:text-left lg:w-1/2">
+              <h1 className="text-6xl font-extrabold mb-6 text-shadow-xl leading-tight font-serif animate__animated animate__fadeInUp">
+                About Agro Mart
+              </h1>
+              <p className="text-lg lg:text-xl text-gray-100 mb-6 leading-relaxed opacity-90">
+                At Agro Mart, we’re revolutionizing agriculture by blending
+                cutting-edge technology with time-honored traditions, empowering
+                farmers and businesses globally to achieve sustainable growth.
               </p>
+              <p className="text-lg lg:text-xl text-gray-100 mb-6 leading-relaxed opacity-90">
+                Our mission is to provide innovative solutions that enhance
+                productivity, sustainability, and profitability, making
+                agriculture smarter, more efficient, and future-ready. We
+                believe in creating long-term partnerships with farmers,
+                producers, and stakeholders to unlock the full potential of
+                agriculture and contribute to a greener future.
+              </p>
+              <p className="text-lg lg:text-xl text-gray-100 mb-6 leading-relaxed opacity-90">
+                With a focus on innovation, we offer smart farming tools,
+                sustainable agricultural practices, and comprehensive solutions
+                that are tailored to meet the evolving needs of modern-day
+                farming. From precision farming technologies to supply chain
+                optimization, Agro Mart is committed to driving agricultural
+                progress through science and technology.
+              </p>
+              <p className="text-lg lg:text-xl text-gray-100 mb-6 leading-relaxed opacity-90">
+                Our services extend beyond technology implementation. We provide
+                training and resources to ensure that every farmer can adapt and
+                thrive in the digital agricultural landscape. We believe in
+                empowering farmers with the knowledge and tools they need to
+                increase their yields, reduce waste, and create a more
+                sustainable future for the generations to come.
+              </p>
+              <a
+                href="#services"
+                className="inline-block px-8 py-4 mt-4 bg-green-500 text-white font-bold rounded-lg shadow-lg hover:bg-green-600 hover:shadow-2xl transform hover:scale-105 transition duration-300 ease-in-out"
+              >
+                Learn More
+              </a>
             </div>
-            <div>
+            <div className="lg:w-1/2 mt-10 lg:mt-0">
               <img
                 src={farm2.src}
-                alt="About Us"
-                className="rounded-lg shadow-lg"
+                alt="Agro Mart"
+                className="w-full h-3/4 object-cover rounded-xl shadow-2xl transform hover:scale-105 transition duration-500 ease-in-out"
               />
             </div>
           </div>
-        </section>
+        </div>
 
         {/* Mission Section */}
-        <section className="bg-gradient-to-l to-green-200 via-white from-green-100 py-16">
-          <div className="container mx-auto px-6 lg:px-16">
-            <h2 className="text-3xl font-bold text-green-700 font-serif text-center mb-8">
+        <section className="bg-[url('https://source.unsplash.com/1600x900/?nature,farmland')] bg-cover bg-center py-20">
+          <div className="container mx-auto px-6 lg:px-16 bg-white bg-opacity-60 rounded-lg shadow-lg">
+            <h2 className="text-5xl font-bold text-green-800 font-serif text-center mb-12 tracking-tight">
               Our Mission
             </h2>
-            <p className="text-green-600 text-lg text-center max-w-4xl font-serif mx-auto">
-              Our mission is to create a world where farmers have access to the
-              tools, knowledge, and resources they need to achieve sustainable
-              success. By embracing eco-friendly practices and innovative
-              technology, we aim to empower farmers while protecting our planet.
+            <p className="text-xl text-green-700 text-center max-w-3xl mx-auto leading-relaxed opacity-90">
+              Our mission is to transform the future of farming by empowering
+              farmers with the tools, knowledge, and resources they need to
+              thrive sustainably. By fostering innovation, embracing
+              eco-conscious practices, and leveraging cutting-edge technology,
+              we are committed to cultivating a world where farmers not only
+              achieve success but also safeguard our planet for future
+              generations.
             </p>
           </div>
         </section>
+
         <div className="w-full flex justify-center items-center text-center mt-24 text-4xl font-bold font-serif ">
           <h1 className="w-1/2 text-green-700">
             In order to finance members. Some ecological element
