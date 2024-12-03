@@ -8,9 +8,9 @@ const AboutUs = () => {
     <>
       <Navbar />
       <div className=" bg-gradient-to-b from-green-100 via-white to-slate-100 min-h-screen  ">
-        <div className="bgAbout"></div>
+        <div className=""></div>
         {/* Hero Section */}
-        <div className="relative bg-gradient-to-tr from-green-300 via-green-100 to-green-400 text-white py-16 px-6 lg:px-16">
+        <div className="relative bg-gradient-to-tr from-green-300 via-green-100 to-green-400 text-green-600 py-16 px-6 lg:px-16">
           <div className="container mx-auto">
             <h1 className="text-5xl font-bold mb-4 text-center font-serif lg:text-left">
               About Agro Mart
@@ -25,12 +25,12 @@ const AboutUs = () => {
 
         {/* Core Values Section */}
         <section className="container mx-auto py-16 px-6 lg:px-16">
-          <h2 className="text-4xl font-serif  font-bold text-gray-600 text-center mb-8">
+          <h2 className="text-5xl font-serif  font-bold text-green-700 text-center mb-14">
             Who We Are
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <p className="text-gray-600 text-lg">
+            <div className="flex justify-center items-center leading-8">
+              <p className="text-green-600 font-serif text-lg">
                 Agro Mart is a forward-thinking agricultural platform designed
                 to support farmers, agribusinesses, and entrepreneurs in their
                 journey toward sustainable growth. We believe agriculture is not
@@ -49,12 +49,12 @@ const AboutUs = () => {
         </section>
 
         {/* Mission Section */}
-        <section className="bg-gradient-to-l to-green-100 from-white py-16">
+        <section className="bg-gradient-to-l to-green-200 via-white from-green-100 py-16">
           <div className="container mx-auto px-6 lg:px-16">
-            <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">
+            <h2 className="text-3xl font-bold text-green-700 font-serif text-center mb-8">
               Our Mission
             </h2>
-            <p className="text-gray-600 text-lg text-center max-w-4xl mx-auto">
+            <p className="text-green-600 text-lg text-center max-w-4xl font-serif mx-auto">
               Our mission is to create a world where farmers have access to the
               tools, knowledge, and resources they need to achieve sustainable
               success. By embracing eco-friendly practices and innovative
@@ -63,7 +63,7 @@ const AboutUs = () => {
           </div>
         </section>
         <div className="w-full flex justify-center items-center text-center mt-24 text-4xl font-bold font-serif ">
-          <h1 className="w-1/2 text-gray-600">
+          <h1 className="w-1/2 text-green-700">
             In order to finance members. Some ecological element
           </h1>
         </div>
@@ -80,7 +80,7 @@ const AboutUs = () => {
                 />
               </div>
               <div className="w-[300px] p-6 space-y-4 flex flex-col justify-center items-center">
-                <h1 className="text-xl font-serif font-bold text-gray-600">
+                <h1 className="text-xl font-serif font-bold text-green-600">
                   Lorem ipsum
                 </h1>
                 <p className="text-black text-center">
@@ -98,7 +98,7 @@ const AboutUs = () => {
                 />
               </div>
               <div className="w-[300px] p-6 text-center space-y-4 flex flex-col justify-center items-center">
-                <h1 className="text-xl font-serif text-gray-600 font-bold">
+                <h1 className="text-xl font-serif text-green-600 font-bold">
                   Velit esse
                 </h1>
                 <p className="text-black">
@@ -116,7 +116,7 @@ const AboutUs = () => {
                 />
               </div>
               <div className=" w-[300px] p-6 text-center space-y-4 flex flex-col justify-center items-center">
-                <h1 className="text-xl font-serif text-gray-600 font-bold">
+                <h1 className="text-xl font-serif text-green-600 font-bold">
                   Voluptate
                 </h1>
                 <p className="text-black">
@@ -134,7 +134,7 @@ const AboutUs = () => {
                 />
               </div>
               <div className="w-[300px] p-6 text-center space-y-4 flex flex-col justify-center items-center">
-                <h1 className="text-xl font-serif text-gray-600 font-bold">
+                <h1 className="text-xl font-serif text-green-600 font-bold">
                   Aliquam erat
                 </h1>
                 <p className="text-black text-center">
@@ -152,7 +152,7 @@ const AboutUs = () => {
                 />
               </div>
               <div className="w-[300px] p-6 text-center space-y-4 flex flex-col justify-center items-center">
-                <h1 className="text-xl font-serif text-gray-600 font-bold">
+                <h1 className="text-xl font-serif text-gren-600 font-bold">
                   Hendrerit nulla
                 </h1>
                 <p className="text-black">
@@ -170,7 +170,7 @@ const AboutUs = () => {
                 />
               </div>
               <div className="w-[300px] p-6 text-center space-y-4 flex flex-col justify-center items-center">
-                <h1 className="text-xl font-serif text-gray-600 font-bold">
+                <h1 className="text-xl font-serif text-green-600 font-bold">
                   Curabitur
                 </h1>
                 <p className="text-black">
@@ -183,7 +183,7 @@ const AboutUs = () => {
 
         {/* Values Section */}
         <section className="container mx-auto py-16 px-6 lg:px-16">
-          <h2 className="text-4xl font-bold text-gray-600 font-serif text-center mb-8">
+          <h2 className="text-4xl font-bold text-green-700 font-serif text-center mb-8">
             What We Offer
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -191,7 +191,7 @@ const AboutUs = () => {
               <div className="bg-green-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 🌱
               </div>
-              <h3 className="text-xl font-semibold text-gray-600 font-serif">
+              <h3 className="text-xl font-semibold text-green-700 font-serif">
                 Premium Products
               </h3>
               <p className="text-gray-600 mt-2">
@@ -203,7 +203,7 @@ const AboutUs = () => {
               <div className="bg-green-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 📚
               </div>
-              <h3 className="text-xl font-semibold text-gray-600 font-serif">
+              <h3 className="text-xl font-semibold text-green-700 font-serif">
                 Knowledge Hub
               </h3>
               <p className="text-gray-600 mt-2">
@@ -215,7 +215,7 @@ const AboutUs = () => {
               <div className="bg-green-900 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 🤝
               </div>
-              <h3 className="text-xl font-semibold text-gray-600 font-serif">
+              <h3 className="text-xl font-semibold text-green-700 font-serif">
                 Community Support
               </h3>
               <p className="text-gray-600 mt-2">
@@ -227,7 +227,7 @@ const AboutUs = () => {
         </section>
 
         {/* Call to Action */}
-        <section className="bg-gradient-to-tr from-green-500 via-slate-200 to-green-400 text-white py-16">
+        <section className="bg-gradient-to-tr from-green-500 via-slate-200 to-green-400 text-green-700  py-16">
           <div className="container mx-auto text-center px-6 lg:px-16">
             <h2 className="text-3xl font-bold mb-4">
               Join 🤝 the Agro Mart Revolution
