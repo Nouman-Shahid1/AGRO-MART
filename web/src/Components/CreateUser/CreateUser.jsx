@@ -15,7 +15,6 @@ const CreateUser = ({ showAddUser, setShowAddUser }) => {
         </div>
         <h2 className="text-2xl font-semibold text-gray-700">Add User</h2>
 
-        {/* First Name */}
         <div>
           <label className="block text-sm font-medium text-gray-600">First Name</label>
           <input
@@ -25,7 +24,6 @@ const CreateUser = ({ showAddUser, setShowAddUser }) => {
           />
         </div>
 
-        {/* Last Name */}
         <div>
           <label className="block text-sm font-medium text-gray-600">Last Name</label>
           <input
@@ -35,7 +33,6 @@ const CreateUser = ({ showAddUser, setShowAddUser }) => {
           />
         </div>
 
-        {/* Email */}
         <div>
           <label className="block text-sm font-medium text-gray-600">Email</label>
           <input
@@ -45,7 +42,6 @@ const CreateUser = ({ showAddUser, setShowAddUser }) => {
           />
         </div>
 
-        {/* Password */}
         <div>
           <label className="block text-sm font-medium text-gray-600">Password</label>
           <input
@@ -55,7 +51,6 @@ const CreateUser = ({ showAddUser, setShowAddUser }) => {
           />
         </div>
 
-        {/* User Role */}
         <div>
           <label className="block text-sm font-medium text-gray-600">Role</label>
           <select className="w-full mt-1 p-2 border rounded-md outline-none focus:ring focus:ring-green-400">
@@ -66,7 +61,6 @@ const CreateUser = ({ showAddUser, setShowAddUser }) => {
           </select>
         </div>
 
-        {/* User Image */}
         <div>
           <label className="block text-sm font-medium text-gray-600">User Image</label>
           <input
@@ -76,7 +70,6 @@ const CreateUser = ({ showAddUser, setShowAddUser }) => {
           />
         </div>
 
-        {/* Submit Button */}
         <div className="text-right">
           <button
             type="submit"

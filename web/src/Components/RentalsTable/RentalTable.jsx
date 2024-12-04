@@ -118,7 +118,6 @@ const RentalTable = () => {
           </tbody>
         </table>
 
-        {/* Modals */}
         <CreateRentals showAddRental={showAddRental} setShowAddRental={setShowAddRental} />
         <DeleteProduct showDeleteModal={showDeleteModal} setShowDeleteModal={setShowDeleteModal} />
       </div>

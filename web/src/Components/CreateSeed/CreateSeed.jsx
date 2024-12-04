@@ -14,7 +14,6 @@ const CreateSeed = ({ showAddSeed, setShowAddSeed }) => {
         </div>
         <h2 className="text-2xl font-semibold text-gray-700">Add Seed</h2>
 
-        {/* Seed Name */}
         <div>
           <label className="block text-sm font-medium text-gray-600">Seed Name</label>
           <input
@@ -24,7 +23,6 @@ const CreateSeed = ({ showAddSeed, setShowAddSeed }) => {
           />
         </div>
 
-        {/* Description */}
         <div>
           <label className="block text-sm font-medium text-gray-600">Description</label>
           <textarea
@@ -34,7 +32,6 @@ const CreateSeed = ({ showAddSeed, setShowAddSeed }) => {
           ></textarea>
         </div>
 
-        {/* Category */}
         <div>
           <label className="block text-sm font-medium text-gray-600">Category</label>
           <select className="w-full mt-1 p-2 border rounded-md outline-none focus:ring focus:ring-green-400">
@@ -45,7 +42,6 @@ const CreateSeed = ({ showAddSeed, setShowAddSeed }) => {
           </select>
         </div>
 
-        {/* Price */}
         <div>
           <label className="block text-sm font-medium text-gray-600">Price</label>
           <input
@@ -55,7 +51,6 @@ const CreateSeed = ({ showAddSeed, setShowAddSeed }) => {
           />
         </div>
 
-        {/* Seed Image */}
         <div>
           <label className="block text-sm font-medium text-gray-600">Seed Image</label>
           <input
@@ -64,8 +59,6 @@ const CreateSeed = ({ showAddSeed, setShowAddSeed }) => {
             className="mt-1"
           />
         </div>
-
-        {/* Submit Button */}
         <div className="text-right">
           <button
             type="submit"
