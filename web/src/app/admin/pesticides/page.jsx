@@ -2,17 +2,17 @@ import AdminProfile from '@/Components/AdminProfile/AdminProfile';
 import ProductTable from '@/Components/ProductTable/ProductTable';
 import React from 'react'
 
-const Machines = () => {
+const Pesticides = () => {
   return (
     <div
     className="p-8 min-h-screen">
     <AdminProfile/>
     <div className='z-20'>
-    <ProductTable name="Machine" machine={true}/>      
+    <ProductTable name="Pesticide" pesticide={true}/>      
 
     </div>
     </div>
   )
 }
 
-export default Machines;
+export default Pesticides;

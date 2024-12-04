@@ -1,18 +1,18 @@
 import AdminProfile from '@/Components/AdminProfile/AdminProfile';
-import ProductTable from '@/Components/ProductTable/ProductTable';
+import RentalTable from '@/Components/RentalsTable/RentalTable';
+
 import React from 'react'
 
-const Seeds = () => {
+const Rentals = () => {
   return (
     <div
     className="p-8 min-h-screen">
     <AdminProfile/>
-    <div className='z-20'>
-    <ProductTable name="Seeds" seed={true}/>      
-
+    <div className='z-20'>      
+<RentalTable/>
     </div>
     </div>
   )
 }
 
-export default Seeds;
+export default Rentals;
