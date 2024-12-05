@@ -35,7 +35,7 @@ const AdminSidebar = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-screen md:w-80 bg-gradient-to-b from-green-100 to-green-300 shadow-lg z-40 transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-screen md:w-80 bg-gradient-to-b from-green-100 to-green-300 shadow-lg  transform transition-transform duration-300 ${
           isSidebarVisible ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0`}
       >

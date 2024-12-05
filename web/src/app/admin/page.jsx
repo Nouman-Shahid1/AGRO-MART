@@ -20,7 +20,7 @@ export default function page() {
       {/* Main Content */}
       <main className="container mx-auto px-6 py-10">
         <h2 className="text-2xl font-semibold text-gray-700 mb-8">Categories</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 ">
           {categories.map((category) => (
             <AdminDashboardCard
               key={category.label}
