@@ -2,16 +2,18 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios/config";
 import { setCookie, getCookie, deleteCookie } from "../../utilities/utils";
 
-let refreshRequestPending = false;
+// Check if running in the browser before accessing localStorage
+const isBrowser = typeof window !== "undefined";
 
+// Initial state
 const initialState = {
-  user: JSON.parse(localStorage.getItem("user")) || null,
-  userRole: localStorage.getItem("userRole") || null,
+  user: isBrowser ? JSON.parse(localStorage.getItem("user")) || null : null,
+  userRole: isBrowser ? localStorage.getItem("userRole") || null : null,
   accessToken: getCookie("access_token") || null,
   loading: false,
   error: null,
   loggedOut: false,
-}
+};
 
 // Async Thunk for User Login
 export const loginUser = createAsyncThunk(
@@ -24,7 +26,11 @@ export const loginUser = createAsyncThunk(
       // Store tokens and user data
       setCookie("access_token", access_token, expires_in);
       setCookie("refresh_token", refresh_token, expires_in);
-      localStorage.setItem("access_token", access_token);
+      if (isBrowser) {
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("userRole", user.role);
+      }
 
       return { access_token, user, userRole: user.role };
     } catch (err) {
@@ -43,6 +49,11 @@ export const registerUser = createAsyncThunk(
 
       // Store access token
       setCookie("access_token", access_token, 7 * 24 * 60 * 60);
+
+      if (isBrowser) {
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem("user", JSON.stringify(user));
+      }
 
       return { access_token, user, userRole: user.role };
     } catch (err) {
@@ -78,7 +89,9 @@ export const refreshToken = createAsyncThunk(
 
       // Update access token
       setCookie("access_token", access_token, expires_in);
-      localStorage.setItem("access_token", access_token);
+      if (isBrowser) {
+        localStorage.setItem("access_token", access_token);
+      }
 
       refreshRequestPending = false;
       return { access_token };
@@ -97,7 +110,11 @@ export const logout = createAsyncThunk(
   async (_, { dispatch }) => {
     deleteCookie("access_token");
     deleteCookie("refresh_token");
-    localStorage.removeItem("access_token");
+    if (isBrowser) {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("userRole");
+    }
 
     dispatch(authSlice.actions.setLoggedOut(true));
     dispatch(authSlice.actions.clearState());
@@ -124,8 +141,10 @@ const authSlice = createSlice({
       state.error = null;
 
       // Clear local storage
-      localStorage.removeItem("user");
-      localStorage.removeItem("userRole");
+      if (isBrowser) {
+        localStorage.removeItem("user");
+        localStorage.removeItem("userRole");
+      }
     },
 
     setLoggedOut: (state, action) => {
@@ -146,8 +165,10 @@ const authSlice = createSlice({
         state.loggedOut = false;
 
         // Store user information in local storage
-        localStorage.setItem("user", JSON.stringify(action.payload.user));
-        localStorage.setItem("userRole", action.payload.userRole);
+        if (isBrowser) {
+          localStorage.setItem("user", JSON.stringify(action.payload.user));
+          localStorage.setItem("userRole", action.payload.userRole);
+        }
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;

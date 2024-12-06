@@ -2,7 +2,7 @@ import Profile from "../../Components/ProfileCard/ProfileCard";
 import DashboardCard from "../../Components/DashboardCard/DashboardCard";
 import Services from "../../assets/images/services.png";
 import Amenities from "../../assets/images/amenities.png";
-
+import Sidebar from "@/Components/Sidebar/Sidebar";
 
 export default function Dashboard() {
   return (
@@ -18,7 +18,6 @@ export default function Dashboard() {
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50"></div>
-
       {/* Content */}
       <div className="relative z-10">
         <Profile />
@@ -29,14 +28,14 @@ export default function Dashboard() {
             details={{
               name: "My Products",
               src: Services,
-              url: "/buyer/", 
+              url: "/buyer/",
             }}
           />
           <DashboardCard
             details={{
               name: "Orders",
               src: Amenities,
-              url: "/buyer/", 
+              url: "/buyer/",
             }}
           />
         </div>
@@ -45,14 +44,14 @@ export default function Dashboard() {
             details={{
               name: "Earnings",
               src: Services,
-              url: "/buyer/", 
+              url: "/buyer/",
             }}
           />
           <DashboardCard
             details={{
               name: "Analytics",
               src: Amenities,
-              url: "/buyer/", 
+              url: "/buyer/",
             }}
           />
         </div>
@@ -61,14 +60,14 @@ export default function Dashboard() {
             details={{
               name: "Setting",
               src: Services,
-              url: "/buyer/", 
+              url: "/buyer/",
             }}
           />
           <DashboardCard
             details={{
               name: "Orders",
               src: Amenities,
-              url: "/buyer/", 
+              url: "/buyer/",
             }}
           />
         </div>
