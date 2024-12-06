@@ -23,7 +23,7 @@ const AdminSidebar = () => {
 
   return (
     <>
-      {/* Hamburger Button */}
+    <div className='md:hidden w-full h-[70px]'></div>
       <div className="md:hidden fixed top-4 left-4 z-50">
         <button
           onClick={toggleSidebar}
@@ -74,7 +74,6 @@ const AdminSidebar = () => {
           </ul>
         </nav>
 
-        {/* Sign Out Button */}
         <div className="absolute bottom-4 left-0 w-full flex justify-center">
           <button
             onClick={() => {

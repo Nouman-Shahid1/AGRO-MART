@@ -24,51 +24,51 @@ export default function Dashboard() {
         <Profile />
       </div>
       <div className="md:px-0 max-w-screen-2xl">
-        <div className="flex flex-wrap md:w-full mt-8 px-6">
+        <div className="flex flex-wrap md:w-full mt-2 md:mt-8 px-6">
           <DashboardCard
             details={{
               name: "My Products",
               src: Services,
-              url: "/buyer/", // Ensure `DashboardCard` handles this properly
+              url: "/buyer/", 
             }}
           />
           <DashboardCard
             details={{
               name: "Orders",
               src: Amenities,
-              url: "/buyer/", // Ensure `DashboardCard` handles this properly
+              url: "/buyer/", 
             }}
           />
         </div>
-        <div className="flex flex-wrap md:w-full mt-8 px-6">
+        <div className="flex flex-wrap md:w-full mt-2 md:mt-8 px-6">
           <DashboardCard
             details={{
               name: "Earnings",
               src: Services,
-              url: "/buyer/", // Ensure `DashboardCard` handles this properly
+              url: "/buyer/", 
             }}
           />
           <DashboardCard
             details={{
               name: "Analytics",
               src: Amenities,
-              url: "/buyer/", // Ensure `DashboardCard` handles this properly
+              url: "/buyer/", 
             }}
           />
         </div>
-        <div className="flex flex-wrap md:w-full mt-8 px-6">
+        <div className="flex flex-wrap md:w-full mt-2 md:mt-8 px-6">
           <DashboardCard
             details={{
               name: "Setting",
               src: Services,
-              url: "/buyer/", // Ensure `DashboardCard` handles this properly
+              url: "/buyer/", 
             }}
           />
           <DashboardCard
             details={{
               name: "Orders",
               src: Amenities,
-              url: "/buyer/", // Ensure `DashboardCard` handles this properly
+              url: "/buyer/", 
             }}
           />
         </div>

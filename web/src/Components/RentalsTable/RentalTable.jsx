@@ -36,29 +36,31 @@ const RentalTable = () => {
   };
 
   return (
-    <div className="p-6 z-50">
-      <div className="mb-4 flex items-center rounded-3xl justify-between px-6 py-10 border-b bg-green-50">
+    <div className="p-2 md:p-6 z-50">
+      <div className="mb-4 flex items-center flex-col md:flex-row rounded-3xl justify-between px-6 py-10 border-b bg-green-50">
         <div>
           <h3 className="text-2xl font-semibold text-green-800">Rental List</h3>
           <p className="text-sm text-gray-600">Below is a list of all the rentals in your system.</p>
         </div>
         <div className="flex flex-col justify-end items-center">
           <button
-            className="py-2 px-3 bg-green-600 text-white mb-3 rounded-lg"
+            className="py-2 px-3 bg-green-600 text-white mt-3 md:mt-0 mb-3 rounded-lg"
             onClick={handleAddRental}
           >
             Add New Rental
           </button>
 
-          <div className="flex space-x-2">
+          <div className="flex  space-x-2">
+            <div className='flex flex-wrap'>
             <input
               type="text"
               placeholder="Search Rental"
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="px-4 py-2 w-[200px] md:w-[250px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <div className="bg-green-600 text-white rounded-lg p-2">
+            </div>
+            <div className="w-[40px] bg-green-600 text-white rounded-lg p-2">
               <CiSearch className="text-white" size={22} />
             </div>
           </div>

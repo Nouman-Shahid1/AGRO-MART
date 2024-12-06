@@ -21,7 +21,7 @@ const AdminDashboardCard = ({ details = {} }) => {
               </div>
 
               <div className="mt-6 text-center">
-                <Link href={url} className="text-green-200 font-bold text-xl underline hover:text-green-400">
+                <Link href={url} className="text-green-200 font-bold text-xlc underline hover:text-green-400">
                   View All
                 </Link>
               </div>
