@@ -5,7 +5,7 @@ import React from 'react'
 const Pesticides = () => {
   return (
     <div
-    className="p-8 min-h-screen">
+    className="p-2 md:p-8 min-h-screen">
     <AdminProfile/>
     <div className='z-20'>
     <ProductTable name="Pesticide" pesticide={true}/>      

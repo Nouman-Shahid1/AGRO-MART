@@ -133,7 +133,7 @@ const Sidebar = ({ role }) => {
         id="sidebar"
         className={`fixed top-0 left-0 z-40 h-screen flex flex-col transition-transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } sm:translate-x-0 w-[300px] py-6 px-4  text-white shadow-lg border-r border-green-700 backdrop-blur-xl`}
+        } md:translate-x-0 w-[300px] py-6 px-4  text-white shadow-lg border-r border-green-700 backdrop-blur-xl`}
         aria-label="Sidebar"
         style={{
           backgroundImage,
