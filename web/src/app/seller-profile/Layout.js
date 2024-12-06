@@ -5,7 +5,7 @@ export default function RootLayout({ children }) {
   return (
     <div>
       <Sidebar role="seller"/>
-      <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md sm:ml-[300px]">
+      <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md md:ml-[300px]">
         {children}
       </div>
     </div>

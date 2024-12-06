@@ -9,93 +9,93 @@ const CreateRental = ({ showAddRental, setShowAddRental }) => {
 
   return (
     <div
-      className={`fixed w-full h-[900px] -top-8 right-0 bg-[rgb(0,0,0,0.5)] flex items-center justify-center ${
-        showAddRental ? "block" : "hidden"
-      }`}
+      className={`fixed w-full h-[900px] -top-8 right-0 bg-[rgb(0,0,0,0.7)] flex items-center justify-center ${showAddRental ? "block" : "hidden"
+        }`}
     >
       <form
-        className="relative max-w-4xl w-[600px] h-[620px] overflow-scroll mx-auto bg-gradient-to-r from-green-100 from-green-200 to-lime-100 p-8 rounded-lg shadow-lg space-y-3"
+        className="relative max-w-3xl w-[300px] md:w-[500px] h-[620px] overflow-scroll mx-auto bg-green-900  pt-8 px-6 rounded-lg shadow-lg space-y-3"
       >
         <div className="absolute top-6 right-6" onClick={handleClose}>
           <FaTimes style={{ color: "red", fontSize: "24px" }} />
         </div>
 
-        <h2 className="text-2xl font-bold text-brown-900">Add Rental</h2>
+        <h2 className="text-4xl font-extrabold  text-center  text-white">Add Rental</h2>
+        <div className="flex justify-between flex-col sm:flex-row gap-4">
+          <div className="flex-1">
+            <label className="block text-md font-semibold text-white">Machine Name</label>
+            <input
+              type="text"
+              name="machineName"
+              placeholder="Enter machine name"
+              className="w-full mt-1 p-2 bg-transparent text-white placeholder:text-white border rounded-md outline-none focus:ring focus:ring-green-400"
+            />
+          </div>
 
-        <div>
-          <label className="block text-md font-semibold text-brown-700">Machine Name</label>
-          <input
-            type="text"
-            name="machineName"
-            placeholder="Enter machine name"
-            className="w-full mt-1 p-2 bg-white border rounded-md outline-none focus:ring focus:ring-yellow-400"
-          />
+          <div className="flex-1">
+            <label className="block text-md font-semibold text-white">Name</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter your name"
+              className="w-full mt-1 p-2 bg-transparent text-white placeholder:text-white border rounded-md outline-none focus:ring focus:ring-green6-400"
+            />
+          </div>
         </div>
-
         <div>
-          <label className="block text-md font-semibold text-brown-700">Name</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter your name"
-            className="w-full mt-1 p-2 border bg-white rounded-md outline-none focus:ring focus:ring-yellow-400"
-          />
-        </div>
-
-        <div>
-          <label className="block text-md font-semibold text-brown-700">Phone Number</label>
+          <label className="block text-md font-semibold text-white">Phone Number</label>
           <input
             type="text"
             name="phoneNumber"
             placeholder="Enter phone number"
-            className="w-full mt-1 p-2 border bg-white rounded-md outline-none focus:ring focus:ring-yellow-400"
+            className="w-full mt-1 p-2 bg-transparent text-white placeholder:text-white border rounded-md outline-none focus:ring focus:ring-green-400"
           />
         </div>
 
         <div>
-          <label className="block text-md font-semibold text-brown-700">Address</label>
+          <label className="block text-md font-semibold text-white">Address</label>
           <textarea
             name="address"
             placeholder="Enter address"
             rows="2"
-            className="w-full mt-1 p-2 border bg-white rounded-md outline-none focus:ring focus:ring-yellow-400"
+            className="w-full mt-1 p-2 bg-transparent text-white placeholder:text-white border rounded-md outline-none focus:ring focus:ring-green-400"
           ></textarea>
         </div>
 
         <div>
-          <label className="block text-md font-semibold text-brown-700">Available at which location</label>
+          <label className="block text-md font-semibold text-white">Available at which location</label>
           <input
             type="text"
             name="location"
             placeholder="Enter location"
-            className="w-full mt-1 p-2 border bg-white rounded-md outline-none focus:ring focus:ring-yellow-400"
+            className="w-full mt-1 p-2 bg-transparent text-white placeholder:text-white border rounded-md outline-none focus:ring focus:ring-green-400"
           />
         </div>
+        <div className="flex justify-between gap-4 flex-col sm:flex-row">
+          <div className="flex-1">
+            <label className="block text-md font-semibold text-white">Timing</label>
+            <input
+              type="date"
+              name="timing"
+              placeholder="Enter timing"
+              className="w-full mt-1 p-3 bg-transparent text-white placeholder:text-white border rounded-md outline-none focus:ring focus:ring-green-400"
+            />
+          </div>
 
-        <div>
-          <label className="block text-md font-semibold text-brown-700">Timing</label>
-          <input
-            type="text"
-            name="timing"
-            placeholder="Enter timing"
-            className="w-full mt-1 p-2 border bg-white rounded-md outline-none focus:ring focus:ring-yellow-400"
-          />
-        </div>
-
-        <div>
-          <label className="block text-md font-semibold text-brown-700">Image</label>
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            className="mt-1"
-          />
+          <div className="flex-1">
+            <label className="block text-md font-semibold text-white">Image</label>
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              className="mt-1 w-full border text-white rounded-md bg-transparent  p-2 "
+            />
+          </div>
         </div>
 
         <div className="text-right">
           <button
             type="submit"
-            className="px-6 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700"
+            className="px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800"
           >
             Add Rental
           </button>
