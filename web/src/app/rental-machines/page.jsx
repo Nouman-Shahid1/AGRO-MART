@@ -7,6 +7,7 @@ import Rent3 from "../../Assets/images/rent3.jpg";
 import Rent4 from "../../Assets/images/rent4.jpg";
 import Rent5 from "../../Assets/images/rent5.jpg";
 import Rent6 from "../../Assets/images/rent6.jpg";
+import Footer from "@/Components/Footer/Footer";
 
 const RentalMachines = () => {
   return (
@@ -76,10 +77,10 @@ const RentalMachines = () => {
       <div className="pt-14 bg-gradient-to-tr to-slate-400 via-slate-100 from-slate-200">
         <div>
           <div className="flex justify-center items-center flex-col space-y-6">
-            <h1 className="text-center text-5xl text-green-600 font-bold font-serif">
+            <h1 className="text-center text-5xl text-green-700 font-bold font-serif">
               Rental Machines Agro Mart
             </h1>
-            <span className="w-[900px] text-lg font-serif text-black ">
+            <span className="w-[900px] text-lg font-serif text-black text-center ">
               At AgroMart, we offer a wide range of high-quality agricultural
               machinery for rent, providing farmers and businesses with the
               equipment they need to succeed. From tractors to harvesters, our
@@ -96,7 +97,7 @@ const RentalMachines = () => {
             />
           </div>
           {/* cards */}
-          <div className="flex justify-center items-center flex-wrap space-x-6 rounded-2xl">
+          <div className="flex justify-center items-center flex-wrap space-x-6 rounded-2xl pb-14">
             <div className="w-[460px] border space-y-3 mt-10">
               <img
                 className="w-[460px] h-[250px]  border-spacing-4"
@@ -104,7 +105,7 @@ const RentalMachines = () => {
                 alt="rent1"
               />
               <div className=" flex justify-around items-start flex-col space-y-4">
-                <h1 className="text-3xl font-bold text-center text-red-950 font-serif">
+                <h1 className="text-3xl font-bold text-center text-green-700 font-serif">
                   PREET Harvester
                 </h1>
                 <span className="text-black font-serif ">
@@ -114,7 +115,7 @@ const RentalMachines = () => {
                   solutions for harvesting and other farming needs, ensuring
                   efficiency and productivity in every field.
                 </span>
-                <button className="text-black font-bold bg-yellow-500 p-4 rounded-2xl hover:bg-yellow-400 transition hover:text-white">
+                <button className="bg-[#47b881] hover:bg-[#3a9149] text-white font-bold py-4 px-14 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 hover:shadow-[#66bb6a]/50">
                   BROWSE PREET HARVESTER EQUIPMENT
                 </button>
               </div>
@@ -126,7 +127,7 @@ const RentalMachines = () => {
                 alt="rent1"
               />
               <div className=" flex justify-around items-start flex-col space-y-4">
-                <h1 className="text-3xl font-bold text-center text-red-950 font-serif">
+                <h1 className="text-3xl font-bold text-center text-green-700 font-serif">
                   GEO GRUND
                 </h1>
                 <span className="text-black font-serif ">
@@ -137,7 +138,7 @@ const RentalMachines = () => {
                   industrial operations, GEO GRUND ZAXIs machines are versatile
                   and built for superior performance in demanding conditions.
                 </span>
-                <button className="text-black font-bold bg-yellow-500 p-4 rounded-2xl hover:bg-black   transition hover:text-white">
+                <button className="bg-[#47b881] hover:bg-[#3a9149] text-white font-bold py-4 px-14 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 hover:shadow-[#66bb6a]/50">
                   BROWSE GEO GRUND AGRICULTURAL CONSTRUCTION MACHINE EQUIPMENT
                 </button>
               </div>
@@ -149,7 +150,7 @@ const RentalMachines = () => {
                 alt="rent1"
               />
               <div className=" flex justify-around items-start flex-col space-y-4">
-                <h1 className="text-3xl font-bold text-center text-red-950 font-serif">
+                <h1 className="text-3xl font-bold text-center text-green-700 font-serif">
                   KOMATSU
                 </h1>
                 <span className="text-black font-serif ">
@@ -163,7 +164,7 @@ const RentalMachines = () => {
                   solutions that empower industries worldwide to operate
                   efficiently and productively.
                 </span>
-                <button className="text-black font-bold bg-yellow-500 p-4 rounded-2xl hover:bg-yellow-400 transition hover:text-white">
+                <button className="bg-[#47b881] hover:bg-[#3a9149] text-white font-bold py-4 px-14 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 hover:shadow-[#66bb6a]/50">
                   BROWSE KAMATSU CONSTRUCTION MACHINE EQUIPMENT
                 </button>
               </div>
@@ -175,7 +176,7 @@ const RentalMachines = () => {
                 alt="rent1"
               />
               <div className=" flex justify-around items-start flex-col space-y-4">
-                <h1 className="text-3xl font-bold text-center text-red-950 font-serif">
+                <h1 className="text-3xl font-bold text-center text-green-700 font-serif">
                   HORSCH
                 </h1>
                 <span className="text-black font-serif ">
@@ -189,7 +190,7 @@ const RentalMachines = () => {
                   deep understanding of modern farming challenges, focusing on
                   precision, sustainability, and reliability.
                 </span>
-                <button className="text-black font-bold bg-yellow-500 p-4 rounded-2xl hover:bg-yellow-400 transition hover:text-white">
+                <button className="bg-[#47b881] hover:bg-[#3a9149] text-white font-bold py-4 px-14 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 hover:shadow-[#66bb6a]/50">
                   BROWSE HORSCH MACHINE EQUIPMENT
                 </button>
               </div>
@@ -201,7 +202,7 @@ const RentalMachines = () => {
                 alt="rent1"
               />
               <div className=" flex justify-around items-start flex-col space-y-4">
-                <h1 className="text-3xl font-bold text-center text-red-950 font-serif">
+                <h1 className="text-3xl font-bold text-center text-green-700 font-serif">
                   HORSCH Disc Machines
                 </h1>
                 <span className="text-black font-serif ">
@@ -215,7 +216,7 @@ const RentalMachines = () => {
                   making them an essential tool for agricultural professionals
                   aiming for higher productivity.
                 </span>
-                <button className="text-black font-bold bg-yellow-500 p-4 rounded-2xl hover:bg-yellow-400 transition hover:text-white">
+                <button className="bg-[#47b881] hover:bg-[#3a9149] text-white font-bold py-4 px-14 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 hover:shadow-[#66bb6a]/50">
                   BROWSE HORSH DISC MACHINE EQUIPMENT
                 </button>
               </div>
@@ -227,7 +228,7 @@ const RentalMachines = () => {
                 alt="rent1"
               />
               <div className=" flex justify-around items-start flex-col space-y-4">
-                <h1 className="text-3xl font-bold text-center text-red-950 font-serif">
+                <h1 className="text-3xl font-bold text-center text-green-700 font-serif">
                   NEW HOLLAND
                 </h1>
                 <span className="text-black font-serif ">
@@ -242,7 +243,7 @@ const RentalMachines = () => {
                   Holland’s machines are built to enhance productivity,
                   efficiency, and environmental stewardship.
                 </span>
-                <button className="text-black font-bold bg-yellow-500 p-4 rounded-2xl hover:bg-yellow-400 transition hover:text-white">
+                <button className="bg-[#47b881] hover:bg-[#3a9149] text-white font-bold py-4 px-14 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 hover:shadow-[#66bb6a]/50">
                   BROWSE NEW HOLLAND MACHINE EQUIPMENT
                 </button>
               </div>
@@ -250,6 +251,7 @@ const RentalMachines = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
