@@ -168,7 +168,7 @@ const AboutUs = () => {
                 />
               </div>
               <div className="w-[300px] p-6 text-center space-y-4 flex flex-col justify-center items-center">
-                <h1 className="text-xl font-serif text-gren-600 font-bold">
+                <h1 className="text-xl font-serif text-green-600 font-bold">
                   Hendrerit nulla
                 </h1>
                 <p className="text-black">
