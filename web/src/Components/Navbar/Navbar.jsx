@@ -174,6 +174,11 @@ const Navbar = () => {
                 <strong>MACHINES</strong>
               </li>
             </Link>
+            <Link href="/rental-machines">
+              <li className="hover:border-b-2 border-current p-2">
+                <strong>RENTAL MACHINES</strong>
+              </li>
+            </Link>
             <Link href="/aboutUs">
               <li className="hover:border-b-2 border-current p-2">
                 <strong>ABOUT US</strong>
