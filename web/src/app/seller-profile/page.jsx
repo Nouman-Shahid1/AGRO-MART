@@ -28,14 +28,14 @@ export default function Dashboard() {
             details={{
               name: "My Products",
               src: Services,
-              url: "/buyer/",
+              url: "/seller-profile/",
             }}
           />
           <DashboardCard
             details={{
               name: "Orders",
               src: Amenities,
-              url: "/buyer/",
+              url: "/seller-profile/",
             }}
           />
         </div>
@@ -44,14 +44,14 @@ export default function Dashboard() {
             details={{
               name: "Earnings",
               src: Services,
-              url: "/buyer/",
+              url: "/seller-profile/",
             }}
           />
           <DashboardCard
             details={{
               name: "Analytics",
               src: Amenities,
-              url: "/buyer/",
+              url: "/seller-profile/",
             }}
           />
         </div>
@@ -60,14 +60,14 @@ export default function Dashboard() {
             details={{
               name: "Setting",
               src: Services,
-              url: "/buyer/",
+              url: "/seller-profile/",
             }}
           />
           <DashboardCard
             details={{
               name: "Orders",
               src: Amenities,
-              url: "/buyer/",
+              url: "/seller-profile/",
             }}
           />
         </div>

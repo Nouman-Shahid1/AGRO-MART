@@ -11,19 +11,19 @@ const CreateProduct = ({showAddProduct,setShowAddProduct}) => {
         <FaTimes style={{ color: "red", fontSize: "24px" }} />
 
       </div>
-      <h2 className="text-2xl font-semibold text-gray-700">Add Product</h2>
+      <h2 className="text-2xl font-semibold text-white">Add Product</h2>
 
       <div>
-        <label className="block text-sm font-medium text-gray-600">Product Name</label>
+        <label className="block text-sm font-medium text-white">Product Name</label>
         <input
           type="text"
           placeholder="Enter product name"
-          className="w-full mt-1 p-2 border rounded-md outline-none focus:ring focus:ring-green-400"
+          className="w-full mt-1 p-2 border bg-transparent text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-600">Description</label>
+        <label className="block text-sm font-medium text-white">Description</label>
         <textarea
           placeholder="Enter product description"
           rows="4"
@@ -31,29 +31,31 @@ const CreateProduct = ({showAddProduct,setShowAddProduct}) => {
         ></textarea>
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-600">Category</label>
-        <select className="w-full mt-1 p-2 border rounded-md outline-none focus:ring focus:ring-green-400">
+        <label className="block text-sm font-medium text-white">Category</label>
+        <select className="w-full mt-1 p-2 border bg-green-800 text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400">
           <option value="">Select category</option>
-          <option value="electronics">Electronics</option>
-          <option value="fashion">Fashion</option>
-          <option value="home-appliances">Home Appliances</option>
+          <option value="electronics">Machine</option>
+          <option value="fashion">Crop</option>
+          <option value="home-appliances">Seed</option>
+          <option value="home-appliances">Pesticide</option>
+          <option value="home-appliances"></option>
         </select>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-600">Price</label>
+        <label className="block text-sm font-medium text-white">Price</label>
         <input
           type="number"
           placeholder="Enter price"
-          className="w-full mt-1 p-2 border rounded-md outline-none focus:ring focus:ring-green-400"
+          className="w-full mt-1 p-2 border bg-transparent text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400"
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-600">Product Image</label>
+        <label className="block text-sm font-medium text-white">Product Image</label>
         <input
           type="file"
           accept="image/*"
-          className="mt-1"
+          className="mt-1 rounded-md p-2 border"
         />
       </div>
       {/* Submit Button */}

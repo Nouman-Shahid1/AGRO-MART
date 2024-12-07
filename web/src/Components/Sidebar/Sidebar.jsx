@@ -83,7 +83,14 @@ const Sidebar = ({ role }) => {
 
   // Get the menuItems based on the role
   const menuItems = menuLists[role] || [];
-
+  const dashboardRoute =
+    role === "seller"
+      ? "/seller-profile"
+      : role === "buyer"
+      ? "/buyer"
+      : role === "admin"
+      ? "/admin"
+      : "/";
   useEffect(() => {
     const closeSidebarOnOutsideClick = (event) => {
       const sidebar = document.getElementById("sidebar");
@@ -167,7 +174,7 @@ const Sidebar = ({ role }) => {
           />
         </div>
 
-        <Link href="/" passHref>
+        <Link href={dashboardRoute} passHref>
           <div className="rounded-lg text-lg font-semibold py-4 px-4 flex items-center gap-4 bg-gradient-to-br from-green-600 via-yellow-500 to-brown-500 text-white hover:bg-gradient-to-tl hover:from-brown-500 hover:via-yellow-600 hover:to-green-700 transition-all duration-300 shadow-xl transform hover:scale-105">
             <FaHome className="text-2xl" />
             Dashboard
