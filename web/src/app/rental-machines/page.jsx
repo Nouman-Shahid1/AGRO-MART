@@ -1,5 +1,6 @@
 import Navbar from "@/Components/Navbar/Navbar";
 import React from "react";
+import Link from "next/link";
 import Rent1 from "../../Assets/images/rent1.jpg";
 import Rent2 from "../../Assets/images/rent2.jpg";
 import Rent3 from "../../Assets/images/rent3.jpg";
@@ -7,6 +8,7 @@ import Rent4 from "../../Assets/images/rent4.jpg";
 import Rent5 from "../../Assets/images/rent5.jpg";
 import Rent6 from "../../Assets/images/rent6.jpg";
 import Footer from "@/Components/Footer/Footer";
+import Newsletter from "@/Components/NewsLetter/Newsletter";
 
 const RentalMachines = () => {
   return (
@@ -117,14 +119,17 @@ const RentalMachines = () => {
                     ][index]
                   }
                 </p>
-                <button className="bg-[#47b881] hover:bg-[#3a9149] text-white font-bold py-2 px-6 sm:py-3 sm:px-10 rounded-full shadow-lg transition-transform transform hover:scale-105">
-                  Browse Equipment
-                </button>
+                <Link href="/rentalDetails">
+                  <button className="bg-[#47b881] hover:bg-[#3a9149] text-white font-bold py-2 px-6 sm:py-3 sm:px-10 rounded-full shadow-lg transition-transform transform hover:scale-105">
+                    Browse Equipment
+                  </button>
+                </Link>
               </div>
             </div>
           ))}
         </div>
       </div>
+      <Newsletter />
       <Footer />
     </>
   );
