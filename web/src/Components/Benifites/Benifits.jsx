@@ -20,7 +20,8 @@ const Benefits = () => {
         </h2>
         <p className="text-lg md:text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
           Experience the best in organic farming, fresh produce, and sustainable
-          practices with AgroMart. Here&rsquo;s why we&rsquo;re your trusted choice.
+          practices with AgroMart. Here&rsquo;s why we&rsquo;re your trusted
+          choice.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">

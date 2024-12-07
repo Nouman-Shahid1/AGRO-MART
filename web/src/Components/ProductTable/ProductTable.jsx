@@ -1,8 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { CiSearch } from "react-icons/ci";
+import { CiSearch, CiEdit } from "react-icons/ci";
 import { FaTrash, FaPlusCircle } from "react-icons/fa";
-import { CiEdit } from "react-icons/ci";
 import CreateProduct from "../CreateProduct/CreateProduct";
 import DeleteProduct from "../DeleteProduct/DeleteProduct";
 import CreateMachine from "../CreateMachine/CreateMachine";
@@ -28,7 +27,7 @@ const ProductTable = ({ name, product, machine, seed, crop, pesticide }) => {
   return (
     <div className="p-6">
       {/* Header Section */}
-      <div className="mb-6 flex flex-col lg:flex-row items-center justify-between px-6 py-8 bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white rounded-3xl shadow-lg">
+      <div className="mb-6 flex flex-col lg:flex-row items-center justify-between px-6 py-8 bg-gradient-to-r from-green-500 via-lime-400 to-emerald-600 text-white rounded-3xl shadow-lg">
         <div>
           <h3 className="text-3xl font-bold">{name} List</h3>
           <p className="text-sm">Manage all your {name} here.</p>
@@ -63,9 +62,9 @@ const ProductTable = ({ name, product, machine, seed, crop, pesticide }) => {
             <input
               type="text"
               placeholder={`Search ${name}`}
-              className="w-[200px] md:w-[250px] px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-[200px] md:w-[250px] px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             />
-            <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-r-md">
+            <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-r-lg">
               <CiSearch size={22} />
             </button>
           </div>
@@ -73,10 +72,10 @@ const ProductTable = ({ name, product, machine, seed, crop, pesticide }) => {
       </div>
 
       {/* Table Section */}
-      <div className="bg-white shadow-lg rounded-3xl overflow-hidden">
+      <div className="bg-gradient-to-br from-white via-gray-50 to-gray-100 shadow-lg rounded-3xl overflow-hidden">
         <table className="min-w-full text-sm">
           {/* Header */}
-          <thead className="bg-gradient-to-r from-green-500 to-green-700 text-white shadow-md">
+          <thead className="bg-gradient-to-r from-green-500 to-emerald-700 text-white">
             <tr>
               <th className="py-4 px-6 text-center font-semibold">Icon</th>
               <th className="py-4 px-6 text-left font-semibold">Title</th>
@@ -102,7 +101,7 @@ const ProductTable = ({ name, product, machine, seed, crop, pesticide }) => {
                     <img
                       src="/blank.png"
                       alt="icon"
-                      className="w-8 h-8 mx-auto rounded-full shadow-md"
+                      className="w-10 h-10 mx-auto rounded-full shadow-lg"
                     />
                   </td>
 
