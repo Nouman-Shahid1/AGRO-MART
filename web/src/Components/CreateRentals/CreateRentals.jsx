@@ -19,7 +19,7 @@ const CreateRental = ({ showAddRental, setShowAddRental }) => {
       }`}
     >
       <form
-        className="relative max-w-4xl w-[600px] h-[620px] overflow-scroll mx-auto bg-white p-8 rounded-lg shadow-lg space-y-3"
+        className="relative max-w-4xl w-[600px] h-[620px] overflow-scroll mx-auto bg-green-900 p-8 rounded-lg shadow-lg space-y-3"
         onSubmit={handleSubmit}
       >
         <div className="absolute top-6 right-6" onClick={handleClose}>
@@ -57,50 +57,50 @@ const CreateRental = ({ showAddRental, setShowAddRental }) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-600">
+          <label className="block text-sm font-medium text-white">
             Phone Number
           </label>
           <input
             type="text"
             name="phoneNumber"
             placeholder="Enter phone number"
-            className="w-full mt-1 p-2 border rounded-md outline-none focus:ring focus:ring-green-400"
+            className="w-full mt-1 p-2 border bg-transparent text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-600">
+          <label className="block text-sm font-medium text-white">
             Address
           </label>
           <textarea
             name="address"
             placeholder="Enter address"
             rows="2"
-            className="w-full mt-1 p-2 border rounded-md outline-none focus:ring focus:ring-green-400"
+            className="w-full mt-1 p-2 border bg-transparent text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400"
           ></textarea>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-600">
+          <label className="block text-sm font-medium text-white">
             Available at which location
           </label>
           <input
             type="text"
             name="location"
             placeholder="Enter location"
-            className="w-full mt-1 p-2 border rounded-md outline-none focus:ring focus:ring-green-400"
+            className="w-full mt-1 p-2 border bg-transparent text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-600">
+          <label className="block text-sm font-medium text-white">
             Timing
           </label>
           <input
             type="text"
             name="timing"
             placeholder="Enter timing"
-            className="w-full mt-1 p-2 border rounded-md outline-none focus:ring focus:ring-green-400"
+            className="w-full mt-1 p-2 border bg-transparent text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400"
           />
         </div>
 
@@ -118,7 +118,7 @@ const CreateRental = ({ showAddRental, setShowAddRental }) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-600">
+          <label className="block text-sm font-medium text-white">
             Image
           </label>
           <input
