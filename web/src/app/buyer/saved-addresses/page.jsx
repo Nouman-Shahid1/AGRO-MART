@@ -1,29 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import Profile from "@/Components/ProfileCard/ProfileCard";
+import { FaRegEdit, FaTrashAlt, FaTimes } from "react-icons/fa"; // Icons for the UI
 
 export default function SavedAddresses() {
-  const [addresses, setAddresses] = useState([
-    {
-      id: 1,
-      name: "Address 1",
-      addressLine: "123 Main Street",
-      city: "New York",
-      state: "NY",
-      zipCode: "10001",
-      phone: "123-456-7890",
-    },
-    {
-      id: 2,
-      name: "Address 2",
-      addressLine: "456 Business Rd",
-      city: "Los Angeles",
-      state: "CA",
-      zipCode: "90001",
-      phone: "987-654-3210",
-    },
-  ]);
-
+  const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [newAddress, setNewAddress] = useState({
@@ -36,10 +17,17 @@ export default function SavedAddresses() {
     phone: "",
   });
 
-  const handleViewDetails = (address) => {
-    setSelectedAddress(address);
-    setNewAddress(address); 
-    setPopupVisible(true);
+  const handleSave = () => {
+    if (selectedAddress) {
+      setAddresses((prev) =>
+        prev.map((address) =>
+          address.id === selectedAddress.id ? { ...newAddress } : address
+        )
+      );
+    } else {
+      setAddresses((prev) => [...prev, { ...newAddress, id: prev.length + 1 }]);
+    }
+    closePopup();
   };
 
   const closePopup = () => {
@@ -60,27 +48,9 @@ export default function SavedAddresses() {
     setAddresses(addresses.filter((address) => address.id !== id));
   };
 
-  const handleSave = () => {
-    if (selectedAddress) {
-     
-      setAddresses((prev) =>
-        prev.map((address) =>
-          address.id === selectedAddress.id ? { ...newAddress } : address
-        )
-      );
-    } else {
-      
-      setAddresses((prev) => [
-        ...prev,
-        { ...newAddress, id: prev.length + 1 },
-      ]);
-    }
-    closePopup();
-  };
-
   const handleEdit = (address) => {
     setSelectedAddress(address);
-    setNewAddress(address); 
+    setNewAddress(address);
     setPopupVisible(true);
   };
 
@@ -90,153 +60,145 @@ export default function SavedAddresses() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-green-400 via-yellow-200 to-green-500 min-h-screen p-6">
-     
+    <div className="bg-gradient-to-br from-green-900 via-emerald-700 to-lime-500 min-h-screen p-6 text-white">
+      {/* Profile Section */}
       <Profile />
 
-      
-      <h2 className="text-green-600 text-xl font-semibold mb-4 mt-6">Saved Addresses</h2>
+      <div className="text-center mt-8">
+        <h1 className="text-4xl font-bold text-lime-100">Saved Addresses</h1>
+        <p className="text-lg text-lime-300 mt-2">
+          Manage your saved delivery addresses for seamless order delivery.
+        </p>
+      </div>
 
-     
-      <div className="flex flex-wrap gap-6 items-start">
-        {addresses.map((address) => (
-          <div
-            key={address.id}
-            className="bg-white shadow-md rounded-lg p-4 w-[300px] flex-shrink-0"
+      {/* Address List or No Address Message */}
+      {addresses.length === 0 ? (
+        <div className="text-lime-100 text-center mt-10">
+          <p className="text-xl">You have no saved addresses yet.</p>
+          <button
+            className="bg-lime-600 text-white py-3 px-6 mt-6 rounded-full hover:bg-lime-700 shadow-lg transition"
+            onClick={() => setPopupVisible(true)}
           >
-            <h3 className="text-green-600 text-lg font-semibold mb-2">
-              {address.name}
-            </h3>
-            <p className="text-sm">
-              {address.addressLine}, {address.city}, {address.state} - {address.zipCode}
-            </p>
-            <p className="text-sm">
-              <span className="font-medium">Phone:</span> {address.phone}
-            </p>
-            <div className="flex gap-2 mt-4">
-              <button
-                className="bg-green-600 text-white py-1 px-3 rounded hover:bg-green-700 transition"
-                onClick={() => handleViewDetails(address)}
+            Add New Address
+          </button>
+        </div>
+      ) : (
+        <div className="mt-10">
+          <h2 className="text-2xl font-semibold text-lime-200 mb-6">
+            Your Saved Addresses
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {addresses.map((address) => (
+              <div
+                key={address.id}
+                className="bg-gradient-to-br from-green-700 via-green-500 to-lime-500 p-6 rounded-xl shadow-xl border border-green-400/30 hover:shadow-2xl transform hover:scale-105 transition duration-300"
               >
-                View
-              </button>
+                {/* Name */}
+                <h2 className="text-2xl font-bold mb-3 text-lime-50">
+                  {address.name}
+                </h2>
+                {/* Address Details */}
+                <p className="text-lime-200 mb-2">
+                  {address.addressLine}, {address.city}, {address.state} -{" "}
+                  {address.zipCode}
+                </p>
+                <p className="text-lime-200">
+                  <span className="font-semibold text-lime-100">Phone:</span>{" "}
+                  {address.phone}
+                </p>
+                {/* Buttons */}
+                <div className="flex gap-4 mt-5">
+                  <button
+                    className="flex-1 bg-green-600 text-white py-2 rounded-md shadow-md hover:bg-green-700 transition"
+                    onClick={() => handleEdit(address)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="flex-1 bg-red-600 text-white py-2 rounded-md shadow-md hover:bg-red-700 transition"
+                    onClick={() => handleDelete(address.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            {/* Add New Address Button */}
+            <div className="flex flex-col items-center justify-center bg-gradient-to-br from-lime-600 via-green-500 to-emerald-500 text-white rounded-xl shadow-xl p-6 hover:shadow-2xl transform hover:scale-105 transition duration-300">
               <button
-                className="bg-green-600 text-white py-1 px-3 rounded hover:bg-green-700 transition"
-                onClick={() => handleEdit(address)}
+                onClick={() => {
+                  setNewAddress({
+                    id: null,
+                    name: "",
+                    addressLine: "",
+                    city: "",
+                    state: "",
+                    zipCode: "",
+                    phone: "",
+                  });
+                  setSelectedAddress(null);
+                  setPopupVisible(true);
+                }}
+                className="flex flex-col items-center"
               >
-                Edit
-              </button>
-              <button
-                className="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700 transition"
-                onClick={() => handleDelete(address.id)}
-              >
-                Delete
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-14 h-14 mb-3"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                <span className="text-lg font-bold">Add New Address</span>
               </button>
             </div>
           </div>
-        ))}
+        </div>
+      )}
 
-       
-        <button
-          className="flex items-center gap-2  text-white py-2 px-4 rounded hover:bg-green-700 transition-transform duration-200 self-start"
-          onClick={() => {
-            setNewAddress({
-              id: null,
-              name: "",
-              addressLine: "",
-              city: "",
-              state: "",
-              zipCode: "",
-              phone: "",
-            });
-            setSelectedAddress(null);
-            setPopupVisible(true);
-          }}
-          style={{
-            padding: "12px 16px",
-            marginTop: "auto", 
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            className="w-5 h-5"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-          </svg>
-          Add New Address
-        </button>
-      </div>
-
-      
       {isPopupVisible && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full relative">
-            <h2 className="text-green-600 text-xl font-bold mb-4">
+          <div className="bg-gradient-to-br from-lime-500 via-green-600 to-emerald-700 rounded-lg shadow-2xl p-6 max-w-md w-full relative">
+            <button
+              className="absolute top-3 right-3 text-lime-200 hover:text-white"
+              onClick={closePopup}
+            >
+              <FaTimes size={20} />
+            </button>
+            <h2 className="text-lime-100 text-xl font-bold mb-5">
               {selectedAddress ? "Edit Address" : "Add New Address"}
             </h2>
             <div className="space-y-4">
-              <input
-                type="text"
-                name="name"
-                placeholder="Name"
-                value={newAddress.name}
-                onChange={handleInputChange}
-                className="w-full p-2 border rounded"
-              />
-              <input
-                type="text"
-                name="addressLine"
-                placeholder="Address Line"
-                value={newAddress.addressLine}
-                onChange={handleInputChange}
-                className="w-full p-2 border rounded"
-              />
-              <input
-                type="text"
-                name="city"
-                placeholder="City"
-                value={newAddress.city}
-                onChange={handleInputChange}
-                className="w-full p-2 border rounded"
-              />
-              <input
-                type="text"
-                name="state"
-                placeholder="State"
-                value={newAddress.state}
-                onChange={handleInputChange}
-                className="w-full p-2 border rounded"
-              />
-              <input
-                type="text"
-                name="zipCode"
-                placeholder="Zip Code"
-                value={newAddress.zipCode}
-                onChange={handleInputChange}
-                className="w-full p-2 border rounded"
-              />
-              <input
-                type="text"
-                name="phone"
-                placeholder="Phone"
-                value={newAddress.phone}
-                onChange={handleInputChange}
-                className="w-full p-2 border rounded"
-              />
+              {["name", "addressLine", "city", "state", "zipCode", "phone"].map(
+                (field) => (
+                  <input
+                    key={field}
+                    type="text"
+                    name={field}
+                    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                    value={newAddress[field]}
+                    onChange={handleInputChange}
+                    className="w-full p-3 border border-green-400 rounded-lg bg-gradient-to-br from-green-800 via-emerald-900 to-green-700 text-lime-200 placeholder-lime-300 focus:outline-none focus:ring-2 focus:ring-lime-500"
+                  />
+                )
+              )}
             </div>
             <div className="flex gap-4 mt-6">
               <button
-                className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition"
+                className="bg-emerald-600 text-white py-3 px-6 rounded-full hover:bg-emerald-700 transition shadow-lg"
                 onClick={handleSave}
               >
                 Save
               </button>
               <button
-                className="bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500 transition"
+                className="bg-gray-500 text-white py-3 px-6 rounded-full hover:bg-gray-600 transition shadow-lg"
                 onClick={closePopup}
               >
                 Cancel

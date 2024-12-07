@@ -14,7 +14,6 @@ import {
   FaShippingFast,
   FaHistory,
   FaAddressBook,
-  FaHeadset,
   FaCog,
   FaSeedling,
   FaCogs,
@@ -31,31 +30,46 @@ const Sidebar = ({ role }) => {
 
   const menuLists = {
     seller: [
-      { label: "My Products", icon: <FaBox />, path: "/seller-profile/my-products" },
+      {
+        label: "My Products",
+        icon: <FaBox />,
+        path: "/seller-profile/my-products",
+      },
       { label: "Orders", icon: <FaTruck />, path: "/seller-profile/orders" },
-      { label: "Earnings", icon: <FaMoneyBill />, path: "/seller-profile/earnings" },
-      { label: "Analytics", icon: <FaChartLine />, path: "/seller-profile/analytics" },
-      { label: "Settings", icon: <FaTools />, path: "/seller-profile/settings" },
+      {
+        label: "Earnings",
+        icon: <FaMoneyBill />,
+        path: "/seller-profile/earnings",
+      },
+      {
+        label: "Analytics",
+        icon: <FaChartLine />,
+        path: "/seller-profile/analytics",
+      },
+      {
+        label: "Settings",
+        icon: <FaTools />,
+        path: "/seller-profile/settings",
+      },
     ],
     buyer: [
-      { label: "Orders", icon: <FaTractor />, path: "/myaccount/orders" },
+      { label: "Orders", icon: <FaTractor />, path: "/buyer/orders" },
       {
         label: "Order Tracking",
         icon: <FaShippingFast />,
-        path: "/myaccount/track-order",
+        path: "/buyer/track-order",
       },
       {
         label: "Purchase History",
         icon: <FaHistory />,
-        path: "/myaccount/purchase-history",
+        path: "/buyer/purchase-history",
       },
       {
         label: "Saved Addresses",
         icon: <FaAddressBook />,
-        path: "/myaccount/saved-addresses",
+        path: "/buyer/saved-addresses",
       },
-      { label: "Support", icon: <FaHeadset />, path: "/myaccount/support" },
-      { label: "Settings", icon: <FaCog />, path: "/myaccount/settings" },
+      { label: "Settings", icon: <FaCog />, path: "/buyer/settings" },
     ],
     admin: [
       { label: "Machines", icon: <FaCogs />, path: "/admin/machines" },
