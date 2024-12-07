@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Profile from "@/Components/ProfileCard/ProfileCard";
-import { FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { FaArrowUp, FaArrowDown, FaMoneyBillAlt } from "react-icons/fa";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -53,84 +53,91 @@ const Earnings = () => {
 
       <div className="relative z-10">
         <Profile />
-        <div className="py-8 px-4 bg-white rounded-3xl my-4 shadow-lg">
-          <h2 className="text-2xl font-semibold m-4 text-green-800">
-            Earnings Overview
-          </h2>
-          <p className="text-gray-600 font-bold">
-            Track your earnings and payouts here.
+        <div className="py-8 px-6 bg-gradient-to-r from-green-700 via-green-600 to-emerald-500 text-white rounded-3xl shadow-lg my-4">
+          <h2 className="text-3xl font-extrabold mb-2">Earnings Overview</h2>
+          <p className="text-lg font-medium">
+            See how your earnings and sales are growing.
           </p>
         </div>
 
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          <div className="bg-green-200 px-6 py-8 rounded-3xl transition-transform duration-500 hover:scale-105 shadow-xl bg-gradient-to-t from-green-900 via-emerald-700 to-green-600 rounded-[32px]">
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="bg-gradient-to-br from-emerald-500 to-green-700 px-6 py-8 rounded-3xl hover:scale-105 shadow-2xl transition-transform">
+            <FaMoneyBillAlt className="text-4xl text-white mb-3" />
             <h4 className="text-2xl font-semibold text-white">
               Monthly Earnings
             </h4>
-            <p className="text-xl mt-3 font-bold text-white">$3,000</p>
+            <p className="text-3xl mt-3 font-bold text-white">$3,000</p>
             <div className="flex items-center mt-4 text-white">
               <FaArrowUp className="mr-2" />
-              <span>5% increase</span>
+              <span>5% Increase</span>
             </div>
           </div>
 
-          <div className="bg-green-200 px-6 py-8 rounded-3xl transition-transform duration-500 hover:scale-105 shadow-xl bg-gradient-to-t from-green-900 via-emerald-700 to-green-600 rounded-[32px]">
+          <div className="bg-gradient-to-br from-green-700 to-emerald-500 px-6 py-8 rounded-3xl hover:scale-105 shadow-2xl transition-transform">
+            <FaMoneyBillAlt className="text-4xl text-white mb-3" />
             <h4 className="text-2xl font-semibold text-white">
               Yearly Earnings
             </h4>
-            <p className="text-xl mt-3 font-bold text-white">$36,000</p>
+            <p className="text-3xl mt-3 font-bold text-white">$36,000</p>
             <div className="flex items-center mt-4 text-white">
               <FaArrowDown className="mr-2" />
-              <span>3% decrease</span>
+              <span>3% Decrease</span>
             </div>
           </div>
 
-          <div className="bg-green-200 px-6 py-8 rounded-3xl transition-transform duration-500 hover:scale-105 shadow-xl bg-gradient-to-t from-green-900 via-emerald-700 to-green-600 rounded-[32px]">
+          <div className="bg-gradient-to-br from-emerald-500 to-green-700 px-6 py-8 rounded-3xl hover:scale-105 shadow-2xl transition-transform">
+            <FaMoneyBillAlt className="text-4xl text-white mb-3" />
             <h4 className="text-2xl font-semibold text-white">
               Sales Breakdown
             </h4>
-            <ul className="text-white mt-3">
-              <li className="py-2">Fruits: $15,000</li>
-              <li className="py-2">Vegetables: $12,000</li>
-              <li className="py-2">Grains: $9,000</li>
+            <ul className="text-white mt-3 space-y-2 text-lg">
+              <li>Fruits: $15,000</li>
+              <li>Vegetables: $12,000</li>
+              <li>Grains: $9,000</li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-8 bg-white p-6 rounded-3xl shadow-lg">
-          <h3 className="text-xl font-semibold text-green-800 mb-4">
+        <div className="mt-10 bg-white p-8 rounded-3xl shadow-lg">
+          <h3 className="text-2xl font-semibold text-green-800 mb-6">
             Earnings Over Time
           </h3>
           <Line data={data} />
         </div>
 
-        <div className="mt-8 bg-white p-6 rounded-3xl shadow-lg">
-          <h3 className="text-xl font-semibold text-green-800 mb-4">
+        <div className="mt-10 bg-white p-8 rounded-3xl shadow-lg">
+          <h3 className="text-2xl font-semibold text-green-800 mb-6">
             Recent Transactions
           </h3>
           <table className="w-full table-auto">
             <thead className="bg-green-600 text-white">
               <tr>
-                <th className="px-4 py-2">Date</th>
-                <th className="px-4 py-2">Amount</th>
-                <th className="px-4 py-2">Status</th>
+                <th className="px-6 py-3 text-left">Date</th>
+                <th className="px-6 py-3 text-left">Amount</th>
+                <th className="px-6 py-3 text-left">Status</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="px-4 py-2">2023-11-15</td>
-                <td className="px-4 py-2">$1,500</td>
-                <td className="px-4 py-2 text-green-500">Completed</td>
+              <tr className="border-b border-gray-200">
+                <td className="px-6 py-3">2023-11-15</td>
+                <td className="px-6 py-3">$1,500</td>
+                <td className="px-6 py-3 text-green-600 font-semibold">
+                  Completed
+                </td>
+              </tr>
+              <tr className="border-b border-gray-200">
+                <td className="px-6 py-3">2023-11-10</td>
+                <td className="px-6 py-3">$1,200</td>
+                <td className="px-6 py-3 text-yellow-600 font-semibold">
+                  Pending
+                </td>
               </tr>
               <tr>
-                <td className="px-4 py-2">2023-11-10</td>
-                <td className="px-4 py-2">$1,200</td>
-                <td className="px-4 py-2 text-yellow-500">Pending</td>
-              </tr>
-              <tr>
-                <td className="px-4 py-2">2023-11-05</td>
-                <td className="px-4 py-2">$900</td>
-                <td className="px-4 py-2 text-green-500">Completed</td>
+                <td className="px-6 py-3">2023-11-05</td>
+                <td className="px-6 py-3">$900</td>
+                <td className="px-6 py-3 text-green-600 font-semibold">
+                  Completed
+                </td>
               </tr>
             </tbody>
           </table>

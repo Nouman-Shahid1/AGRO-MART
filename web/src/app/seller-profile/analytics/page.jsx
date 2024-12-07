@@ -13,6 +13,7 @@ import {
   ArcElement,
 } from "chart.js";
 import { saveAs } from "file-saver";
+import { FaDownload, FaTractor, FaSeedling, FaChartLine } from "react-icons/fa";
 
 ChartJS.register(
   CategoryScale,
@@ -72,33 +73,16 @@ const AnalyticsPage = () => {
   const [totalRevenue] = useState(78910);
   const [activeFields] = useState(789);
   const [totalSales] = useState(15340);
-  const [productCategories] = useState({
-    fruits: 15000,
-    vegetables: 12000,
-    grains: 9000,
-  });
 
   const downloadReport = () => {
-    const reportData = [
-      ["Metric", "Value"],
-      ["Total Farmers", totalFarmers],
-      ["Total Revenue", `$${totalRevenue}`],
-      ["Active Fields", activeFields],
-      ["Total Sales", totalSales],
-      ["Fruits Sales", productCategories.fruits],
-      ["Vegetables Sales", productCategories.vegetables],
-      ["Grains Sales", productCategories.grains],
-    ];
-
-    const csvContent = reportData.map((row) => row.join(",")).join("\n");
-
+    const csvContent = "Example Report Content";
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
     saveAs(blob, "agromart_sales_report.csv");
   };
 
   return (
     <div
-      className="relative h-screen overflow-auto p-6 md:px-8 lg:px-6 xl:px-8 2xl:px-12 py-4"
+      className="relative h-screen overflow-auto p-6"
       style={{
         backgroundImage:
           "url('https://png.pngtree.com/thumb_back/fh260/background/20241115/pngtree-happy-vietnamese-farmers-planting-rice-paddy-in-lush-green-field-image_16603887.jpg')",
@@ -107,107 +91,104 @@ const AnalyticsPage = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="fixed inset-0 bg-black/50"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-green-600/80 to-green-900/80"></div>
 
-      <div className="relative z-10">
+      <div className="relative z-10 text-white">
         <Profile />
 
-        <header className="bg-green-100 shadow-md mt-8 rounded-md p-4 flex justify-between items-center border border-green-300">
-          <h1 className="text-xl font-semibold text-green-800">
-            AgroMart Seller Analytics
+        <header className="bg-gradient-to-r from-green-500 to-green-700 shadow-lg mt-8 rounded-3xl p-6 flex justify-between items-center">
+          <h1 className="text-3xl font-bold flex items-center space-x-4">
+            <FaTractor className="text-4xl" />
+            <span>AgroMart Analytics Dashboard</span>
           </h1>
           <button
             onClick={downloadReport}
-            className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+            className="bg-green-800 text-white px-6 py-3 rounded-full hover:bg-green-900 flex items-center space-x-2"
           >
-            Download Report
+            <FaDownload />
+            <span>Download Report</span>
           </button>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-          <div className="bg-green-50 shadow-md rounded-md p-4 border border-green-200">
-            <h2 className="text-lg font-medium text-green-700">
-              Total Farmers
-            </h2>
-            <p className="text-3xl font-bold mt-2 text-green-800">
-              {totalFarmers}
-            </p>
-            <p className="text-sm text-green-600 mt-1">+3% from last month</p>
-          </div>
-          <div className="bg-green-50 shadow-md rounded-md p-4 border border-green-200">
-            <h2 className="text-lg font-medium text-green-700">
-              Harvest Revenue
-            </h2>
-            <p className="text-3xl font-bold mt-2 text-green-800">
-              ${totalRevenue}
-            </p>
-            <p className="text-sm text-red-600 mt-1">-1% from last month</p>
-          </div>
-          <div className="bg-green-50 shadow-md rounded-md p-4 border border-green-200">
-            <h2 className="text-lg font-medium text-green-700">
-              Active Fields
-            </h2>
-            <p className="text-3xl font-bold mt-2 text-green-800">
-              {activeFields}
-            </p>
-            <p className="text-sm text-green-600 mt-1">+7% from last week</p>
-          </div>
-          <div className="bg-green-50 shadow-md rounded-md p-4 border border-green-200">
-            <h2 className="text-lg font-medium text-green-700">Total Sales</h2>
-            <p className="text-3xl font-bold mt-2 text-green-800">
-              {totalSales}
-            </p>
-            <p className="text-sm text-green-600 mt-1">+5% from last quarter</p>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+          {[
+            {
+              title: "Total Farmers",
+              value: totalFarmers,
+              colorFrom: "green-600",
+              colorTo: "green-700",
+              icon: <FaSeedling />,
+              change: "+3% from last month",
+            },
+            {
+              title: "Harvest Revenue",
+              value: `$${totalRevenue.toLocaleString()}`,
+              colorFrom: "yellow-600",
+              colorTo: "yellow-700",
+              icon: <FaTractor />,
+              change: "-1% from last month",
+            },
+            {
+              title: "Active Fields",
+              value: activeFields,
+              colorFrom: "blue-600",
+              colorTo: "blue-700",
+              icon: <FaSeedling />,
+              change: "+7% from last week",
+            },
+            {
+              title: "Total Sales",
+              value: `$${totalSales.toLocaleString()}`,
+              colorFrom: "purple-600",
+              colorTo: "purple-700",
+              icon: <FaChartLine />,
+              change: "+5% from last quarter",
+            },
+          ].map((card, index) => (
+            <div
+              key={index}
+              className={`bg-gradient-to-br from-${card.colorFrom} to-${card.colorTo} px-6 py-8 rounded-3xl shadow-xl hover:scale-105 transform transition duration-300`}
+            >
+              <div className="flex items-center space-x-3">
+                <div className="text-3xl text-white">{card.icon}</div>
+                <h2 className="text-xl font-semibold text-white">
+                  {card.title}
+                </h2>
+              </div>
+              <p className="text-4xl font-extrabold mt-3 text-white">
+                {card.value}
+              </p>
+              <p className="text-sm text-white mt-1">{card.change}</p>
+            </div>
+          ))}
         </div>
 
-        <div className="bg-green-50 shadow-md rounded-md p-4 mt-6 border border-green-200">
-          <h2 className="text-lg font-semibold text-green-700">
+        <div className="bg-white shadow-md rounded-3xl p-6 mt-10">
+          <h2 className="text-2xl font-bold text-green-800 mb-4">
             Revenue Growth
           </h2>
-          <div className="h-80 mt-4 w-full">
+          <div className="h-80">
             <Line data={revenueData} options={{ responsive: true }} />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6">
-          <div className="bg-green-50 shadow-md rounded-md p-4 border border-green-200">
-            <h2 className="text-lg font-semibold text-green-700">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
+          <div className="bg-white shadow-md rounded-3xl p-6">
+            <h2 className="text-2xl font-bold text-green-800 mb-4">
               Active Fields by Region
             </h2>
-            <div className="h-64 mt-4">
+            <div className="h-64">
               <Pie data={activeFieldsData} options={{ responsive: true }} />
             </div>
           </div>
-
-          <div className="bg-green-50 shadow-md rounded-md p-4 border border-green-200">
-            <h2 className="text-lg font-semibold text-green-700">
+          <div className="bg-white shadow-md rounded-3xl p-6">
+            <h2 className="text-2xl font-bold text-green-800 mb-4">
               Monthly Sales Trends
             </h2>
-            <div className="h-64 mt-4">
+            <div className="h-64">
               <Line data={monthlySalesTrend} options={{ responsive: true }} />
             </div>
           </div>
-        </div>
-
-        <div className="bg-green-50 shadow-md rounded-md p-4 mt-6 border border-green-200">
-          <h2 className="text-lg font-semibold text-green-700">
-            Recent Updates
-          </h2>
-          <ul className="mt-4 space-y-2">
-            <li className="flex justify-between text-sm">
-              <span>New farmer registered</span>
-              <span className="text-green-600">2h ago</span>
-            </li>
-            <li className="flex justify-between text-sm">
-              <span>Harvest in Region 3 completed</span>
-              <span className="text-green-600">4h ago</span>
-            </li>
-            <li className="flex justify-between text-sm">
-              <span>Pesticide used in Field 45</span>
-              <span className="text-green-600">6h ago</span>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
