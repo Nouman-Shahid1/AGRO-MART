@@ -1,6 +1,4 @@
-'use client';
-import { FaTimes } from "react-icons/fa";
-
+"use client";
 const CreateMachine = ({ showAddMachine, setShowAddMachine }) => {
   const handleAddMachine = () => {
     setShowAddMachine(false);
@@ -8,37 +6,48 @@ const CreateMachine = ({ showAddMachine, setShowAddMachine }) => {
 
   return (
     <div
-      className={`fixed w-full h-[900px] -top-8 right-0 bg-[rgb(0,0,0,0.5)] flex items-center justify-center ${
-        showAddMachine ? "block" : "hidden"
+      className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-all duration-300 ${
+        showAddMachine ? "opacity-100 visible" : "opacity-0 invisible"
       }`}
     >
-      <form className="relative max-w-4xl w-[600px] items-center h-[620px] overflow-scroll mx-auto bg-green-900 p-8 rounded-lg shadow-lg space-y-3">
-        <div className="absolute top-6 right-6" onClick={handleAddMachine}>
-          <FaTimes style={{ color: "red", fontSize: "24px" }} />
-        </div>
+      <form className="relative max-w-4xl w-[600px] bg-gradient-to-br from-green-900 via-emerald-700 to-lime-500 text-white rounded-xl shadow-2xl p-8 space-y-6 animate-fade-in">
+        {/* Close Button */}
+        <button
+          className="absolute top-4 right-4 text-gray-300 hover:text-white transition-colors"
+          onClick={handleAddMachine}
+        >
+          X
+        </button>
 
-        <h2 className="text-2xl font-semibold text-white">Add Machine</h2>
+        {/* Header */}
+        <h2 className="text-3xl font-bold text-center text-green-300">
+          Add Machine
+        </h2>
 
-        <div>
-          <label className="block text-sm font-medium text-white">Machine Name</label>
+        {/* Machine Name */}
+        <div className="space-y-2">
+          <label className="block text-sm font-semibold">Machine Name</label>
           <input
             type="text"
             placeholder="Enter machine name"
-            className="w-full mt-1 p-2 border bg-transparent text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400"
+            className="w-full p-3 bg-white bg-opacity-20 text-white placeholder-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-green-400 focus:bg-opacity-30 transition-all"
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-white">Description</label>
+        {/* Description */}
+        <div className="space-y-2">
+          <label className="block text-sm font-semibold">Description</label>
           <textarea
             placeholder="Enter machine description"
             rows="4"
-            className="w-full mt-1 p-2 border bg-transparent text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400"
+            className="w-full p-3 bg-white bg-opacity-20 text-white placeholder-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-blue-400 focus:bg-opacity-30 transition-all"
           ></textarea>
         </div>
-        <div>
-          <label className="block text-sm font-medium text-white">Type</label>
-          <select className="w-full mt-1 p-2 border bg-green-800 text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400">
+
+        {/* Type */}
+        <div className="space-y-2">
+          <label className="block text-sm font-semibold">Type</label>
+          <select className="w-full p-3 bg-white bg-opacity-20 text-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-opacity-30 transition-all">
             <option value="">Select type</option>
             <option value="industrial">Industrial</option>
             <option value="construction">Construction</option>
@@ -46,23 +55,31 @@ const CreateMachine = ({ showAddMachine, setShowAddMachine }) => {
           </select>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-white">Manufacturer</label>
+        {/* Manufacturer */}
+        <div className="space-y-2">
+          <label className="block text-sm font-semibold">Manufacturer</label>
           <input
             type="text"
             placeholder="Enter manufacturer name"
-            className="w-full mt-1 p-2 border bg-transparent text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400"
+            className="w-full p-3 bg-white bg-opacity-20 text-white placeholder-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-purple-400 focus:bg-opacity-30 transition-all"
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-white">Machine Image</label>
-          <input type="file" accept="image/*" className="mt-1 p-2 rounded-md border bg-transparent text-white placeholder:text-white" />
+        {/* Machine Image */}
+        <div className="space-y-2">
+          <label className="block text-sm font-semibold">Machine Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            className="w-full p-3 bg-white bg-opacity-20 text-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-pink-400 focus:bg-opacity-30 transition-all"
+          />
         </div>
-        <div className="text-right">
+
+        {/* Submit Button */}
+        <div className="text-end">
           <button
             type="submit"
-            className="px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800"
+            className="px-8 py-3 text-lg font-bold text-white rounded-lg bg-green-500 shadow-lg hover:shadow-xl hover:bg-green-600 focus:ring-4 focus:ring-green-500 transition-all"
           >
             Add Machine
           </button>

@@ -1,6 +1,5 @@
 "use client";
 import { FaTimes } from "react-icons/fa";
-import { useState } from "react";
 
 const CreateRental = ({ showAddRental, setShowAddRental }) => {
   const handleClose = () => {
@@ -14,127 +13,118 @@ const CreateRental = ({ showAddRental, setShowAddRental }) => {
 
   return (
     <div
-      className={`fixed w-full h-[900px] -top-8 right-0 bg-[rgb(0,0,0,0.7)] flex items-center justify-center ${
-        showAddRental ? "block" : "hidden"
+      className={`fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center transition-all duration-300 ${
+        showAddRental ? "opacity-100 visible" : "opacity-0 invisible"
       }`}
     >
       <form
-        className="relative max-w-4xl w-[600px] h-[620px] overflow-scroll mx-auto bg-green-900 p-8 rounded-lg shadow-lg space-y-3"
+        className="relative max-w-4xl w-[600px] bg-gradient-to-br from-green-900 via-emerald-700 to-lime-500 text-white rounded-lg shadow-2xl p-6 space-y-4 animate-fade-in"
         onSubmit={handleSubmit}
       >
-        <div className="absolute top-6 right-6" onClick={handleClose}>
-          <FaTimes style={{ color: "red", fontSize: "24px" }} />
-        </div>
+        {/* Close Button */}
+        <button
+          type="button"
+          className="absolute top-4 right-4 text-gray-300 hover:text-white transition-colors"
+          onClick={handleClose}
+        >
+          X
+        </button>
 
-        <h2 className="text-4xl font-extrabold text-center text-white">
-          Add Rental
+        {/* Header */}
+        <h2 className="text-2xl font-bold text-center text-green-300">
+          Add Rental Machine
         </h2>
 
-        <div className="flex justify-between flex-col sm:flex-row gap-4">
-          <div className="flex-1">
-            <label className="block text-md font-semibold text-white">
-              Machine Name
-            </label>
+        {/* Compact Layout */}
+        <div className="grid grid-cols-2 gap-4">
+          {/* Machine Name */}
+          <div className="space-y-1">
+            <label className="block text-sm font-semibold">Machine Name</label>
             <input
               type="text"
               name="machineName"
               placeholder="Enter machine name"
-              className="w-full mt-1 p-2 bg-transparent text-white placeholder:text-white border rounded-md outline-none focus:ring focus:ring-green-400"
+              className="w-full p-2 bg-white bg-opacity-20 text-white placeholder-white rounded-md border border-gray-400 outline-none focus:ring-2 focus:ring-green-400 focus:bg-opacity-30 transition-all"
             />
           </div>
 
-          <div className="flex-1">
-            <label className="block text-md font-semibold text-white">
-              Name
-            </label>
+          {/* Rental Price */}
+          <div className="space-y-1">
+            <label className="block text-sm font-semibold">Rental Price</label>
+            <input
+              type="number"
+              name="rentalPrice"
+              placeholder="Enter price per hour/day"
+              className="w-full p-2 bg-white bg-opacity-20 text-white placeholder-white rounded-md border border-gray-400 outline-none focus:ring-2 focus:ring-green-400 focus:bg-opacity-30 transition-all"
+            />
+          </div>
+
+          {/* Availability */}
+          <div className="space-y-1">
+            <label className="block text-sm font-semibold">Availability</label>
             <input
               type="text"
-              name="name"
-              placeholder="Enter your name"
-              className="w-full mt-1 p-2 bg-transparent text-white placeholder:text-white border rounded-md outline-none focus:ring focus:ring-green-400"
+              name="availability"
+              placeholder="e.g., Mon-Fri, 9 AM - 5 PM"
+              className="w-full p-2 bg-white bg-opacity-20 text-white placeholder-white rounded-md border border-gray-400 outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-opacity-30 transition-all"
+            />
+          </div>
+
+          {/* Rental Location */}
+          <div className="space-y-1">
+            <label className="block text-sm font-semibold">Location</label>
+            <input
+              type="text"
+              name="location"
+              placeholder="Enter rental location"
+              className="w-full p-2 bg-white bg-opacity-20 text-white placeholder-white rounded-md border border-gray-400 outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-opacity-30 transition-all"
+            />
+          </div>
+
+          {/* Machine Category */}
+          <div className="space-y-1">
+            <label className="block text-sm font-semibold">Category</label>
+            <select
+              name="category"
+              className="w-full p-2 bg-white bg-opacity-20 text-white rounded-md border border-gray-400 outline-none focus:ring-2 focus:ring-blue-400 focus:bg-opacity-30 transition-all"
+            >
+              <option value="">Select category</option>
+              <option value="agriculture">Agriculture</option>
+              <option value="construction">Construction</option>
+              <option value="industrial">Industrial</option>
+            </select>
+          </div>
+
+          {/* Image */}
+          <div className="space-y-1">
+            <label className="block text-sm font-semibold">Image</label>
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              className="w-full p-2 bg-white bg-opacity-20 text-white rounded-md border border-gray-400 outline-none focus:ring-2 focus:ring-pink-400 focus:bg-opacity-30 transition-all"
             />
           </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-white">
-            Phone Number
-          </label>
-          <input
-            type="text"
-            name="phoneNumber"
-            placeholder="Enter phone number"
-            className="w-full mt-1 p-2 border bg-transparent text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-white">
-            Address
-          </label>
+        {/* Description */}
+        <div className="space-y-1">
+          <label className="block text-sm font-semibold">Description</label>
           <textarea
-            name="address"
-            placeholder="Enter address"
-            rows="2"
-            className="w-full mt-1 p-2 border bg-transparent text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400"
+            name="description"
+            placeholder="Enter machine description"
+            rows="3"
+            className="w-full p-2 bg-white bg-opacity-20 text-white placeholder-white rounded-md border border-gray-400 outline-none focus:ring-2 focus:ring-blue-400 focus:bg-opacity-30 transition-all"
           ></textarea>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-white">
-            Available at which location
-          </label>
-          <input
-            type="text"
-            name="location"
-            placeholder="Enter location"
-            className="w-full mt-1 p-2 border bg-transparent text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-white">
-            Timing
-          </label>
-          <input
-            type="text"
-            name="timing"
-            placeholder="Enter timing"
-            className="w-full mt-1 p-2 border bg-transparent text-white placeholder:text-white rounded-md outline-none focus:ring focus:ring-green-400"
-          />
-        </div>
-
-        <div className="flex justify-between gap-4 flex-col sm:flex-row">
-          <div className="flex-1">
-            <label className="block text-md font-semibold text-white">
-              Date
-            </label>
-            <input
-              type="date"
-              name="timing"
-              className="w-full mt-1 p-3 bg-transparent text-white placeholder:text-white border rounded-md outline-none focus:ring focus:ring-green-400"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-white">
-            Image
-          </label>
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            className="mt-1 w-full border text-white rounded-md bg-transparent p-2"
-          />
-        </div>
-
+        {/* Submit Button */}
         <div className="text-right">
           <button
             type="submit"
-            className="px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800"
+            className="px-6 py-2 text-sm font-bold text-white rounded-md bg-gradient-to-r from-green-500 to-green-700 shadow-md hover:shadow-lg hover:from-green-600 hover:to-green-800 focus:ring-4 focus:ring-green-500 transition-all"
           >
-            Add Rental
+            Add Machine
           </button>
         </div>
       </form>
