@@ -2,10 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios/config";
 import { setCookie, getCookie, deleteCookie } from "../../utilities/utils";
 
-// Check if running in the browser before accessing localStorage
 const isBrowser = typeof window !== "undefined";
 
-// Initial state
 const initialState = {
   user: isBrowser ? JSON.parse(localStorage.getItem("user")) || null : null,
   userRole: isBrowser ? localStorage.getItem("userRole") || null : null,
@@ -15,53 +13,45 @@ const initialState = {
   loggedOut: false,
 };
 
-// Async Thunk for User Login
 export const loginUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post("/api/auth/login", { email, password });
-      const { access_token, refresh_token, expires_in, user } = response.data;
+      const response = await axios.post("/login", { email, password });
+      const { token } = response.data;
 
-      // Store tokens and user data
-      setCookie("access_token", access_token, expires_in);
-      setCookie("refresh_token", refresh_token, expires_in);
+      setCookie("access_token", token, 24 * 60 * 60);
       if (isBrowser) {
-        localStorage.setItem("access_token", access_token);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("userRole", user.role);
+        localStorage.setItem("access_token", token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("userRole", response.data.user.role);
       }
 
-      return { access_token, user, userRole: user.role };
+      return {
+        accessToken: token,
+        user: response.data.user,
+        userRole: response.data.user.role,
+      };
     } catch (err) {
       return rejectWithValue(err.response?.data || { message: "Login failed" });
     }
   }
 );
 
-// Async Thunk for User Registration
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post("/api/auth/register", userData);
-      const { access_token, user } = response.data;
-
-      // Store access token
-      setCookie("access_token", access_token, 7 * 24 * 60 * 60);
+      const response = await axios.post("/signup", userData);
+      const { message, event } = response.data;
 
       if (isBrowser) {
-        localStorage.setItem("access_token", access_token);
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(event));
+        localStorage.setItem("userRole", event.role);
       }
 
-      return { access_token, user, userRole: user.role };
+      return { user: event, userRole: event.role, message };
     } catch (err) {
-      if (!err.response) {
-        console.error("Network error or server is not reachable.");
-      } else {
-        console.error("Error in registerUser thunk:", err.response);
-      }
       return rejectWithValue(
         err.response?.data || { message: "Registration failed" }
       );
@@ -69,47 +59,38 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-// Async Thunk for Refreshing Token
-export const refreshToken = createAsyncThunk(
-  "auth/refresh",
-  async (_, { rejectWithValue, getState }) => {
-    const { auth } = getState();
-    if (
-      !getCookie("refresh_token") ||
-      auth.loggedOut ||
-      refreshRequestPending
-    ) {
-      return rejectWithValue({ message: "No valid refresh token available" });
-    }
+export const getUser = createAsyncThunk(
+  "auth/getUser",
+  async (id, { rejectWithValue }) => {
     try {
-      refreshRequestPending = true;
-      const refresh_token = getCookie("refresh_token");
-      const response = await axios.post("/api/auth/refresh", { refresh_token });
-      const { access_token, expires_in } = response.data;
-
-      // Update access token
-      setCookie("access_token", access_token, expires_in);
-      if (isBrowser) {
-        localStorage.setItem("access_token", access_token);
-      }
-
-      refreshRequestPending = false;
-      return { access_token };
+      const response = await axios.get(`/user/${id}`);
+      return response.data;
     } catch (err) {
-      refreshRequestPending = false;
       return rejectWithValue(
-        err.response?.data || { message: "Token refresh failed" }
+        err.response?.data || { message: "Fetching user failed" }
       );
     }
   }
 );
 
-// Async Thunk for Logging Out
+export const updateUserRole = createAsyncThunk(
+  "auth/updateUserRole",
+  async ({ id, role }, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(`/user/${id}`, { role });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Updating user role failed" }
+      );
+    }
+  }
+);
+
 export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { dispatch }) => {
     deleteCookie("access_token");
-    deleteCookie("refresh_token");
     if (isBrowser) {
       localStorage.removeItem("access_token");
       localStorage.removeItem("user");
@@ -121,7 +102,6 @@ export const logout = createAsyncThunk(
   }
 );
 
-// Redux Slice for Authentication
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -140,13 +120,11 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = null;
 
-      // Clear local storage
       if (isBrowser) {
         localStorage.removeItem("user");
         localStorage.removeItem("userRole");
       }
     },
-
     setLoggedOut: (state, action) => {
       state.loggedOut = action.payload;
     },
@@ -161,14 +139,8 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.userRole = action.payload.userRole;
-        state.accessToken = action.payload.access_token;
+        state.accessToken = action.payload.accessToken;
         state.loggedOut = false;
-
-        // Store user information in local storage
-        if (isBrowser) {
-          localStorage.setItem("user", JSON.stringify(action.payload.user));
-          localStorage.setItem("userRole", action.payload.userRole);
-        }
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -182,8 +154,6 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.userRole = action.payload.userRole;
-        state.accessToken = action.payload.access_token;
-        state.loggedOut = false;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
@@ -195,11 +165,13 @@ const authSlice = createSlice({
         state.accessToken = null;
         state.loggedOut = true;
       })
-      .addCase(refreshToken.fulfilled, (state, action) => {
-        state.accessToken = action.payload.access_token;
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.user = action.payload;
       })
-      .addCase(refreshToken.rejected, (state) => {
-        state.accessToken = null;
+      .addCase(updateUserRole.fulfilled, (state, action) => {
+        if (state.user?.id === action.payload.id) {
+          state.userRole = action.payload.role;
+        }
       });
   },
 });
