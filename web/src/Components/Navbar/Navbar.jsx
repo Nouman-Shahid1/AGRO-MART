@@ -3,10 +3,12 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { ImCross } from "react-icons/im";
 import { FaUser, FaShoppingCart } from "react-icons/fa";
+import CartSidebar from "../CartSidebar/CartSideBar";
 const Navbar = () => {
   const [bg, setBg] = useState(false);
   const [showNav, setShowNav] = useState(false);
-
+  const [showCart, setShowCart] = useState(false);
+  
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -22,13 +24,20 @@ const Navbar = () => {
   const handleNavbar = () => {
     setShowNav(!showNav);
   };
-
+  const handleCart = () => {
+    setShowCart(!showCart);
+  };
   return (
     <div
       className={`${
         bg ? "bg-white shadow-lg" : "bg-transparent"
       } w-full  transition-colors duration-300 fixed  z-50`}
     >
+      {
+        showCart?
+      <CartSidebar handleCart={handleCart}/>
+      :null
+}
       <div className="mx-auto w-[80%] relative">
         <div className="flex flex-col md:flex-row gap-5 md:gap-0 justify-between items-center py-4">
           <div>
@@ -75,13 +84,14 @@ const Navbar = () => {
               </div>
 
               <div>
-                <Link href="/cart">
+                {/* <Link href="/cart"> */}
                   <FaShoppingCart
                     className={`text-2xl ${
                       bg ? "text-black" : "text-white"
                     } hover:scale-110 transition-transform`}
+                    onClick={()=>handleCart()}
                   />
-                </Link>
+                {/* </Link> */}
               </div>
             </div>
           </div>

@@ -1,5 +1,4 @@
 "use client";
-import CategoryCard from "@/Components/CategoryCard/CategoryCard";
 import Profile from "@/Components/ProfileCard/ProfileCard";
 import React, { useState } from "react";
 import {

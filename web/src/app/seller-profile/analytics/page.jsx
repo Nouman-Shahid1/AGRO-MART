@@ -186,7 +186,7 @@ const AnalyticsPage = () => {
               Monthly Sales Trends
             </h2>
             <div className="h-64">
-              <Line data={monthlySalesTrend} options={{ responsive: true }} />
+              <Line data={monthlySalesTrend} options={{ responsive: true}} />
             </div>
           </div>
         </div>
