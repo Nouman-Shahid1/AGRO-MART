@@ -5,7 +5,22 @@ import { setCookie, getCookie, deleteCookie } from "../../utilities/utils";
 const isBrowser = typeof window !== "undefined";
 
 const initialState = {
-  user: isBrowser ? JSON.parse(localStorage.getItem("user")) || null : null,
+  user: isBrowser
+    ? (() => {
+        try {
+          const rawUser = localStorage.getItem("user");
+          console.log("Raw user data from localStorage:", rawUser);
+
+          // Return parsed user if valid JSON or null if invalid
+          return rawUser && rawUser !== "undefined"
+            ? JSON.parse(rawUser)
+            : null;
+        } catch (error) {
+          console.error("Error parsing user from localStorage:", error);
+          return null;
+        }
+      })()
+    : null,
   userRole: isBrowser ? localStorage.getItem("userRole") || null : null,
   accessToken: getCookie("access_token") || null,
   loading: false,
@@ -18,22 +33,24 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post("/login", { email, password });
-      const { token } = response.data;
 
-      setCookie("access_token", token, 24 * 60 * 60);
+      const { token, user, role } = response.data;
+
+      // Save token and user details in localStorage
       if (isBrowser) {
         localStorage.setItem("access_token", token);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-        localStorage.setItem("userRole", response.data.user.role);
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("userRole", role);
       }
 
-      return {
-        accessToken: token,
-        user: response.data.user,
-        userRole: response.data.user.role,
-      };
+      setCookie("access_token", token, 1); // Set cookie for 1 day
+
+      return { accessToken: token, user, userRole: role };
     } catch (err) {
-      return rejectWithValue(err.response?.data || { message: "Login failed" });
+      console.error("Error response from backend during login:", err.response);
+      return rejectWithValue(
+        err.response?.data || { message: "Login failed. Please try again." }
+      );
     }
   }
 );
@@ -43,45 +60,25 @@ export const registerUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post("/signup", userData);
-      const { message, event } = response.data;
+
+      const { user, role, token } = response.data;
 
       if (isBrowser) {
-        localStorage.setItem("user", JSON.stringify(event));
-        localStorage.setItem("userRole", event.role);
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("userRole", role);
+        localStorage.setItem("access_token", token);
       }
 
-      return { user: event, userRole: event.role, message };
+      setCookie("access_token", token, 1);
+
+      return { user, userRole: role, accessToken: token };
     } catch (err) {
+      console.error(
+        "Error response from backend during registration:",
+        err.response
+      );
       return rejectWithValue(
         err.response?.data || { message: "Registration failed" }
-      );
-    }
-  }
-);
-
-export const getUser = createAsyncThunk(
-  "auth/getUser",
-  async (id, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(`/user/${id}`);
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(
-        err.response?.data || { message: "Fetching user failed" }
-      );
-    }
-  }
-);
-
-export const updateUserRole = createAsyncThunk(
-  "auth/updateUserRole",
-  async ({ id, role }, { rejectWithValue }) => {
-    try {
-      const response = await axios.put(`/user/${id}`, { role });
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(
-        err.response?.data || { message: "Updating user role failed" }
       );
     }
   }
@@ -91,13 +88,13 @@ export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { dispatch }) => {
     deleteCookie("access_token");
+
     if (isBrowser) {
       localStorage.removeItem("access_token");
       localStorage.removeItem("user");
       localStorage.removeItem("userRole");
     }
 
-    dispatch(authSlice.actions.setLoggedOut(true));
     dispatch(authSlice.actions.clearState());
   }
 );
@@ -119,14 +116,6 @@ const authSlice = createSlice({
       state.accessToken = null;
       state.loading = false;
       state.error = null;
-
-      if (isBrowser) {
-        localStorage.removeItem("user");
-        localStorage.removeItem("userRole");
-      }
-    },
-    setLoggedOut: (state, action) => {
-      state.loggedOut = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -154,6 +143,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.userRole = action.payload.userRole;
+        state.accessToken = action.payload.accessToken;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
@@ -164,18 +154,9 @@ const authSlice = createSlice({
         state.userRole = null;
         state.accessToken = null;
         state.loggedOut = true;
-      })
-      .addCase(getUser.fulfilled, (state, action) => {
-        state.user = action.payload;
-      })
-      .addCase(updateUserRole.fulfilled, (state, action) => {
-        if (state.user?.id === action.payload.id) {
-          state.userRole = action.payload.role;
-        }
       });
   },
 });
 
-export const { setToken, setUser, clearState, setLoggedOut } =
-  authSlice.actions;
+export const { setToken, setUser, clearState } = authSlice.actions;
 export default authSlice.reducer;
