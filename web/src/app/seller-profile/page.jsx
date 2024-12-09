@@ -2,7 +2,7 @@ import Profile from "../../Components/ProfileCard/ProfileCard";
 import DashboardCard from "../../Components/DashboardCard/DashboardCard";
 import Services from "../../assets/images/services.png";
 import Amenities from "../../assets/images/amenities.png";
-
+import Sidebar from "@/Components/Sidebar/Sidebar";
 
 export default function Dashboard() {
   return (
@@ -18,57 +18,56 @@ export default function Dashboard() {
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50"></div>
-
       {/* Content */}
       <div className="relative z-10">
         <Profile />
       </div>
       <div className="md:px-0 max-w-screen-2xl">
-        <div className="flex flex-wrap md:w-full mt-8 px-6">
+        <div className="flex flex-wrap md:w-full mt-2 md:mt-8 px-6">
           <DashboardCard
             details={{
               name: "My Products",
               src: Services,
-              url: "/buyer/", // Ensure `DashboardCard` handles this properly
+              url: "/seller-profile/",
             }}
           />
           <DashboardCard
             details={{
               name: "Orders",
               src: Amenities,
-              url: "/buyer/", // Ensure `DashboardCard` handles this properly
+              url: "/seller-profile/",
             }}
           />
         </div>
-        <div className="flex flex-wrap md:w-full mt-8 px-6">
+        <div className="flex flex-wrap md:w-full mt-2 md:mt-8 px-6">
           <DashboardCard
             details={{
               name: "Earnings",
               src: Services,
-              url: "/buyer/", // Ensure `DashboardCard` handles this properly
+              url: "/seller-profile/",
             }}
           />
           <DashboardCard
             details={{
               name: "Analytics",
               src: Amenities,
-              url: "/buyer/", // Ensure `DashboardCard` handles this properly
+              url: "/seller-profile/",
             }}
           />
         </div>
-        <div className="flex flex-wrap md:w-full mt-8 px-6">
+        <div className="flex flex-wrap md:w-full mt-2 md:mt-8 px-6">
           <DashboardCard
             details={{
               name: "Setting",
               src: Services,
-              url: "/buyer/", // Ensure `DashboardCard` handles this properly
+              url: "/seller-profile/",
             }}
           />
           <DashboardCard
             details={{
               name: "Orders",
               src: Amenities,
-              url: "/buyer/", // Ensure `DashboardCard` handles this properly
+              url: "/seller-profile/",
             }}
           />
         </div>

@@ -6,9 +6,7 @@ import {
   handleResponseError,
 } from "./interceptors";
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-
-console.log("Axios Base URL:", baseURL); // Debugging log
+const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
 const instance = axios.create({
   baseURL,

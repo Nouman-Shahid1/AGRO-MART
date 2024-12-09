@@ -14,7 +14,6 @@ import {
   FaShippingFast,
   FaHistory,
   FaAddressBook,
-  FaHeadset,
   FaCog,
   FaSeedling,
   FaCogs,
@@ -31,31 +30,46 @@ const Sidebar = ({ role }) => {
 
   const menuLists = {
     seller: [
-      { label: "My Products", icon: <FaBox />, path: "/seller-profile/my-products" },
+      {
+        label: "My Products",
+        icon: <FaBox />,
+        path: "/seller-profile/my-products",
+      },
       { label: "Orders", icon: <FaTruck />, path: "/seller-profile/orders" },
-      { label: "Earnings", icon: <FaMoneyBill />, path: "/seller-profile/earnings" },
-      { label: "Analytics", icon: <FaChartLine />, path: "/seller-profile/analytics" },
-      { label: "Settings", icon: <FaTools />, path: "/seller-profile/settings" },
+      {
+        label: "Earnings",
+        icon: <FaMoneyBill />,
+        path: "/seller-profile/earnings",
+      },
+      {
+        label: "Analytics",
+        icon: <FaChartLine />,
+        path: "/seller-profile/analytics",
+      },
+      {
+        label: "Settings",
+        icon: <FaTools />,
+        path: "/seller-profile/settings",
+      },
     ],
     buyer: [
-      { label: "Orders", icon: <FaTractor />, path: "/myaccount/orders" },
+      { label: "Orders", icon: <FaTractor />, path: "/buyer/orders" },
       {
         label: "Order Tracking",
         icon: <FaShippingFast />,
-        path: "/myaccount/track-order",
+        path: "/buyer/track-order",
       },
       {
         label: "Purchase History",
         icon: <FaHistory />,
-        path: "/myaccount/purchase-history",
+        path: "/buyer/purchase-history",
       },
       {
         label: "Saved Addresses",
         icon: <FaAddressBook />,
-        path: "/myaccount/saved-addresses",
+        path: "/buyer/saved-addresses",
       },
-      { label: "Support", icon: <FaHeadset />, path: "/myaccount/support" },
-      { label: "Settings", icon: <FaCog />, path: "/myaccount/settings" },
+      { label: "Settings", icon: <FaCog />, path: "/buyer/settings" },
     ],
     admin: [
       { label: "Machines", icon: <FaCogs />, path: "/admin/machines" },
@@ -69,7 +83,14 @@ const Sidebar = ({ role }) => {
 
   // Get the menuItems based on the role
   const menuItems = menuLists[role] || [];
-
+  const dashboardRoute =
+    role === "seller"
+      ? "/seller-profile"
+      : role === "buyer"
+      ? "/buyer"
+      : role === "admin"
+      ? "/admin"
+      : "/";
   useEffect(() => {
     const closeSidebarOnOutsideClick = (event) => {
       const sidebar = document.getElementById("sidebar");
@@ -133,7 +154,7 @@ const Sidebar = ({ role }) => {
         id="sidebar"
         className={`fixed top-0 left-0 z-40 h-screen flex flex-col transition-transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } sm:translate-x-0 w-[300px] py-6 px-4  text-white shadow-lg border-r border-green-700 backdrop-blur-xl`}
+        } md:translate-x-0 w-[300px] py-6 px-4  text-white shadow-lg border-r border-green-700 backdrop-blur-xl`}
         aria-label="Sidebar"
         style={{
           backgroundImage,
@@ -153,7 +174,7 @@ const Sidebar = ({ role }) => {
           />
         </div>
 
-        <Link href="/" passHref>
+        <Link href={dashboardRoute} passHref>
           <div className="rounded-lg text-lg font-semibold py-4 px-4 flex items-center gap-4 bg-gradient-to-br from-green-600 via-yellow-500 to-brown-500 text-white hover:bg-gradient-to-tl hover:from-brown-500 hover:via-yellow-600 hover:to-green-700 transition-all duration-300 shadow-xl transform hover:scale-105">
             <FaHome className="text-2xl" />
             Dashboard

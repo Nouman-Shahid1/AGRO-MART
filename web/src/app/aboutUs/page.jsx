@@ -1,253 +1,240 @@
 import Footer from "@/Components/Footer/Footer";
 import Navbar from "@/Components/Navbar/Navbar";
-import farm2 from "../../Assets/images/farm2-about.jpg";
-import React from "react";
+import Newsletter from "@/Components/NewsLetter/Newsletter";
+import {
+  FaTractor,
+  FaSeedling,
+  FaLeaf,
+  FaRecycle,
+  FaHandshake,
+  FaTools,
+  FaGlobe,
+  FaBrain,
+  FaShippingFast,
+  FaPeopleCarry,
+  FaTree,
+  FaSolarPanel,
+} from "react-icons/fa";
 
 const AboutUs = () => {
+  const missionCards = [
+    {
+      icon: <FaHandshake size={30} />,
+      title: "Empowering Farmers",
+      text: "Providing tools and resources to optimize farming practices.",
+    },
+    {
+      icon: <FaGlobe size={30} />,
+      title: "Sustainable Growth",
+      text: "Implementing eco-friendly practices for a better planet.",
+    },
+    {
+      icon: <FaBrain size={30} />,
+      title: "Innovation at Heart",
+      text: "Leveraging technology to create smarter farming solutions.",
+    },
+  ];
+
+  const elementsCards = [
+    {
+      icon: <FaTractor size={30} />,
+      title: "Precision Farming",
+      text: "Using AI and data to enhance farm productivity.",
+    },
+    {
+      icon: <FaShippingFast size={30} />,
+      title: "Smart Logistics",
+      text: "Efficient supply chain and transportation.",
+    },
+    {
+      icon: <FaRecycle size={30} />,
+      title: "Eco-Friendly Practices",
+      text: "Promoting sustainable farming techniques globally.",
+    },
+    {
+      icon: <FaPeopleCarry size={30} />,
+      title: "Community Building",
+      text: "Connecting farmers and businesses worldwide.",
+    },
+    {
+      icon: <FaTools size={30} />,
+      title: "AI-Driven Solutions",
+      text: "Leveraging technology for smarter agricultural decisions.",
+    },
+    {
+      icon: <FaTree size={30} />,
+      title: "Sustainable Agriculture",
+      text: "Creating long-lasting agricultural solutions.",
+    },
+  ];
+
+  const offerCards = [
+    {
+      icon: <FaSeedling size={30} />,
+      title: "Premium Products",
+      text: "Top-quality seeds, tools, and supplies for optimized agriculture.",
+    },
+    {
+      icon: <FaLeaf size={30} />,
+      title: "Knowledge Hub",
+      text: "Curated resources, expert guides, and actionable insights.",
+    },
+    {
+      icon: <FaSolarPanel size={30} />,
+      title: "Community Support",
+      text: "Connect with farmers and businesses to grow together.",
+    },
+  ];
+
   return (
     <>
-      <Navbar />
-      <div className=" bg-gradient-to-b from-green-100 via-white to-slate-100 min-h-screen  ">
-        <div className="bgAbout"></div>
-        {/* Hero Section */}
-        <div className="relative bg-gradient-to-tr from-green-300 via-green-100 to-green-400 text-white py-16 px-6 lg:px-16">
-          <div className="container mx-auto">
-            <h1 className="text-5xl font-bold mb-4 text-center font-serif lg:text-left">
-              About Agro Mart
-            </h1>
-            <p className="text-lg lg:text-xl  text-center lg:text-left">
-              At Agro Mart, we’re revolutionizing agriculture by blending modern
-              innovation with time-tested traditions to empower farmers and
-              businesses across the globe.
-            </p>
-          </div>
+      <div className="min-h-screen relative overflow-hidden font-sans">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-fixed filter brightness-50"
+          style={{
+            backgroundImage:
+              "url('https://png.pngtree.com/thumb_back/fw800/background/20240610/pngtree-concept-use-of-the-smart-farmer-system-came-to-help-analysis-image_15746622.jpg')",
+          }}
+        ></div>
+
+        {/* Gradient Layers */}
+        <div className="absolute inset-0 z-10">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-800/30 to-black opacity-80"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-green-600/20 to-transparent opacity-40 animate-gradient-x"></div>
+          <div className="absolute top-0 left-0 w-96 h-96 bg-green-500 rounded-full blur-3xl opacity-20 animate-bounce-slow"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-green-400 rounded-full blur-3xl opacity-20 animate-bounce-slow-reverse"></div>
         </div>
 
-        {/* Core Values Section */}
-        <section className="container mx-auto py-16 px-6 lg:px-16">
-          <h2 className="text-4xl font-serif  font-bold text-gray-600 text-center mb-8">
-            Who We Are
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <p className="text-gray-600 text-lg">
-                Agro Mart is a forward-thinking agricultural platform designed
-                to support farmers, agribusinesses, and entrepreneurs in their
-                journey toward sustainable growth. We believe agriculture is not
-                just an industry—it’s the backbone of our world and the key to a
-                brighter future.
-              </p>
-            </div>
-            <div>
-              <img
-                src={farm2.src}
-                alt="About Us"
-                className="rounded-lg shadow-lg"
-              />
-            </div>
-          </div>
-        </section>
+        {/* Navbar */}
+        <div className="relative z-30">
+          <Navbar />
+        </div>
 
-        {/* Mission Section */}
-        <section className="bg-gradient-to-l to-green-100 from-white py-16">
-          <div className="container mx-auto px-6 lg:px-16">
-            <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">
-              Our Mission
+        {/* Hero Content */}
+        <div className="relative mt-56 z-20 flex flex-col items-center justify-center h-full text-center px-6 space-y-12">
+          {/* Animations */}
+          <div className="absolute top-10 left-10 w-12 h-12 bg-green-400 rounded-full blur-lg opacity-50 animate-ping"></div>
+          <div className="absolute bottom-20 right-20 w-16 h-16 bg-green-500 rounded-full blur-lg opacity-30 animate-pulse"></div>
+
+          {/* Title Section */}
+          <div className="flex items-center justify-center space-x-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-green-400 animate-fade-in">
+              About Us 🌱
             </h2>
-            <p className="text-gray-600 text-lg text-center max-w-4xl mx-auto">
-              Our mission is to create a world where farmers have access to the
-              tools, knowledge, and resources they need to achieve sustainable
-              success. By embracing eco-friendly practices and innovative
-              technology, we aim to empower farmers while protecting our planet.
-            </p>
           </div>
-        </section>
-        <div className="w-full flex justify-center items-center text-center mt-24 text-4xl font-bold font-serif ">
-          <h1 className="w-1/2 text-gray-600">
-            In order to finance members. Some ecological element
+
+          <h1 className="text-[45px] sm:text-7xl lg:text-8xl font-extrabold text-white leading-tight tracking-wide drop-shadow-2xl animate-slide-in">
+            Welcome to{" "}
+            <span className="text-green-400 underline decoration-wavy">
+              AgroMart
+            </span>
           </h1>
-        </div>
-        {/* small cards */}
-        <div className="w-full flex justify-center pb-16  mt-14 bg-gradient-to-tr to-slate-200 via-white from-gray-200">
-          <div className="w-[80%]  flex flex-wrap gap-6 justify-center items-center mt-14 space-y-5">
-            <div className="flex justify-center items-center ">
-              <div>
-                {" "}
-                <img
-                  className="w-[70x] h-[70px]"
-                  src="https://themes.muffingroup.com/be/farm2/wp-content/uploads/2020/12/farm2-home-icon1.png"
-                  alt="Butter logo"
-                />
-              </div>
-              <div className="w-[300px] p-6 space-y-4 flex flex-col justify-center items-center">
-                <h1 className="text-xl font-serif font-bold text-gray-600">
-                  Lorem ipsum
-                </h1>
-                <p className="text-black text-center">
-                  Lorem ipsum dolor sit amet, consing eli do eiod.
-                </p>
-              </div>
-            </div>
-            <div className="flex justify-center items-center ">
-              <div>
-                {" "}
-                <img
-                  className="w-[70x] h-[70px]"
-                  src="https://themes.muffingroup.com/be/farm2/wp-content/uploads/2020/12/farm2-home-icon2.png"
-                  alt="Butter logo"
-                />
-              </div>
-              <div className="w-[300px] p-6 text-center space-y-4 flex flex-col justify-center items-center">
-                <h1 className="text-xl font-serif text-gray-600 font-bold">
-                  Velit esse
-                </h1>
-                <p className="text-black">
-                  Lorem ipsum dolor sit amet, consing eli do eiod.
-                </p>
-              </div>
-            </div>
-            <div className="flex justify-center items-center ">
-              <div>
-                {" "}
-                <img
-                  className="w-[70x] h-[70px]"
-                  src="https://themes.muffingroup.com/be/farm2/wp-content/uploads/2020/12/farm2-home-icon3.png"
-                  alt="Butter logo"
-                />
-              </div>
-              <div className=" w-[300px] p-6 text-center space-y-4 flex flex-col justify-center items-center">
-                <h1 className="text-xl font-serif text-gray-600 font-bold">
-                  Voluptate
-                </h1>
-                <p className="text-black">
-                  Lorem ipsum dolor sit amet, consing eli do eiod.
-                </p>
-              </div>
-            </div>
-            <div className="flex justify-center items-center">
-              <div>
-                {" "}
-                <img
-                  className="w-[70x] h-[70px]"
-                  src="https://themes.muffingroup.com/be/farm2/wp-content/uploads/2020/12/farm2-home-icon4.png"
-                  alt="Butter logo"
-                />
-              </div>
-              <div className="w-[300px] p-6 text-center space-y-4 flex flex-col justify-center items-center">
-                <h1 className="text-xl font-serif text-gray-600 font-bold">
-                  Aliquam erat
-                </h1>
-                <p className="text-black text-center">
-                  Lorem ipsum dolor sit amet, consing eli do eiod.
-                </p>
-              </div>
-            </div>
-            <div className="flex justify-center items-center ">
-              <div>
-                {" "}
-                <img
-                  className="w-[70x] h-[70px]"
-                  src="https://themes.muffingroup.com/be/farm2/wp-content/uploads/2020/12/farm2-home-icon5.png"
-                  alt="Butter logo"
-                />
-              </div>
-              <div className="w-[300px] p-6 text-center space-y-4 flex flex-col justify-center items-center">
-                <h1 className="text-xl font-serif text-gray-600 font-bold">
-                  Hendrerit nulla
-                </h1>
-                <p className="text-black">
-                  Lorem ipsum dolor sit amet, consing eli do eiod.
-                </p>
-              </div>
-            </div>
-            <div className="flex justify-center items-center ">
-              <div>
-                {" "}
-                <img
-                  className="w-[70x] h-[70px]"
-                  src="https://themes.muffingroup.com/be/farm2/wp-content/uploads/2020/12/farm2-home-icon6.png"
-                  alt="Butter logo"
-                />
-              </div>
-              <div className="w-[300px] p-6 text-center space-y-4 flex flex-col justify-center items-center">
-                <h1 className="text-xl font-serif text-gray-600 font-bold">
-                  Curabitur
-                </h1>
-                <p className="text-black">
-                  Lorem ipsum dolor sit amet, consing eli do eiod.
-                </p>
-              </div>
-            </div>
+
+          <p className="text-lg sm:text-xl lg:text-2xl text-gray-200 max-w-4xl leading-relaxed drop-shadow-md animate-fade-in-delayed">
+            At AgroMart, we’re dedicated to transforming agriculture through
+            innovation, sustainability, and technology. Our mission is to
+            empower farmers, connect communities, and create a future where
+            agriculture thrives in harmony with nature.
+          </p>
+
+          <p className="text-md sm:text-lg lg:text-xl text-gray-300 max-w-3xl leading-relaxed drop-shadow-md animate-fade-in-delayed">
+            Since our founding, AgroMart has been at the forefront of the
+            agricultural revolution, offering solutions that bridge traditional
+            farming practices with cutting-edge technology. We believe in
+            fostering a collaborative ecosystem for farmers, businesses, and
+            consumers alike.
+          </p>
+
+          {/* Divider */}
+          <div className="flex items-center space-x-6">
+            <div className="w-16 h-1 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-green-400 font-bold text-lg tracking-wider uppercase animate-bounce">
+              Building Sustainable Futures
+            </span>
+            <div className="w-16 h-1 bg-green-500 rounded-full animate-pulse"></div>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row items-center gap-8 mt-6 pb-8">
+            <button className="bg-green-500 hover:bg-green-600 text-white font-semibold py-4 px-16 rounded-full shadow-2xl transition-transform transform hover:scale-110 hover:shadow-green-500/50 animate-fade-up">
+              Learn Our Story
+            </button>
+            <button className="bg-transparent border-2 border-green-600 text-green-400 hover:bg-green-600 hover:text-white font-semibold py-4 px-16 rounded-full shadow-xl transition-transform transform hover:scale-110 hover:shadow-green-600/50 animate-fade-up-delayed">
+              Meet Our Team
+            </button>
           </div>
         </div>
 
-        {/* Values Section */}
-        <section className="container mx-auto py-16 px-6 lg:px-16">
-          <h2 className="text-4xl font-bold text-gray-600 font-serif text-center mb-8">
-            What We Offer
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center bg- p-8 rounded-2xl shadow-lg bg-gradient-to-bl from-green-100 via-white to-green-200 hover:bg-slate-200 ">
-              <div className="bg-green-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                🌱
-              </div>
-              <h3 className="text-xl font-semibold text-gray-600 font-serif">
-                Premium Products
-              </h3>
-              <p className="text-gray-600 mt-2">
-                Access top-quality seeds, tools, and supplies to optimize your
-                agricultural efforts.
-              </p>
-            </div>
-            <div className="text-center bg- p-8 rounded-2xl shadow-lg bg-gradient-to-bl from-green-100 via-white to-green-200">
-              <div className="bg-green-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                📚
-              </div>
-              <h3 className="text-xl font-semibold text-gray-600 font-serif">
-                Knowledge Hub
-              </h3>
-              <p className="text-gray-600 mt-2">
-                Learn from our curated resources, expert guides, and actionable
-                insights.
-              </p>
-            </div>
-            <div className="text-center bg- p-8 rounded-2xl shadow-2xl bg-gradient-to-bl from-green-100 via-white to-green-200">
-              <div className="bg-green-900 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                🤝
-              </div>
-              <h3 className="text-xl font-semibold text-gray-600 font-serif">
-                Community Support
-              </h3>
-              <p className="text-gray-600 mt-2">
-                Connect with other farmers and businesses to share knowledge and
-                grow together.
-              </p>
-            </div>
-          </div>
-        </section>
+        {/* Bottom Gradients */}
+        <div className="absolute top-0 w-full h-64 bg-gradient-to-b from-black to-transparent"></div>
+        <div className="absolute bottom-0 w-full h-64 bg-gradient-to-t from-black to-transparent"></div>
+      </div>
 
-        {/* Call to Action */}
-        <section className="bg-gradient-to-tr from-green-500 via-slate-200 to-green-400 text-white py-16">
-          <div className="container mx-auto text-center px-6 lg:px-16">
-            <h2 className="text-3xl font-bold mb-4">
-              Join 🤝 the Agro Mart Revolution
+      <div className="bg-gradient-to-b from-green-50 to-white">
+        {/* Mission Section */}
+        <section className="py-20">
+          <div className="max-w-screen-xl mx-auto text-center px-6">
+            <h2 className="text-5xl font-extrabold text-gray-800 mb-8">
+              Our <span className="text-green-600">Mission</span>
             </h2>
-            <p className="text-lg mb-8">
-              Together, we can cultivate success, nurture growth, and harvest a
-              sustainable future for agriculture.
-            </p>
-            <a
-              href="/contact"
-              className="inline-block bg-white text-green-700 font-semibold px-6 py-3 rounded-lg hover:bg-gray-200 transition"
-            >
-              Contact Us
-            </a>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {missionCards.map((card, index) => (
+                <Card key={index} card={card} />
+              ))}
+            </div>
           </div>
         </section>
+
+        {/* Key Elements Section */}
+        <section className="py-20">
+          <div className="max-w-screen-xl mx-auto text-center px-6">
+            <h2 className="text-5xl font-extrabold text-gray-800 mb-8">
+              Key <span className="text-green-600">Elements</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {elementsCards.map((card, index) => (
+                <Card key={index} card={card} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* What We Offer Section */}
+        <section className="py-20">
+          <div className="max-w-screen-xl mx-auto text-center px-6">
+            <h2 className="text-5xl font-extrabold text-gray-800 mb-8">
+              What We <span className="text-green-600">Offer</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {offerCards.map((card, index) => (
+                <Card key={index} card={card} />
+              ))}
+            </div>
+          </div>
+        </section>
+        <Newsletter />
       </div>
       <Footer />
     </>
   );
 };
+
+// Card Component
+const Card = ({ card }) => (
+  <div className="relative bg-white p-8 rounded-2xl shadow-md hover:shadow-lg transform hover:-translate-y-2 transition-all duration-300 group overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-tr from-green-50 to-transparent opacity-40 group-hover:opacity-60 transition duration-300 rounded-2xl"></div>
+    <div className="relative z-10 w-16 h-16 flex items-center justify-center bg-green-100 text-green-600 rounded-full mb-6 mx-auto group-hover:bg-green-500 group-hover:text-white transition-colors duration-300 shadow-lg">
+      {card.icon}
+    </div>
+    <h3 className="relative z-10 text-2xl font-bold text-gray-800 mb-4 group-hover:text-green-600 transition-colors duration-300">
+      {card.title}
+    </h3>
+    <p className="relative z-10 text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
+      {card.text}
+    </p>
+    <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-green-200 rounded-full blur-lg opacity-30 group-hover:opacity-50 transition-all duration-300"></div>
+  </div>
+);
 
 export default AboutUs;

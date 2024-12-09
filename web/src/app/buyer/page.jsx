@@ -27,14 +27,14 @@ export default function Dashboard() {
           <div className="flex flex-wrap md:w-full mt-8 px-6">
             <DashboardCard
               details={{
-                name: "View Profile",
-                src: Services,
+                name: "Orders",
+                src: Amenities,
                 url: "/buyer/",
               }}
             />
             <DashboardCard
               details={{
-                name: "Orders",
+                name: "Saved Addresses",
                 src: Amenities,
                 url: "/buyer/",
               }}
@@ -50,28 +50,13 @@ export default function Dashboard() {
             />
             <DashboardCard
               details={{
-                name: "Saved Addresses",
-                src: Amenities,
-                url: "/buyer/",
-              }}
-            />
-          </div>
-          <div className="flex flex-wrap md:w-full mt-8 px-6">
-            <DashboardCard
-              details={{
-                name: "Support",
-                src: Services,
-                url: "/buyer/",
-              }}
-            />
-            <DashboardCard
-              details={{
                 name: "Settings",
                 src: Amenities,
                 url: "/buyer/",
               }}
             />
           </div>
+          <div className="flex flex-wrap md:w-full mt-8 px-6"></div>
         </div>
       </div>
     </div>
