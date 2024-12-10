@@ -10,7 +10,7 @@ const RentalDetails = () => {
   return (
     <>
       <Navbar />
-      <div className=" text-black shadow-lg">
+      <div className=" text-black shadow-lg bg-gradient-to-tr from-green-600 via-green-200 to-green-100 pb-14">
         <div>
           <div
             style={{
@@ -23,12 +23,12 @@ const RentalDetails = () => {
               position: "relative", // Added for absolute positioning to work
             }}
           >
-            <h1 className="absolute left-8 bottom-14 text-3xl font-bold font-serif text-white bg-green-500 hover:bg-green-400 p-5 rounded-xl transition-transform transform hover:scale-105 ">
+            <h1 className="absolute left-8 bottom-14 text-3xl font-bold font-serif text-white bg-green-500 hover:bg-green-400 p-5 rounded-xl transition-transform transform hover:scale-105 z-20">
               NEW HOLLAND RENTAL EQUIPMENT
             </h1>
           </div>
           {/* main sec */}
-          <div className="bg-gradient-to-tr to-slate-400 via-white  from-slate-100  p-14  text-lg font-serif leading-relaxed">
+          <div className=" bg-gradient-to-tr to-green-400 via-white  from-green-100  p-14  text-lg font-serif leading-relaxed z-20 border rounded-xl m-14">
             <div>
               <p>
                 Farming and agricultural operations often require versatile,
@@ -159,6 +159,12 @@ const RentalDetails = () => {
                 equipment for your next agricultural project. Reach out to Agro
                 Mart today and let’s cultivate success together!
               </p>
+            </div>
+          </div>
+          {/* price sec */}
+          <div>
+            <div>
+              <h1> </h1>
             </div>
           </div>
         </div>
