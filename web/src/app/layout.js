@@ -62,7 +62,7 @@ export default function RootLayout({ children }) {
       >
         <Provider store={store}>
           {/* <Authentication> */}
-          {children}
+            {children}
           {/* </Authentication> */}
         </Provider>
       </body>
