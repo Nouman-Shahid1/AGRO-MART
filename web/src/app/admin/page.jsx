@@ -15,10 +15,10 @@ const categories = [
 
 export default function page() {
   return (
-    <div className="min-h-screen bg-gradient-to-br p-8 from-green-50 to-green-100 overflow-auto">
+    <div className="min-h-screen bg-gradient-to-br p-4 md:p-8 from-green-50 to-green-100 overflow-auto">
       <AdminProfile/>
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-10">
+      <main className="container mx-auto  md:px-6 py-10">
         <h2 className="text-2xl font-semibold text-gray-700 mb-8">Categories</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 ">
           {categories.map((category) => (

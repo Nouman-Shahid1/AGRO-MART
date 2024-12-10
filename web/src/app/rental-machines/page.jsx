@@ -29,7 +29,7 @@ const RentalMachines = () => {
           <div className="absolute top-0 left-0 w-96 h-96 bg-green-500 rounded-full blur-3xl opacity-20 animate-bounce-slow"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-green-400 rounded-full blur-3xl opacity-20 animate-bounce-slow-reverse"></div>
         </div>
-        <div className="relative mt-32 sm:mt-48 z-20 flex flex-col items-center justify-center text-center px-6 space-y-6 sm:space-y-12">
+        <div className="relative mt-[160px] md:mt-48 sm:mt-48 z-20 flex flex-col items-center justify-center text-center px-6 space-y-6 sm:space-y-12">
           <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-green-400 animate-fade-in">
             Let's Cultivate Productivity 🌱
           </h2>

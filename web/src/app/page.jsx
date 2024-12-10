@@ -30,7 +30,7 @@ export default function Page() {
           <Navbar />
         </div>
 
-        <div className="relative mt-72 z-20 flex flex-col items-center justify-center h-full text-center px-6 space-y-12">
+        <div className="relative mt-[160px] md:mt-[230px] z-20 flex flex-col items-center justify-center h-full text-center px-6 space-y-8 md:space-y-12">
           <div className="absolute top-10 left-10 w-12 h-12 bg-green-400 rounded-full blur-lg opacity-50 animate-ping"></div>
           <div className="absolute bottom-20 right-20 w-16 h-16 bg-green-500 rounded-full blur-lg opacity-30 animate-pulse"></div>
           <div className="flex items-center justify-center space-x-6">
@@ -39,7 +39,7 @@ export default function Page() {
             </h2>
           </div>
 
-          <h1 className="text-[45px] sm:text-7xl lg:text-8xl font-extrabold text-white leading-tight tracking-wide drop-shadow-2xl animate-slide-in">
+          <h1 className="text-[40px] sm:text-7xl lg:text-8xl font-extrabold text-white leading-tight tracking-wide drop-shadow-2xl animate-slide-in">
             Welcome to{" "}
             <span className="text-green-400 underline decoration-wavy">
               AgroMart
@@ -54,7 +54,7 @@ export default function Page() {
 
           <div className="flex items-center space-x-6">
             <div className="w-16 h-1 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-green-400 font-bold text-lg tracking-wider uppercase animate-bounce">
+            <span className="text-green-400 font-bold text-md md:text-lg tracking-wider uppercase animate-bounce">
               Empowering Farmers Globally
             </span>
             <div className="w-16 h-1 bg-green-500 rounded-full animate-pulse"></div>
@@ -77,10 +77,10 @@ export default function Page() {
         <div className="absolute top-[-50px] right-[-50px] w-72 h-72 bg-[#f3fdf5] rounded-full blur-3xl opacity-50"></div>
         <div className="absolute bottom-[-50px] left-[-50px] w-96 h-96 bg-[#e2f9e9] rounded-full blur-3xl opacity-40"></div>
         <div className="relative z-10 w-[85%] mx-auto text-center">
-          <h2 className="text-5xl font-extrabold text-[#2c6e49] mb-4 drop-shadow-md">
+          <h2 className="text-2xl mdtext-5xl font-extrabold text-[#2c6e49] mb-4 drop-shadow-md">
             Discover Our Farming Categories
           </h2>
-          <p className="text-xl text-[#4f8c69] mb-10 max-w-2xl mx-auto">
+          <p className="text-md md:text-xl text-[#4f8c69] mb-10 max-w-2xl mx-auto">
             Explore a wide range of categories designed to meet every farmer’s
             needs. From eco-friendly fertilizers to advanced farming tools, we
             have it all!
@@ -127,10 +127,10 @@ export default function Page() {
         <div className="absolute top-[-50px] right-[-50px] w-72 h-72 bg-[#e9f7ef] rounded-full blur-3xl opacity-50"></div>
         <div className="absolute bottom-[-50px] left-[-50px] w-96 h-96 bg-[#d1f2dc] rounded-full blur-3xl opacity-40"></div>
         <div className="relative z-10 w-[85%] mx-auto text-center">
-          <h2 className="text-5xl font-extrabold text-[#2c6e49] mb-4 drop-shadow-md">
+          <h2 className="text-2xl md:text-5xl font-extrabold text-[#2c6e49] mb-4 drop-shadow-md">
             Explore Our Featured Products
           </h2>
-          <p className="text-xl text-[#4f8c69] mb-10 max-w-2xl mx-auto">
+          <p className="text-md md:text-xl text-[#4f8c69] mb-10 max-w-2xl mx-auto">
             Discover our handpicked, sustainable tools and products designed to
             enhance your farming journey with innovation and care.
           </p>
@@ -174,7 +174,7 @@ export default function Page() {
             />
           </div>
           <div className="mt-16">
-            <button className="bg-[#47b881] hover:bg-[#3a9149] text-white font-bold py-4 px-14 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 hover:shadow-[#66bb6a]/50">
+            <button className="bg-[#47b881] hover:bg-[#3a9149] text-white font-bold py-4 px-8 md:px-14 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 hover:shadow-[#66bb6a]/50">
               View All Products
             </button>
           </div>

@@ -46,10 +46,10 @@ const Testimonials = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-green-900 via-green-700 to-transparent opacity-90"></div>
 
       <div className="relative z-10 max-w-screen-xl mx-auto px-6 sm:px-12 text-center">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-12">
+        <h2 className="text-2xl md:text-4xl md:text-5xl font-extrabold text-white mb-12">
           Hear From Our Happy Customers
         </h2>
-        <p className="text-lg text-green-200 mb-16">
+        <p className="text-md md:text-lg text-green-200 mb-16">
           At AgroMart, we&rsquo;re proud to deliver fresh, organic, and
           sustainable products that delight our customers. Here&rsquo;s what
           they have to say.
