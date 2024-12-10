@@ -1,15 +1,66 @@
 "use client";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FaEye, FaEyeSlash, FaShoppingCart, FaStore } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { registerUser } from "../../reducers/Auth/authSlice";
 
 export default function SignupPage() {
   const [activeForm, setActiveForm] = useState("buyer");
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    businessName: "",
+    phoneNumber: "",
+    address: "",
+  });
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const role = activeForm === "buyer" ? "buyer" : "seller";
+
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    const userData = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+      role,
+      ...(role === "seller" && {
+        businessName: formData.businessName,
+        phoneNumber: formData.phoneNumber,
+        address: formData.address,
+      }),
+    };
+
+    try {
+      await dispatch(registerUser(userData)).unwrap();
+      router.push("/login");
+    } catch (err) {
+      alert(err.message || "Registration failed. Please try again.");
+    }
   };
 
   const formVariants = {
@@ -33,10 +84,7 @@ export default function SignupPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-green-600/20 to-transparent opacity-40 animate-gradient-x"></div>
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80"></div>
-      <div className="relative ">
-        <div className="absolute top-10 left-10 w-12 h-12 bg-green-400 rounded-full blur-lg opacity-50 animate-ping"></div>
-        <div className="absolute bottom-20 right-20 w-16 h-16 bg-green-500 rounded-full blur-lg opacity-30 animate-pulse"></div>
+      <div className="relative">
         <div className="relative z-20 pt-[30px] my-8 flex flex-col items-center justify-center min-h-[80vh]">
           {/* Form Switcher */}
           <div className="flex mb-4 bg-gradient-to-r from-white/10 to-transparent backdrop-blur-sm rounded-full p-1 shadow-md relative">
@@ -79,15 +127,7 @@ export default function SignupPage() {
             <h2 className="text-4xl font-extrabold text-green-400">
               {activeForm === "buyer" ? "Join as a Buyer" : "Join as a Seller"}
             </h2>
-            <p className="text-white">
-              {activeForm === "buyer"
-                ? "Discover amazing deals and shop with ease. Create your account to get started."
-                : "Start selling your products and reach a wider audience. Create your account today."}
-            </p>
-
-            {/* Form Fields */}
-            <form className="space-y-3">
-              {/* Buyer and Seller Common Fields */}
+            <form className="space-y-3" onSubmit={handleSubmit}>
               <div className="flex gap-2 justify-between">
                 <div className="w-full">
                   <label className="block text-left text-white font-semibold mb-1">
@@ -95,6 +135,9 @@ export default function SignupPage() {
                   </label>
                   <input
                     type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
                     className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
                   />
                 </div>
@@ -104,6 +147,9 @@ export default function SignupPage() {
                   </label>
                   <input
                     type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
                     className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
                   />
                 </div>
@@ -114,7 +160,10 @@ export default function SignupPage() {
                 </label>
                 <input
                   id="email"
+                  name="email"
                   type="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
                 />
               </div>
@@ -124,7 +173,10 @@ export default function SignupPage() {
                 </label>
                 <input
                   id="password"
+                  name="password"
                   type={showPassword ? "text" : "password"}
+                  value={formData.password}
+                  onChange={handleInputChange}
                   className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
                 />
                 <button
@@ -146,7 +198,10 @@ export default function SignupPage() {
                 </label>
                 <input
                   id="confirmPassword"
+                  name="confirmPassword"
                   type={showPassword ? "text" : "password"}
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
                   className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
                 />
               </div>
@@ -160,6 +215,9 @@ export default function SignupPage() {
                     </label>
                     <input
                       type="text"
+                      name="businessName"
+                      value={formData.businessName}
+                      onChange={handleInputChange}
                       className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
                     />
                   </div>
@@ -169,6 +227,9 @@ export default function SignupPage() {
                     </label>
                     <input
                       type="text"
+                      name="phoneNumber"
+                      value={formData.phoneNumber}
+                      onChange={handleInputChange}
                       className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
                     />
                   </div>
@@ -178,6 +239,9 @@ export default function SignupPage() {
                     </label>
                     <textarea
                       rows="3"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
                       className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
                     ></textarea>
                   </div>
@@ -193,7 +257,6 @@ export default function SignupPage() {
                   : "Sign Up as Seller"}
               </button>
             </form>
-
             <div className="flex justify-end items-center text-sm text-blue-200">
               <Link href="/login" className="hover:text-blue-100">
                 Already have an account? Log in
