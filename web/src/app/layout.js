@@ -5,13 +5,13 @@ import { Provider } from "react-redux";
 import localFont from "next/font/local";
 import store from "../store/store";
 import "./globals.css";
+import Authentication from "../Components/Authentication"; // Import the Authentication component
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
-
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
@@ -60,7 +60,11 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Provider store={store}>{children}</Provider>
+        <Provider store={store}>
+          {/* <Authentication> */}
+          {children}
+          {/* </Authentication> */}
+        </Provider>
       </body>
     </html>
   );

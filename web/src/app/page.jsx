@@ -77,7 +77,7 @@ export default function Page() {
         <div className="absolute top-[-50px] right-[-50px] w-72 h-72 bg-[#f3fdf5] rounded-full blur-3xl opacity-50"></div>
         <div className="absolute bottom-[-50px] left-[-50px] w-96 h-96 bg-[#e2f9e9] rounded-full blur-3xl opacity-40"></div>
         <div className="relative z-10 w-[85%] mx-auto text-center">
-          <h2 className="text-2xl mdtext-5xl font-extrabold text-[#2c6e49] mb-4 drop-shadow-md">
+          <h2 className="text-2xl md:text-5xl font-extrabold text-[#2c6e49] mb-4 drop-shadow-md">
             Discover Our Farming Categories
           </h2>
           <p className="text-md md:text-xl text-[#4f8c69] mb-10 max-w-2xl mx-auto">

@@ -1,14 +1,32 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 import Image from "next/image";
 import ProfileImage from "../../assets/images/blank.png";
+import { logout } from "../../reducers/Auth/authSlice"; // Adjust the path to your Redux slice
 
 const Profile = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   // Toggle the dropdown visibility
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
+  };
+
+  // Logout function
+  const handleLogout = async () => {
+    try {
+      // Dispatch the logout action (if using Redux)
+      await dispatch(logout());
+
+      // Redirect to login page
+      router.push("/login");
+    } catch (err) {
+      console.error("Error during logout:", err);
+    }
   };
 
   return (
@@ -70,7 +88,10 @@ const Profile = () => {
             >
               <ul className="py-2 text-sm text-gray-700">
                 <li>
-                  <span className="block px-4 py-2 hover:bg-green-50 hover:text-green-600 cursor-pointer transition">
+                  <span
+                    onClick={handleLogout}
+                    className="block px-4 py-2 hover:bg-green-50 hover:text-green-600 cursor-pointer transition"
+                  >
                     Logout
                   </span>
                 </li>
