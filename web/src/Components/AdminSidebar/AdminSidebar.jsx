@@ -23,7 +23,7 @@ const AdminSidebar = () => {
 
   return (
     <>
-    <div className='md:hidden w-full h-[70px]'></div>
+    <div className='md:hidden w-full h-[70px] z-30'></div>
       <div className="md:hidden fixed top-4 left-4 z-50">
         <button
           onClick={toggleSidebar}
@@ -35,7 +35,7 @@ const AdminSidebar = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-screen md:w-80 bg-gradient-to-b from-green-100 to-green-300 shadow-lg  transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 z-40 h-screen md:w-80 bg-gradient-to-b from-green-100 to-green-300 shadow-lg  transform transition-transform duration-300 ${
           isSidebarVisible ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0`}
       >

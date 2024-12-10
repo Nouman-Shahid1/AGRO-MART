@@ -5,14 +5,14 @@ const Newsletter = () => {
     <div className="relative text-white pt-16 pb-24 px-6 sm:px-12 z-0">
       <div className="absolute inset-0 bg-black bg-opacity-60 bg-blend-multiply bg-[url('https://images3.alphacoders.com/211/thumb-440-211667.webp')] bg-cover bg-center"></div>
       <div className="relative z-10 max-w-3xl mx-auto text-center">
-        <h2 className="text-5xl font-extrabold mb-6 leading-snug">
+        <h2 className="text-2xl md:text-5xl  font-extrabold mb-6 leading-snug">
           Stay Connected with <br />
           <span className="text-green-400 underline decoration-green-500 decoration-4 underline-offset-4">
             Agro Mart
           </span>
         </h2>
 
-        <p className="text-lg font-light mb-10 text-gray-300">
+        <p className="text-sm md:text-lg font-light mb-10 text-gray-300">
           Join our community to receive the latest updates, exclusive deals, and
           expert insights on sustainable farming, innovative tools, and market
           trends—delivered straight to your inbox.

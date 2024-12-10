@@ -29,6 +29,7 @@ export default function Home() {
   const [filterStatus, setFilterStatus] = useState("All");
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isChatVisible, setChatVisible] = useState(false);
 
   const handleFilter = (status) => {
     setFilterStatus(status);
@@ -42,6 +43,14 @@ export default function Home() {
   const closePopup = () => {
     setSelectedOrder(null);
     setPopupVisible(false);
+  };
+
+  const openChat = () => {
+    setChatVisible(true);
+  };
+
+  const closeChat = () => {
+    setChatVisible(false);
   };
 
   const filteredOrders =
@@ -137,15 +146,8 @@ export default function Home() {
               {selectedOrder.email}
             </p>
             <p className="text-sm mb-2">
-              <span className="font-medium">Total Items:</span> 1
-            </p>
-            <p className="text-sm mb-2">
               <span className="font-medium">Total Price:</span> $
               {selectedOrder.price}
-            </p>
-            <p className="text-sm mb-2">
-              <span className="font-medium">Shipping Fee:</span> $
-              {selectedOrder.shippingFee}
             </p>
             <p className="text-sm mb-6">
               <span className="font-medium">Status:</span>{" "}
@@ -159,18 +161,44 @@ export default function Home() {
                 {selectedOrder.status}
               </span>
             </p>
-            <div className="w-full h-40 mb-6">
-              <img
-                src={selectedOrder.image}
-                alt={selectedOrder.title}
-                className="w-full h-full rounded-lg object-cover"
-              />
-            </div>
+            <button
+              className="w-full bg-lime-600 text-white py-2 rounded-lg hover:bg-lime-700 transition shadow-md mb-4"
+              onClick={openChat}
+            >
+              Do you want to chat with seller?
+            </button>
             <button
               className="w-full bg-lime-600 text-white py-2 rounded-lg hover:bg-lime-700 transition shadow-md"
               onClick={closePopup}
             >
               Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Chat Popup */}
+      {isChatVisible && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-gradient-to-br from-green-600 to-lime-500 rounded-lg shadow-2xl p-6 max-w-lg w-full text-white relative">
+            <button
+              className="absolute top-3 right-3 text-lime-100 hover:text-white"
+              onClick={closeChat}
+            >
+              Close
+            </button>
+            <h2 className="text-2xl font-bold mb-4">Chat with Seller</h2>
+            <div className="h-64 bg-green-800 rounded-md p-4 overflow-y-auto">
+              {/* Placeholder for chat messages */}
+              <p className="text-gray-300">Chat messages go here...</p>
+            </div>
+            <input
+              type="text"
+              placeholder="Type your message..."
+              className="w-full mt-4 p-3 rounded-md text-gray-800"
+            />
+            <button className="mt-2 w-full bg-lime-600 text-white py-2 rounded-lg hover:bg-lime-700 transition shadow-md">
+              Send
             </button>
           </div>
         </div>
