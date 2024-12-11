@@ -6,7 +6,7 @@ import CartCard from "../CartCard/CartCard";
 const CartSidebar = ({handleCart}) => {
 
   return (
-    <div className="fixed right-0 top-0 w-[400px] h-screen bg-green-900 text-white z-50 shadow-xl">
+    <div className="fixed right-0 top-0 w-[300px] md:w-[400px] h-screen bg-green-900 text-white z-50 shadow-xl">
       <div className="block absolute top-5 right-5 cursor-pointer" >
         <FaTimes style={{ fontSize: "25px", color: "red" }} onClick={handleCart} />
       </div>

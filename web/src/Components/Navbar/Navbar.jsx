@@ -68,6 +68,7 @@ const Navbar = () => {
                 <span className="relative z-10">{item.label}</span>
               </Link>
             ))}
+            </div>
             <div className="flex items-center gap-4 md:gap-6">
               <div className="group relative">
                 <FaUser
@@ -94,7 +95,7 @@ const Navbar = () => {
                 {/* </Link> */}
               </div>
             </div>
-          </div>
+          
 
           <div
             className="md:hidden absolute top-[50px] right-0  p-2"
