@@ -48,10 +48,10 @@ const CreateMachine = ({ showAddMachine, setShowAddMachine }) => {
         <div className="space-y-2">
           <label className="block text-sm font-semibold">Type</label>
           <select className="w-full p-3 bg-white bg-opacity-20 text-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-opacity-30 transition-all">
-            <option value="">Select type</option>
-            <option value="industrial">Industrial</option>
-            <option value="construction">Construction</option>
-            <option value="agriculture">Agriculture</option>
+            <option className="bg-green-800" value="">Select type</option>
+            <option className="bg-green-800" value="industrial">Industrial</option>
+            <option className="bg-green-800" value="construction">Construction</option>
+            <option className="bg-green-800" value="agriculture">Agriculture</option>
           </select>
         </div>
 

@@ -49,9 +49,9 @@ const CreatePesticide = ({ showAddPesticide, setShowAddPesticide }) => {
         <div className="space-y-2">
           <label className="block text-sm font-semibold">Category</label>
           <select className="w-full p-3 bg-white bg-opacity-20 text-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-opacity-30 transition-all">
-            <option value="">Select category</option>
-            <option value="organic">Organic</option>
-            <option value="chemical">Chemical</option>
+            <option className="bg-green-800" value="">Select category</option>
+            <option className="bg-green-800" value="organic">Organic</option>
+            <option className="bg-green-800" value="chemical">Chemical</option>
           </select>
         </div>
 

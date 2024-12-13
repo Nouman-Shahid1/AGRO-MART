@@ -8,14 +8,16 @@ import CreateMachine from "../CreateMachine/CreateMachine";
 import CreateSeed from "../CreateSeed/CreateSeed";
 import CreateCrop from "../CreateCrops/CreateCrops";
 import CreatePesticide from "../CreatePesticides/CreatePesticides";
+import CreateCategory from "../CreateCategory/CreateCategory";
 
-const ProductTable = ({ name, product, machine, seed, crop, pesticide }) => {
+const ProductTable = ({ name, product, machine, seed, crop, pesticide,category }) => {
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddMachine, setShowAddMachine] = useState(false);
   const [showAddSeed, setShowAddSeed] = useState(false);
   const [showAddCrop, setShowAddCrop] = useState(false);
   const [showAddPesticide, setShowAddPesticide] = useState(false);
+  const [showAddCategory, setShowAddCategory] = useState(false);
 
   const handleAddProduct = () => setShowAddProduct(true);
   const handleDelete = () => setShowDeleteModal(true);
@@ -23,6 +25,7 @@ const ProductTable = ({ name, product, machine, seed, crop, pesticide }) => {
   const handleAddSeed = () => setShowAddSeed(true);
   const handleAddCrop = () => setShowAddCrop(true);
   const handleAddPesticide = () => setShowAddPesticide(true);
+  const handleAddCategory =() => setShowAddCategory(true)
 
   return (
     <div className="p-6">
@@ -44,7 +47,10 @@ const ProductTable = ({ name, product, machine, seed, crop, pesticide }) => {
                 ? handleAddCrop
                 : pesticide
                 ? handleAddPesticide
+                : category
+                ? handleAddCategory
                 : handleAddProduct
+                
             }
           >
             <FaPlusCircle />
@@ -54,6 +60,7 @@ const ProductTable = ({ name, product, machine, seed, crop, pesticide }) => {
               {crop && "Add New Crop"}
               {pesticide && "Add New Pesticide"}
               {product && "Add New Product"}
+              {category && "Add New Category"}
             </span>
           </button>
 
@@ -79,7 +86,11 @@ const ProductTable = ({ name, product, machine, seed, crop, pesticide }) => {
             <tr>
               <th className="py-4 px-6 text-center font-semibold">Icon</th>
               <th className="py-4 px-6 text-left font-semibold">Title</th>
+              {
+                !category?
               <th className="py-4 px-6 text-left font-semibold">Description</th>
+              :null
+              }
               <th className="py-4 px-6 text-left font-semibold">Category</th>
               <th className="py-4 px-6 text-center font-semibold">Actions</th>
             </tr>
@@ -109,11 +120,13 @@ const ProductTable = ({ name, product, machine, seed, crop, pesticide }) => {
                   <td className="py-4 px-6 font-medium text-gray-800">
                     Sample Title
                   </td>
-
-                  {/* Description */}
+                  {
+                    !category?
                   <td className="py-4 px-6 text-gray-600">
                     This is a brief description of the item.
                   </td>
+                  :null
+                  }
 
                   {/* Category */}
                   <td className="py-4 px-6 text-gray-600">Sample Category</td>
@@ -133,6 +146,8 @@ const ProductTable = ({ name, product, machine, seed, crop, pesticide }) => {
                             ? handleAddCrop
                             : pesticide
                             ? handleAddPesticide
+                            : category
+                            ? handleAddCategory
                             : handleAddProduct
                         }
                       >
@@ -159,6 +174,12 @@ const ProductTable = ({ name, product, machine, seed, crop, pesticide }) => {
         <CreateMachine
           showAddMachine={showAddMachine}
           setShowAddMachine={setShowAddMachine}
+        />
+      )}
+      {category && (
+        <CreateCategory
+          showAddCategory={showAddCategory}
+          setShowAddCategory={setShowAddCategory}
         />
       )}
       {seed && (

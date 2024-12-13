@@ -75,8 +75,9 @@ const productSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(createProduct.fulfilled, (state) => {
+            .addCase(createProduct.fulfilled, (state,action) => {
                 state.loading = false;
+                state.products=action.payload
                 state.error = null;
             })
             .addCase(createProduct.rejected, (state, action) => {
@@ -129,3 +130,5 @@ const productSlice = createSlice({
 
     }
 })
+
+export default productSlice;
