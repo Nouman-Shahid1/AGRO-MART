@@ -59,6 +59,19 @@ func CreateTable() {
         log.Fatal("Could not create seller_description table:", err)
     }
 
+	createProductCategoriesTable := `
+	CREATE TABLE IF NOT EXISTS productscategories(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    imagepath TEXT NOT NULL
+)
+`
+_, err = DB.Exec(createProductCategoriesTable)
+if err != nil {
+    log.Fatal("Could not create products table:", err)
+}
+
 	createProductsTable := `
 CREATE TABLE IF NOT EXISTS products(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -66,7 +79,9 @@ CREATE TABLE IF NOT EXISTS products(
     description TEXT NOT NULL,
     imagepath TEXT NOT NULL,
 	user_id INTEGER NOT NULL,
-	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+	category_id INTEGER NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+	FOREIGN KEY (category_id) REFERENCES productscategories(id) 
 )
 `
 _, err = DB.Exec(createProductsTable)

@@ -27,6 +27,12 @@ func createProduct(context *gin.Context) {
         context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid user_id"})
         return
     }
+	categoryId, err := strconv.ParseInt(context.PostForm("category_id"), 10, 64)
+	
+	if err != nil {
+        context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid category_id"})
+        return
+    }
 	file, err := context.FormFile("image")
 	if err != nil {
         context.JSON(http.StatusBadRequest, gin.H{"message": "Image upload failed"})
@@ -44,6 +50,7 @@ func createProduct(context *gin.Context) {
 		Description: description,
 		ImagePath: filePath,
 		UserID: userId,
+		Category_id: categoryId ,
 	}
 
 	err = product.Save()
