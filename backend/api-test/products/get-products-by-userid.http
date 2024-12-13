@@ -1,2 +1,2 @@
-GET http://localhost:8080/products/get-Product/2
+GET http://localhost:8080/products/get-Product/1
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpvcnhAdGVzdC5jb20iLCJleHAiOjE3MzI5Njk1MjUsInVzZXJJZCI6Mn0.vNJjG3e5iZ8a_VYrFa1SOLrQ3Fx77i1CITPdfB-HR1o

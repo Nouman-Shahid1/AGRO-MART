@@ -12,6 +12,7 @@ type Product struct{
 	Description string `json:"description"`
 	ImagePath string `json:"imagepath"`
 	UserID int64 `json:"userId"`
+	Category_id int64 `json:"categoryId"`
 }
 
 func GetAllProducts() ([]Product, error){
@@ -24,7 +25,7 @@ func GetAllProducts() ([]Product, error){
 	var products []Product
 	for rows.Next(){
 		var product Product
-		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID)
+		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, &product.Category_id)
 		if err != nil{
 			log.Printf("Error scanning rows: %v\n", err)
 			return nil, err
@@ -37,14 +38,14 @@ func GetAllProducts() ([]Product, error){
 
 
 func (u *Product) Save() error {
-	query := "INSERT INTO products(name, description, imagepath, user_id) VALUES(?,?,?,?)"
+	query := "INSERT INTO products(name, description, imagepath, user_id, category_id) VALUES(?,?,?,?,?)"
 	stmt, err := db.DB.Prepare(query)
 	if err != nil {
 		log.Printf("Error preparing while saving product query: %v\n", err)
 	}
 
 	defer stmt.Close()
-	result, err := stmt.Exec(u.Name, u.Description, u.ImagePath, u.UserID)
+	result, err := stmt.Exec(u.Name, u.Description, u.ImagePath, u.UserID, u.Category_id)
 	
 	if err != nil {
 		log.Printf("Error executing save product query: %v\n", err)
@@ -58,7 +59,7 @@ func GetProductByID(id int64) (*Product, error){
 	query := "SELECT * FROM products WHERE id = ?"
 	row := db.DB.QueryRow(query, id)
 	var product Product
-	err := row.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID)
+	err := row.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, &product.Category_id)
 	if err != nil {
 		return nil, err
 	}
@@ -84,6 +85,10 @@ func (product Product) UpdateProduct() error {
 	if product.UserID != 0 {
 		query += "user_id = ?, "
 		params = append(params, product.ImagePath )
+	}
+	if product.Category_id != 0 {
+		query += "category_id = ?, "
+		params = append(params, product.ImagePath)
 	}
 
 
@@ -123,7 +128,7 @@ func GetProductsbyUserID(id int64) ([]Product, error){
 	var products []Product
 	for rows.Next(){
 		var product Product
-		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID)
+		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, product.Category_id)
 		if err != nil{
 			log.Printf("Error scanning rows: %v\n", err)
 			return nil, err
@@ -145,7 +150,7 @@ func GetProductsbySearch(search string) ([]Product, error){
 	var products []Product
 	for rows.Next(){
 		var product Product
-		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID)
+		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, product.Category_id)
 		if err != nil{
 			log.Printf("Error scanning rows for searchbar: %v\n", err)
 			return nil, err

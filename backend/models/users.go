@@ -38,7 +38,7 @@ func GetAllUsers() ([]User, error){
 }
 
 func (u *User) Save() error {
-	query := "INSERT INTO users(email, password, username) VALUES(?,?,?)"
+	query := "INSERT INTO users(email, password, username, role) VALUES(?,?,?,?)"
 	stmt, err := db.DB.Prepare(query)
 	if err != nil {
 		log.Printf("Error preparing while saving user query: %v\n", err)
@@ -48,7 +48,7 @@ func (u *User) Save() error {
 		log.Printf("Error hashing the pasword %v\n", err)
 	}
 	defer stmt.Close()
-	result, err := stmt.Exec(u.Email, hashedpass, u.Username)
+	result, err := stmt.Exec(u.Email, hashedpass, u.Username, u.Role)
 	if err != nil {
 		log.Printf("Error executing save user query: %v\n", err)
 	}
