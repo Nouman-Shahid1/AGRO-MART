@@ -1,38 +1,51 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateUser } from "../../reducers/Auth/authSlice";
+import { updateUser, registerUser } from "../../reducers/Auth/authSlice";
 
 const UserModal = ({ showModal, setShowModal, user }) => {
   const dispatch = useDispatch();
   const [role, setRole] = useState(user?.role || "Buyer");
+  const [email, setEmail] = useState(""); // For new user creation
+  const [password, setPassword] = useState(""); // For new user creation
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // Set initial role when modal is opened for updating user
     if (user) {
       setRole(user.role || "Buyer");
+    } else {
+      setRole("Buyer");
+      setEmail("");
+      setPassword("");
     }
   }, [user]);
 
   const handleRoleChange = (e) => {
     setRole(e.target.value);
-    setError(""); // Clear error when role changes
+    setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Dispatch update user action with only role information
-      await dispatch(
-        updateUser({ userId: user.ID, userData: { role } })
-      ).unwrap();
+      if (user) {
+        // Update existing user role
+        await dispatch(
+          updateUser({ userId: user.ID, userData: { role } })
+        ).unwrap();
+      } else {
+        // Create new user
+        if (!email || !password) {
+          throw new Error("Email and password are required.");
+        }
+        await dispatch(registerUser({ email, password, role })).unwrap();
+      }
       setShowModal(false);
     } catch (err) {
-      console.error("Error updating user role:", err);
-      setError("Failed to update role. Please try again.");
+      console.error("Error:", err);
+      setError(err.message || "An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -48,7 +61,7 @@ const UserModal = ({ showModal, setShowModal, user }) => {
       <form
         onSubmit={handleSubmit}
         className="relative max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 space-y-6 animate-fade-in"
-        aria-label="Update User Role Form"
+        aria-label={user ? "Update User Role Form" : "Create User Form"}
       >
         <button
           type="button"
@@ -58,9 +71,37 @@ const UserModal = ({ showModal, setShowModal, user }) => {
           X
         </button>
 
-        <h2 className="text-2xl font-bold text-center">Update User Role</h2>
+        <h2 className="text-2xl font-bold text-center">
+          {user ? "Update User Role" : "Create New User"}
+        </h2>
 
         {error && <p className="text-red-500 text-center">{error}</p>}
+
+        {!user && (
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-3 bg-gray-100 rounded-lg border border-gray-300 outline-none focus:ring-2 focus:ring-green-500"
+              required
+            />
+          </div>
+        )}
+
+        {!user && (
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 bg-gray-100 rounded-lg border border-gray-300 outline-none focus:ring-2 focus:ring-green-500"
+              required
+            />
+          </div>
+        )}
 
         <div className="space-y-2">
           <label className="block text-sm font-semibold">Role</label>
@@ -86,7 +127,7 @@ const UserModal = ({ showModal, setShowModal, user }) => {
             } focus:ring-4 focus:ring-green-500 transition-all`}
             disabled={loading}
           >
-            {loading ? "Processing..." : "Update Role"}
+            {loading ? "Processing..." : user ? "Update Role" : "Create User"}
           </button>
         </div>
       </form>
