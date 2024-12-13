@@ -10,8 +10,8 @@ const AdminDashboardCard = ({ details = {} }) => {
         <div className="block p-6 rounded-lg hover:bg-green-700 transition-all duration-200">
           <div className="flex justify-between items-center space-x-2">
             <div className='w-[70%]'>
-              <h3 className="text-3xl font-semibold text-green-200 mb-2">{name}</h3>
-              <p className="text-white ">
+              <h3 className="text-xl sm:text-3xl font-semibold text-green-200 mb-2">{name}</h3>
+              <p className="text-white text-md md:text-lg">
                 A quick overview of agricultural data and operations. Click to learn more.
               </p>
             </div>

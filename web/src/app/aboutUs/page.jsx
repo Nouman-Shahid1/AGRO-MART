@@ -108,7 +108,7 @@ const AboutUs = () => {
 
         {/* Navbar */}
         <div className="relative z-30">
-          <Navbar />
+          <Navbar  />
         </div>
 
         {/* Hero Content */}

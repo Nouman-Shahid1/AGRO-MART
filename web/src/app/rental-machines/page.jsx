@@ -23,13 +23,14 @@ const RentalMachines = () => {
               "url('https://www.marketwatch.com/story/american-farmers-urgently-need-new-technology-to-keep-food-on-the-worlds-table-56a4798a')",
           }}
         ></div>
+        
         <div className="absolute inset-0 z-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-800/30 to-black opacity-80"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-400 via-green-800/30 to-black opacity-80"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-green-600/20 to-transparent opacity-40 animate-gradient-x"></div>
           <div className="absolute top-0 left-0 w-96 h-96 bg-green-500 rounded-full blur-3xl opacity-20 animate-bounce-slow"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-green-400 rounded-full blur-3xl opacity-20 animate-bounce-slow-reverse"></div>
         </div>
-        <div className="relative mt-32 sm:mt-48 z-20 flex flex-col items-center justify-center text-center px-6 space-y-6 sm:space-y-12">
+        <div className="relative mt-[160px] md:mt-48 sm:mt-48 z-20 flex flex-col items-center justify-center text-center px-6 space-y-6 sm:space-y-12">
           <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-green-400 animate-fade-in">
             Let's Cultivate Productivity 🌱
           </h2>

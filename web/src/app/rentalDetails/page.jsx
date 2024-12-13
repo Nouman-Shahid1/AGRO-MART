@@ -10,7 +10,7 @@ const RentalDetails = () => {
   return (
     <>
       <Navbar />
-      <div className=" text-black shadow-lg">
+      <div className=" text-black shadow-lg bg-gradient-to-tr from-green-600 via-green-200 to-green-100 pb-14">
         <div>
           <div
             style={{
@@ -28,9 +28,9 @@ const RentalDetails = () => {
             </h1>
           </div>
           {/* main sec */}
-          <div className="bg-gradient-to-tr to-slate-400 via-white  from-slate-100  p-14  text-lg font-serif leading-relaxed">
+          <div className=" bg-gradient-to-tr to-green-400 via-white  from-green-100  p-14  text-lg font-serif leading-relaxed z-20 border rounded-xl m-14">
             <div>
-              <p>
+              <p className="text-sm md:text-lg">
                 Farming and agricultural operations often require versatile,
                 high-performance equipment that delivers efficiency and
                 reliability. Whether you're planting, harvesting, or preparing
@@ -45,10 +45,10 @@ const RentalDetails = () => {
               </p>
             </div>
             <div>
-              <h1 className="text-3xl font-bold p-3 text-green-700">
+              <h1 className="text-xl md:text-3xl font-bold p-3 text-green-700">
                 About New Holland Machines
               </h1>
-              <p>
+              <p className="text-sm md:text-lg">
                 With a legacy dating back to 1895, New Holland has been a leader
                 in providing innovative and reliable agricultural and
                 construction machinery. Their equipment is built to empower
@@ -62,34 +62,34 @@ const RentalDetails = () => {
                 These dependable tools are built to handle the rigorous demands
                 of farming while maintaining top-tier performance.
               </p>
-              <h1 className="text-3xl font-bold p-3 text-green-700">
+              <h1 className="text-xl md:text-3xl font-bold p-3 text-green-700">
                 Our New Holland Equipment Rentals
               </h1>
-              <p>
+              <p className="text-sm md:text-lg">
                 {" "}
                 At <b>Agro Mart</b>, we feature a range of New Holland machinery
                 available for rent, designed to meet your agricultural needs:
               </p>
               <br />
               <ul className="list-disc pl-8">
-                <li>
+                <li className="text-sm md:text-lg">
                   <b>Tractors:</b> New Holland tractors are built for
                   versatility and power, enabling seamless field operations.
                   Whether you’re working on crop preparation, tillage, or
                   hauling, these tractors deliver unmatched performance.
                 </li>
-                <li>
+                <li className="text-sm md:text-lg">
                   <b>Harvesters:</b> Maximize efficiency during harvest season
                   with New Holland harvesters. These machines combine precision
                   and durability, ensuring you achieve optimal yields with
                   minimal effort
                 </li>
-                <li>
+                <li className="text-sm md:text-lg">
                   <b>Seeders and Planters:</b> New Holland seeders and planters
                   offer accuracy in seed placement, leading to improved crop
                   uniformity and yield potential.
                 </li>
-                <li>
+                <li className="text-sm md:text-lg">
                   <b>Precision Farming Tools:</b> Take advantage of New
                   Holland’s advanced technology to enhance farming productivity
                   through precision tools designed to minimize waste and improve
@@ -98,67 +98,73 @@ const RentalDetails = () => {
               </ul>
 
               {/* why choose us */}
-              <h1 className="text-3xl font-bold p-3 text-green-700">
+              <h1 className="text-xl md:text-3xl font-bold p-3 text-green-700">
                 Why Choose for New Holland Rentals?
               </h1>
-              <p>
+              <p className="text-sm md:text-lg">
                 When you rent from <b>Agro Mart</b>, you gain access to
                 exceptional products and services designed to support your
                 success.
               </p>
               <ul className="list-disc pl-8">
-                <li>
+                <li className="text-sm md:text-lg">
                   <b>Late-Model Equipment:</b> We provide the latest,
                   technologically advanced New Holland machines to ensure
                   superior performance
                 </li>
-                <li>
+                <li className="text-sm md:text-lg">
                   <b>Thorough Inspections:</b> Every machine is expertly
                   maintained and inspected for reliability.
                 </li>
-                <li>
+                <li className="text-sm md:text-lg">
                   <b>Flexible Rental Options:</b> Choose from daily, weekly,
                   monthly, or long-term rental agreements to suit your needs.
                 </li>
-                <li>
+                <li className="text-sm md:text-lg">
                   <b>On-Site Support:</b> We offer on-site maintenance and
                   24-hour emergency service to minimize downtime.
                 </li>
-                <li>
+                <li className="text-sm md:text-lg">
                   <b> Prompt Delivery:</b> Get your equipment delivered directly
                   to your location, ready for action.
                 </li>
               </ul>
-              <h1 className="text-3xl font-bold p-3 text-green-700">
+              <h1 className="text-xl md:text-3xl font-bold p-3 text-green-700">
                 The Benefits of Renting
               </h1>
-              <p>
+              <p className="text-sm md:text-lg">
                 Renting New Holland machines gives you the flexibility to scale
                 your operations without the financial burden of ownership.
                 Renting is a smart choice for.
               </p>
               <ul className="list-disc pl-8">
-                <li>
+                <li className="text-sm md:text-lg">
                   <b>Reducing Costs:</b> Save on maintenance, storage, and
                   upfront purchase costs
                 </li>
-                <li>
+                <li className="text-sm md:text-lg">
                   <b>Increasing Flexibility:</b> Access the equipment you need
                   only when you need it.
                 </li>
-                <li>
+                <li className="text-sm md:text-lg">
                   <b>Testing Before Buying:</b> Try out the latest New Holland
                   models before committing to a purchase.
                 </li>
               </ul>
-              <h1 className="text-3xl font-bold p-3 text-green-700">
+              <h1 className="text-xl md:text-3xl font-bold p-3 text-green-700">
                 Contact Us Today to Rent New Holland Equipment!
               </h1>
-              <p>
+              <p className="text-sm md:text-lg">
                 Explore our range of New Holland machinery and find the perfect
                 equipment for your next agricultural project. Reach out to Agro
                 Mart today and let’s cultivate success together!
               </p>
+            </div>
+          </div>
+          {/* price sec */}
+          <div>
+            <div>
+              <h1> </h1>
             </div>
           </div>
         </div>

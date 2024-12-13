@@ -15,6 +15,7 @@ import {
   FaHistory,
   FaAddressBook,
   FaCog,
+  FaComments,
   FaSeedling,
   FaCogs,
   FaUserAlt,
@@ -47,6 +48,11 @@ const Sidebar = ({ role }) => {
         path: "/seller-profile/analytics",
       },
       {
+        label: "Chats",
+        icon: <FaComments />,
+        path: "/seller-profile/chat",
+      },
+      {
         label: "Settings",
         icon: <FaTools />,
         path: "/seller-profile/settings",
@@ -69,16 +75,17 @@ const Sidebar = ({ role }) => {
         icon: <FaAddressBook />,
         path: "/buyer/saved-addresses",
       },
+      { label: "Chats", icon: <FaComments />, path: "/buyer/chats" },
       { label: "Settings", icon: <FaCog />, path: "/buyer/settings" },
     ],
-    admin: [
-      { label: "Machines", icon: <FaCogs />, path: "/admin/machines" },
-      { label: "Seeds", icon: <FaSeedling />, path: "/admin/seeds" },
-      { label: "Crops", icon: <FaWarehouse />, path: "/admin/crops" },
-      { label: "Pesticides", icon: <FaCog />, path: "/admin/pesticides" },
-      { label: "Rentals", icon: <FaTruck />, path: "/admin/rentals" },
-      { label: "Users", icon: <FaUserAlt />, path: "/admin/users" },
-    ],
+    // admin: [
+    //   { label: "Machines", icon: <FaCogs />, path: "/admin/machines" },
+    //   { label: "Seeds", icon: <FaSeedling />, path: "/admin/seeds" },
+    //   { label: "Crops", icon: <FaWarehouse />, path: "/admin/crops" },
+    //   { label: "Pesticides", icon: <FaCog />, path: "/admin/pesticides" },
+    //   { label: "Rentals", icon: <FaTruck />, path: "/admin/rentals" },
+    //   { label: "Users", icon: <FaUserAlt />, path: "/admin/users" },
+    // ],
   };
 
   // Get the menuItems based on the role

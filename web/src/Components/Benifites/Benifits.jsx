@@ -15,10 +15,10 @@ const Benefits = () => {
       <div className="absolute bottom-0 -right-32 w-80 h-80 bg-green-300 rounded-full blur-[150px] opacity-20"></div>
 
       <div className="max-w-screen-xl mx-auto text-center px-6 relative z-10">
-        <h2 className="text-5xl font-extrabold text-gray-800 mb-8 leading-snug">
+        <h2 className="text-2xl md:text-5xl font-extrabold text-gray-800 mb-8 leading-snug">
           Why Choose <span className="text-green-600">AgroMart?</span>
         </h2>
-        <p className="text-lg md:text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
+        <p className="text-md:text-lg md:text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
           Experience the best in organic farming, fresh produce, and sustainable
           practices with AgroMart. Here&rsquo;s why we&rsquo;re your trusted
           choice.
@@ -83,7 +83,7 @@ const Benefits = () => {
         <div className="mt-16">
           <Link
             href="#shop-now"
-            className="inline-block bg-gradient-to-r from-green-500 to-green-600 text-white py-4 px-12 rounded-full text-lg font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300"
+            className="inline-block bg-gradient-to-r from-green-500 to-green-600 text-white py-4 px-12 rounded-full text-sm md:text-lg font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300"
           >
             Shop Fresh Produce
           </Link>

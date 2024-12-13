@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter, usePathname } from "next/navigation";
-import { refreshToken, setToken } from "../reducers/Auth/authSlice";
+import { setToken } from "../reducers/Auth/authSlice";
 
 const Authentication = ({ children }) => {
   const [isMounted, setIsMounted] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
-  const pathname = usePathname(); // Get the current page path
+  const pathname = usePathname();
   const { accessToken } = useSelector((state) => state.auth);
+
+  // Define protected routes
+  const protectedRoutes = ["/buyer", "/seller-profile", "/admin"];
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -21,98 +24,48 @@ const Authentication = ({ children }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isMounted && !accessToken) {
-      // Redirect to login and pass the current pathname as a query parameter
+    if (isMounted && protectedRoutes.includes(pathname) && !accessToken) {
       router.push(`/login?redirect=${pathname}`);
     }
-  }, [accessToken, dispatch, isMounted, router, pathname]);
+  }, [accessToken, isMounted, pathname, router]);
 
-  if (!isMounted || !accessToken) {
+  if (!isMounted || (protectedRoutes.includes(pathname) && !accessToken)) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div
-          aria-label="Loading..."
-          role="status"
-          className="flex items-center space-x-2"
-        >
-          <svg
-            className="h-20 w-20 animate-spin stroke-gray-500"
-            viewBox="0 0 256 256"
-          >
-            <line
-              x1="128"
-              y1="32"
-              x2="128"
-              y2="64"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-            <line
-              x1="195.9"
-              y1="60.1"
-              x2="173.3"
-              y2="82.7"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-            <line
-              x1="224"
-              y1="128"
-              x2="192"
-              y2="128"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-            <line
-              x1="195.9"
-              y1="195.9"
-              x2="173.3"
-              y2="173.3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-            <line
-              x1="128"
-              y1="224"
-              x2="128"
-              y2="192"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-            <line
-              x1="60.1"
-              y1="195.9"
-              x2="82.7"
-              y2="173.3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-            <line
-              x1="32"
-              y1="128"
-              x2="64"
-              y2="128"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-            <line
-              x1="60.1"
-              y1="60.1"
-              x2="82.7"
-              y2="82.7"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-          </svg>
-          <span className="text-4xl font-medium text-gray-500">Loading...</span>
+      <div
+        className="relative flex items-center justify-center h-screen bg-cover bg-center"
+        style={{
+          backgroundImage:
+            "url('https://media.istockphoto.com/id/1296882154/vector/green-abstract-layers-background.jpg?s=612x612&w=0&k=20&c=GdVbshVWQXddCpjLdjMTpHvDK2s1C4p7BfhGtpqObEY=')", // Replace with your image path
+        }}
+      >
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+
+        <div className="relative z-10 flex flex-col items-center text-center p-8 rounded-lg">
+          {/* Rotating Leaf Animation */}
+          <div className="relative flex items-center justify-center h-32 w-32 mb-6">
+            <div className="absolute h-full w-full rounded-full border-8 border-green-400 border-t-transparent animate-spin-slow"></div>
+            <svg
+              className="h-16 w-16 text-green-300 animate-bounce"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 21c-4.418 0-8-3.582-8-8 0-2.837 1.97-6.075 4-8.586C9.642 2.034 10.79 1 12 1s2.358 1.034 4 3.414C18.03 6.925 20 10.163 20 13c0 4.418-3.582-8-8-8z"
+              />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-extrabold text-green-200">
+            Authenticating AgroMart...
+          </h1>
+          <p className="text-lg text-gray-300 mt-4">
+            Connecting you to greener pastures!
+          </p>
         </div>
       </div>
     );
