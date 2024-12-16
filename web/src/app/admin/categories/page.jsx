@@ -1,12 +1,12 @@
-import AdminProfile from '@/Components/AdminProfile/AdminProfile';
 import ProductTable from '@/Components/ProductTable/ProductTable';
+import Profile from '@/Components/ProfileCard/ProfileCard';
 import React from 'react'
 
-const Crops = () => {
+const Categories = () => {
   return (
     <div
     className="p-2 md:p-8 min-h-screen">
-    <AdminProfile/>
+   <Profile/>
     <div className='z-20'>
     <ProductTable name="Categories" category={true}/>      
 
@@ -15,4 +15,4 @@ const Crops = () => {
   )
 }
 
-export default Crops;
+export default Categories;
