@@ -86,12 +86,12 @@ const CreateRental = ({ showAddRental, setShowAddRental }) => {
             <label className="block text-sm font-semibold">Category</label>
             <select
               name="category"
-              className="w-full p-2 bg-white bg-opacity-20 text-white rounded-md border border-gray-400 outline-none focus:ring-2 focus:ring-blue-400 focus:bg-opacity-30 transition-all"
+              className="w-full p-2 bg-white bg-opacity-20 text-black rounded-md border border-gray-400 outline-none focus:ring-2 focus:ring-blue-400 focus:bg-opacity-30 transition-all"
             >
-              <option value="">Select category</option>
-              <option value="agriculture">Agriculture</option>
-              <option value="construction">Construction</option>
-              <option value="industrial">Industrial</option>
+              <option className="bg-green-800" value="">Select category</option>
+              <option className="bg-green-800" value="agriculture">Agriculture</option>
+              <option className="bg-green-800" value="construction">Construction</option>
+              <option className="bg-green-800" value="industrial">Industrial</option>
             </select>
           </div>
 

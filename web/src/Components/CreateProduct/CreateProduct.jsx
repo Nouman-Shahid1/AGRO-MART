@@ -50,11 +50,11 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct }) => {
         <div className="space-y-2">
           <label className="block text-sm font-semibold">Category</label>
           <select className="w-full p-3 bg-white bg-opacity-20 text-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-opacity-30 transition-all">
-            <option value="">Select category</option>
-            <option value="machine">Machine</option>
-            <option value="crop">Crop</option>
-            <option value="seed">Seed</option>
-            <option value="pesticide">Pesticide</option>
+            <option className="bg-green-800" value="">Select category</option>
+            <option className="bg-green-800" value="machine">Machine</option>
+            <option className="bg-green-800" value="crop">Crop</option>
+            <option className="bg-green-800" value="seed">Seed</option>
+            <option className="bg-green-800" value="pesticide">Pesticide</option>
           </select>
         </div>
 

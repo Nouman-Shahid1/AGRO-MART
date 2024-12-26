@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { FaTruck, FaCog, FaSeedling, FaCogs, FaUserAlt, FaHome, FaWarehouse, FaBars, FaTimes } from "react-icons/fa";
+import { FaTruck, FaCog, FaSeedling, FaCogs, FaUserAlt, FaHome, FaWarehouse, FaBars, FaTimes,FaThLarge } from "react-icons/fa";
 import Link from 'next/link';
 import Image from 'next/image';
 import Logo from "../../assets/images/logo.png";
@@ -13,6 +13,7 @@ const AdminSidebar = () => {
   };
 
   const menuItems = [
+    { label: "Categories", icon: <FaThLarge />, path: "/admin/categories" },
     { label: "Machines", icon: <FaCogs />, path: "/admin/machines" },
     { label: "Seeds", icon: <FaSeedling />, path: "/admin/seeds" },
     { label: "Crops", icon: <FaWarehouse />, path: "/admin/crops" },
@@ -60,7 +61,7 @@ const AdminSidebar = () => {
             {menuItems.map((item) => (
               <li key={item.path} className="group">
                 <Link href={item.path}>
-                  <div className="flex items-center gap-3 px-6 py-3 rounded-lg bg-green-400 group-hover:bg-green-400 shadow-md transition-all duration-300">
+                  <div className="flex items-center gap-3 px-6 py-2.5 rounded-lg bg-green-400 group-hover:bg-green-400 shadow-md transition-all duration-300">
                     <span className="flex items-center justify-center w-10 h-10 rounded-full bg-green-800 text-white group-hover:bg-green-600 transition-all">
                       {item.icon}
                     </span>
