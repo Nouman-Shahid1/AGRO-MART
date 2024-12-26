@@ -76,6 +76,7 @@ func updateProduct(context *gin.Context){
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to update product"})
 		return
 	}
+	
 	var updatedproduct models.Product
 	err = context.ShouldBindJSON(&updatedproduct)
 	if err != nil{

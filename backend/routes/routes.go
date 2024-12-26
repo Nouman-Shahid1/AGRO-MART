@@ -42,6 +42,8 @@ func RegisterRoutes(server *gin.Engine) {
 	categoryRoutes.Use(middleware.Authenticate)
 	{
 		categoryRoutes.POST("/new-category", createProductCategory)
-		
+		categoryRoutes.PUT("/update-category/:id", updateProductCategory)
+		categoryRoutes.DELETE("delete-category/:id", deleteProductCategory)
+		categoryRoutes.GET("/get-Category/:id", getProductCategorybyuserid)
 	}
 }

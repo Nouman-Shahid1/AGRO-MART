@@ -46,7 +46,7 @@ func login(context *gin.Context){
         context.JSON(http.StatusUnauthorized, gin.H{"message": "Couldnt authenticate user"})
         return
     }
-    token, err := utils.GenerateToken(user.Email, user.ID)
+    token, err := utils.GenerateToken(user.Username, user.ID)
     if err != nil {
         context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt generate user token"})	
     }

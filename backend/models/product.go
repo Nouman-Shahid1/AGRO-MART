@@ -84,11 +84,11 @@ func (product Product) UpdateProduct() error {
 	}
 	if product.UserID != 0 {
 		query += "user_id = ?, "
-		params = append(params, product.ImagePath )
+		params = append(params, product.UserID )
 	}
 	if product.Category_id != 0 {
 		query += "category_id = ?, "
-		params = append(params, product.ImagePath)
+		params = append(params, product.Category_id)
 	}
 
 
@@ -128,7 +128,7 @@ func GetProductsbyUserID(id int64) ([]Product, error){
 	var products []Product
 	for rows.Next(){
 		var product Product
-		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, product.Category_id)
+		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, &product.Category_id)
 		if err != nil{
 			log.Printf("Error scanning rows: %v\n", err)
 			return nil, err
@@ -150,7 +150,7 @@ func GetProductsbySearch(search string) ([]Product, error){
 	var products []Product
 	for rows.Next(){
 		var product Product
-		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, product.Category_id)
+		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, &product.Category_id)
 		if err != nil{
 			log.Printf("Error scanning rows for searchbar: %v\n", err)
 			return nil, err
