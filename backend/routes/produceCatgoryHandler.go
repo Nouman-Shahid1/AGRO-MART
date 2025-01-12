@@ -19,12 +19,13 @@ func createProductCategory(context *gin.Context) {
         return
     }
 	file, err := context.FormFile("image")
+	var filePath string
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"message": "Image upload failed"})
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Image upload failed", "error":err})
 		return
 	}
 	randomFileName := fmt.Sprintf("%d_%s", time.Now().UnixNano(), file.Filename)
-	filePath := fmt.Sprintf("static/images/%s", randomFileName)
+	filePath = fmt.Sprintf("static/images/%s", randomFileName)
 	if err := context.SaveUploadedFile(file, filePath); err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to save image"})
 		return
