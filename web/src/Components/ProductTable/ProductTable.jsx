@@ -1,75 +1,52 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { CiSearch, CiEdit } from "react-icons/ci";
 import { FaTrash, FaPlusCircle } from "react-icons/fa";
-import CreateProduct from "../CreateProduct/CreateProduct";
-import DeleteProduct from "../DeleteProduct/DeleteProduct";
-import CreateMachine from "../CreateMachine/CreateMachine";
-import CreateSeed from "../CreateSeed/CreateSeed";
-import CreateCrop from "../CreateCrops/CreateCrops";
-import CreatePesticide from "../CreatePesticides/CreatePesticides";
+import { fetchCategories } from "@/reducers/Category/categorySlice";
 import CreateCategory from "../CreateCategory/CreateCategory";
 
-const ProductTable = ({ name, product, machine, seed, crop, pesticide,category }) => {
-  const [showAddProduct, setShowAddProduct] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showAddMachine, setShowAddMachine] = useState(false);
-  const [showAddSeed, setShowAddSeed] = useState(false);
-  const [showAddCrop, setShowAddCrop] = useState(false);
-  const [showAddPesticide, setShowAddPesticide] = useState(false);
+const ProductTable = () => {
+  const dispatch = useDispatch();
+  const { categories, status } = useSelector((state) => state.category);
+  const [searchTerm, setSearchTerm] = useState("");
   const [showAddCategory, setShowAddCategory] = useState(false);
 
-  const handleAddProduct = () => setShowAddProduct(true);
-  const handleDelete = () => setShowDeleteModal(true);
-  const handleAddMachine = () => setShowAddMachine(true);
-  const handleAddSeed = () => setShowAddSeed(true);
-  const handleAddCrop = () => setShowAddCrop(true);
-  const handleAddPesticide = () => setShowAddPesticide(true);
-  const handleAddCategory =() => setShowAddCategory(true)
+  // Fetch categories on component load
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  // Filter categories based on search term
+  const filteredCategories = categories.filter((category) =>
+    category.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="p-6">
       {/* Header Section */}
       <div className="mb-6 flex flex-col lg:flex-row items-center justify-between px-6 py-8 bg-gradient-to-r from-green-500 via-lime-400 to-emerald-600 text-white rounded-3xl shadow-lg">
         <div>
-          <h3 className="text-3xl font-bold">{name} List</h3>
-          <p className="text-sm">Manage all your {name} here.</p>
+          <h3 className="text-3xl font-bold">Categories List</h3>
+          <p className="text-sm">Manage all your categories here.</p>
         </div>
         <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
           <button
             className="py-2 px-4 bg-white text-green-600 rounded-lg shadow-md hover:bg-green-100 transition duration-150 flex items-center space-x-2"
-            onClick={
-              machine
-                ? handleAddMachine
-                : seed
-                ? handleAddSeed
-                : crop
-                ? handleAddCrop
-                : pesticide
-                ? handleAddPesticide
-                : category
-                ? handleAddCategory
-                : handleAddProduct
-                
-            }
+            onClick={() => setShowAddCategory(true)}
           >
             <FaPlusCircle />
-            <span>
-              {machine && "Add New Machine"}
-              {seed && "Add New Seed"}
-              {crop && "Add New Crop"}
-              {pesticide && "Add New Pesticide"}
-              {product && "Add New Product"}
-              {category && "Add New Category"}
-            </span>
+            <span>Add New Category</span>
           </button>
 
           {/* Search Input */}
           <div className="flex items-center mt-3 md:mt-0">
             <input
               type="text"
-              placeholder={`Search ${name}`}
+              placeholder="Search categories"
               className="w-[200px] md:w-[250px] px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-r-lg">
               <CiSearch size={22} />
@@ -84,125 +61,70 @@ const ProductTable = ({ name, product, machine, seed, crop, pesticide,category }
           {/* Header */}
           <thead className="bg-gradient-to-r from-green-500 to-emerald-700 text-white">
             <tr>
-              <th className="py-4 px-6 text-center font-semibold">Icon</th>
-              <th className="py-4 px-6 text-left font-semibold">Title</th>
-              {
-                !category?
+              <th className="py-4 px-6 text-left font-semibold">Icon</th>
+              <th className="py-4 px-6 text-left font-semibold">Name</th>
               <th className="py-4 px-6 text-left font-semibold">Description</th>
-              :null
-              }
-              <th className="py-4 px-6 text-left font-semibold">Category</th>
               <th className="py-4 px-6 text-center font-semibold">Actions</th>
             </tr>
           </thead>
 
           {/* Table Body */}
           <tbody>
-            {Array(10)
-              .fill()
-              .map((_, index) => (
+            {status === "loading" ? (
+              <tr>
+                <td colSpan="4" className="text-center py-6">
+                  Loading...
+                </td>
+              </tr>
+            ) : filteredCategories.length > 0 ? (
+              filteredCategories.map((category) => (
                 <tr
-                  key={index}
-                  className={`border-b ${
-                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                  } hover:bg-green-50 transition duration-300`}
+                  key={category.id}
+                  className="border-b bg-white hover:bg-green-50 transition duration-300"
                 >
-                  {/* Icon */}
-                  <td className="py-4 px-6 text-center">
-                    <img
-                      src="/blank.png"
-                      alt="icon"
-                      className="w-10 h-10 mx-auto rounded-full shadow-lg"
-                    />
+                  <td className="py-4 px-6">
+                  <img
+  src={
+    category.imagepath
+      ? `http://localhost:8080/${category.imagepath}`
+      : "/blank.png"
+  }
+  alt={category.name}
+  className="w-10 h-10 rounded-full shadow-md"
+/>
                   </td>
-
-                  {/* Title */}
-                  <td className="py-4 px-6 font-medium text-gray-800">
-                    Sample Title
-                  </td>
-                  {
-                    !category?
-                  <td className="py-4 px-6 text-gray-600">
-                    This is a brief description of the item.
-                  </td>
-                  :null
-                  }
-
-                  {/* Category */}
-                  <td className="py-4 px-6 text-gray-600">Sample Category</td>
-
-                  {/* Actions */}
+                  <td className="py-4 px-6">{category.name}</td>
+                  <td className="py-4 px-6">{category.description}</td>
                   <td className="py-4 px-6 text-center">
                     <div className="flex justify-center items-center gap-4">
                       {/* Edit Button */}
-                      <button
-                        className="bg-green-500 text-white p-2 rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
-                        onClick={
-                          machine
-                            ? handleAddMachine
-                            : seed
-                            ? handleAddSeed
-                            : crop
-                            ? handleAddCrop
-                            : pesticide
-                            ? handleAddPesticide
-                            : category
-                            ? handleAddCategory
-                            : handleAddProduct
-                        }
-                      >
+                      <button className="bg-green-500 text-white p-2 rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300">
                         <CiEdit size={18} />
                       </button>
 
                       {/* Delete Button */}
-                      <button
-                        className="bg-red-500 text-white p-2 rounded-full shadow-lg hover:bg-red-600 hover:shadow-xl transition duration-300"
-                        onClick={handleDelete}
-                      >
+                      <button className="bg-red-500 text-white p-2 rounded-full shadow-lg hover:bg-red-600 hover:shadow-xl transition duration-300">
                         <FaTrash size={18} />
                       </button>
                     </div>
                   </td>
                 </tr>
-              ))}
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="text-center py-6">
+                  No categories found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
 
-      {/* Modals */}
-      {machine && (
-        <CreateMachine
-          showAddMachine={showAddMachine}
-          setShowAddMachine={setShowAddMachine}
-        />
-      )}
-      {category && (
-        <CreateCategory
-          showAddCategory={showAddCategory}
-          setShowAddCategory={setShowAddCategory}
-        />
-      )}
-      {seed && (
-        <CreateSeed showAddSeed={showAddSeed} setShowAddSeed={setShowAddSeed} />
-      )}
-      {crop && (
-        <CreateCrop showAddCrop={showAddCrop} setShowAddCrop={setShowAddCrop} />
-      )}
-      {pesticide && (
-        <CreatePesticide
-          showAddPesticide={showAddPesticide}
-          setShowAddPesticide={setShowAddPesticide}
-        />
-      )}
-      {product && (
-        <CreateProduct
-          showAddProduct={showAddProduct}
-          setShowAddProduct={setShowAddProduct}
-        />
-      )}
-      <DeleteProduct
-        showDeleteModal={showDeleteModal}
-        setShowDeleteModal={setShowDeleteModal}
+      {/* Add Category Modal */}
+      <CreateCategory
+        showAddCategory={showAddCategory}
+        setShowAddCategory={setShowAddCategory}
       />
     </div>
   );

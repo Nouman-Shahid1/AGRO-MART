@@ -1,15 +1,15 @@
 "use client";
 
-import { createCategory } from "@/reducers/Category/categorySlice";
+import { createCategory } from "@/reducers/Category/categorySlice"; // Redux action for creating a category
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 
 const CreateCategory = ({ showAddCategory, setShowAddCategory }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    categoryName: "",
-    type: "",
-    categoryImage: null,
+    name: "", // Matches `Name` in the backend
+    description: "", // Matches `Description` in the backend
+    image: null, // Matches `ImagePath` in the backend
   });
 
   // Handle input change
@@ -20,22 +20,28 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory }) => {
 
   // Handle file change
   const handleFileChange = (e) => {
-    setFormData((prev) => ({ ...prev, categoryImage: e.target.files[0] }));
+    setFormData((prev) => ({ ...prev, image: e.target.files[0] }));
   };
 
+  // Submit the form and dispatch the createCategory action
   const handleAddCategory = (e) => {
-    e.preventDefault(); 
-
+    e.preventDefault();
 
     const categoryData = {
-      name: formData.categoryName,
-      type: formData.type,
-      image: formData.categoryImage,
+      name: formData.name,
+      description: formData.description,
+      image: formData.image,
     };
-    dispatch(createCategory(categoryData));
 
-    setFormData({ categoryName: "", type: "", categoryImage: null });
-    setShowAddCategory(false);
+    dispatch(createCategory(categoryData))
+      .unwrap()
+      .then(() => {
+        setFormData({ name: "", description: "", image: null });
+        setShowAddCategory(false);
+      })
+      .catch((err) => {
+        console.error("Failed to create category:", err);
+      });
   };
 
   return (
@@ -60,15 +66,16 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory }) => {
           Add Category
         </h2>
 
+        {/* Name */}
         <div className="space-y-2">
-          <label htmlFor="categoryName" className="block text-sm font-semibold">
+          <label htmlFor="name" className="block text-sm font-semibold">
             Category Name
           </label>
           <input
-            id="categoryName"
-            name="categoryName"
+            id="name"
+            name="name"
             type="text"
-            value={formData.categoryName}
+            value={formData.name}
             onChange={handleInputChange}
             placeholder="Enter category name"
             className="w-full p-3 bg-white bg-opacity-20 text-white placeholder-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-green-400 focus:bg-opacity-30 transition-all"
@@ -76,34 +83,30 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory }) => {
           />
         </div>
 
-        {/* Type */}
+        {/* Description */}
         <div className="space-y-2">
-          <label htmlFor="type" className="block text-sm font-semibold">
-            Type
+          <label htmlFor="description" className="block text-sm font-semibold">
+            Description
           </label>
-          <select
-            id="type"
-            name="type"
-            value={formData.type}
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
             onChange={handleInputChange}
-            className="w-full p-3 bg-white bg-opacity-20 text-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-opacity-30 transition-all"
+            placeholder="Enter description"
+            className="w-full p-3 bg-white bg-opacity-20 text-white placeholder-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-blue-400 focus:bg-opacity-30 transition-all"
             required
-          >
-            <option className="bg-green-800" value="">Select type</option>
-            <option className="bg-green-800" value="machines">Machines</option>
-            <option className="bg-green-800" value="crops">Crops</option>
-            <option className="bg-green-800" value="seeds">Seeds</option>
-            <option className="bg-green-800" value="pesticides">Pesticides</option>
-          </select>
+          ></textarea>
         </div>
 
+        {/* Image */}
         <div className="space-y-2">
-          <label htmlFor="categoryImage" className="block text-sm font-semibold">
+          <label htmlFor="image" className="block text-sm font-semibold">
             Category Image
           </label>
           <input
-            id="categoryImage"
-            name="categoryImage"
+            id="image"
+            name="image"
             type="file"
             accept="image/*"
             onChange={handleFileChange}
@@ -112,6 +115,7 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory }) => {
           />
         </div>
 
+        {/* Submit Button */}
         <div className="text-end">
           <button
             type="submit"
@@ -124,4 +128,5 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory }) => {
     </div>
   );
 };
+
 export default CreateCategory;

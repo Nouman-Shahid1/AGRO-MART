@@ -1,25 +1,11 @@
 import axios from "axios";
-import {
-  addAccessToken,
-  handleRequestError,
-  handleResponseOK,
-  handleResponseError,
-} from "./interceptors";
+import { addAccessToken, handleRequestError, handleResponseOK, handleResponseError } from "./interceptors";
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-
-const instance = axios.create({
-  baseURL,
-  timeout: 60000,
+const axiosInstance = axios.create({
+  baseURL: "http://localhost:8080", // Replace with your API base URL
 });
 
-const secureInstance = axios.create({
-  baseURL,
-  timeout: 60000,
-});
+axiosInstance.interceptors.request.use(addAccessToken, handleRequestError);
+axiosInstance.interceptors.response.use(handleResponseOK, handleResponseError);
 
-secureInstance.interceptors.request.use(addAccessToken, handleRequestError);
-secureInstance.interceptors.response.use(handleResponseOK, handleResponseError);
-
-export default secureInstance;
-export { instance };
+export default axiosInstance;

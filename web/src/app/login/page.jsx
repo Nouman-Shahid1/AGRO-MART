@@ -39,7 +39,10 @@ export default function LoginPage() {
     try {
       const result = await dispatch(loginUser(loginData)).unwrap();
       console.log("Login successful, backend response:", result);
-
+      if (isBrowser) {
+        localStorage.setItem("access_token", token); // Save access token
+      }
+      
       // Navigate based on role
       router.push(activeForm === "buyer" ? "/buyer" : "/seller-profile");
     } catch (err) {
