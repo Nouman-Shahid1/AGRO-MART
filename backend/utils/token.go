@@ -8,9 +8,9 @@ import (
 )
 
 const secretKey = "supersecret"
-func GenerateToken(email string, userID int64) (string, error){
+func GenerateToken(userName string, userID int64) (string, error){
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"email":email,
+		"username":userName,
 		"userId":userID,
 		"exp": time.Now().Add(time.Hour * 2).Unix(),
 	})

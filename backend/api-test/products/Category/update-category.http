@@ -1,0 +1,8 @@
+PUT http://localhost:8080/category/update-category/4
+Content-type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzUyMTczNzYsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJUZXN0ZXIyIn0.61iDVwLl9b3ED0QJWDoPLbYeF-57vWLYfepWZnDKgy4
+
+{
+    "description":"machinery for farming"
+
+}

@@ -48,6 +48,7 @@ func RegisterRoutes(server *gin.Engine) {
 	categoryRoutes := server.Group("/category")
 	categoryRoutes.Use(middleware.Authenticate)
 	{
-		// Add any authenticated category routes here in the future
+		categoryRoutes.POST("/new-category", createProductCategory)
+		
 	}
 }

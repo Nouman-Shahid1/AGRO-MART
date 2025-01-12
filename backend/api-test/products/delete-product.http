@@ -1,2 +1,2 @@
-DELETE http://localhost:8080/products/delete-product/8
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpvcnhAdGVzdC5jb20iLCJleHAiOjE3MzI5NjkyODksInVzZXJJZCI6Mn0.38vJVTzrzctMET19ZwfLIwjwLUAfLFFm_-wrt-FUHfY
+DELETE http://localhost:8080/products/delete-product/2
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlckB0ZXN0LmNvbSIsImV4cCI6MTczNTIxMDU1NiwidXNlcklkIjoxfQ.7Pb9_hrIo978EpAnMsUgdRy72wHhPmjgB2jBfsx_u4I

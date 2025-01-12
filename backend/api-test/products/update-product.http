@@ -1,10 +1,11 @@
-PUT http://localhost:8080/products/update-product/10
+PUT http://localhost:8080/products/update-product/1
 Content-type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpvcnhAdGVzdC5jb20iLCJleHAiOjE3MzI5Njk1MjUsInVzZXJJZCI6Mn0.vNJjG3e5iZ8a_VYrFa1SOLrQ3Fx77i1CITPdfB-HR1o
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlckB0ZXN0LmNvbSIsImV4cCI6MTczNTIxMzEzMiwidXNlcklkIjoxfQ.MyS8EBudzbEGZR4dlWXJLAWHKkLawngM1xs9tVWWLOQ
 
 {
-    "name":"mordsadx",
-    "description": "moshsi sadsvent", 
-    "imagepath" : "new location",
-    "userId" : 0
+    "name":"",
+    "description": "", 
+    "imagepath" : "xc",
+    "userId" : 0,
+    "categoryId" : 0
 }

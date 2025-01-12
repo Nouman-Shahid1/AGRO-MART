@@ -1,5 +1,6 @@
 curl.exe -X POST http://localhost:8080/category/new-category `
--H "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlckB0ZXN0LmNvbSIsImV4cCI6MTczNDExMTg4MiwidXNlcklkIjoxfQ.IsxzQa0ewz89O2e8AijL8FAKUoTCOro1DbErJiVX48s" `
--F "name=random seed" `
--F "description=SOme sunflower seeds" `
--F "image=@C:/Users/Administrator/Pictures/task.jpg"
+-H "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzUyMTczNzYsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJUZXN0ZXIyIn0.61iDVwLl9b3ED0QJWDoPLbYeF-57vWLYfepWZnDKgy4" `
+-F "name=random seeddss" `
+-F "description=SOme sunflower seedssdsdsd" `
+-F "image=@C:/Users/Administrator/Pictures/task.jpg"`
+-F "user_id=1" 

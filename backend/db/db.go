@@ -64,7 +64,9 @@ func CreateTable() {
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
-    imagepath TEXT NOT NULL
+    imagepath TEXT NOT NULL,
+	user_id INTEGER NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 )
 `
 _, err = DB.Exec(createProductCategoriesTable)

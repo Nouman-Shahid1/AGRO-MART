@@ -86,8 +86,6 @@ const ProductTable = () => {
                   <img
   src={
     category.imagepath
-      ? `http://localhost:8080/${category.imagepath}`
-      : "/blank.png"
   }
   alt={category.name}
   className="w-10 h-10 rounded-full shadow-md"
