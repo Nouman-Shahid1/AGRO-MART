@@ -64,7 +64,7 @@ func updateProductCategory(context *gin.Context){
 	userId := context.GetInt64("userId")
 	productcategory, err := models.GetProductCategoryByID(id)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category"})
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category", "error": err})
 	}
 	if productcategory.UserID != userId {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to update product category"})

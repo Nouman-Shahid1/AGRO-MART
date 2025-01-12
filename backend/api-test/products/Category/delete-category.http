@@ -1,2 +1,2 @@
-DELETE http://localhost:8080/category/delete-category/4
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzUyMTczNzYsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJUZXN0ZXIyIn0.61iDVwLl9b3ED0QJWDoPLbYeF-57vWLYfepWZnDKgy4
+DELETE http://localhost:8080/category/delete-category/6
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY3MTMxMjcsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJUZXN0ZXIyIn0.tfBX_H1hIjTpvNFMPOwQEWWrZmnQNWMLoMLKZMvEA90
