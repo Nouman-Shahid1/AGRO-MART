@@ -1,5 +1,4 @@
 curl.exe -X POST http://localhost:8080/category/new-category `
--H "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY3MTMxMjcsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJUZXN0ZXIyIn0.tfBX_H1hIjTpvNFMPOwQEWWrZmnQNWMLoMLKZMvEA90" `
 -F "name=random seeddss" `
 -F "description=SOme sunflower seedssdsdsd" `
 -F "image=@C:/Users/Administrator/Pictures/task.jpg"`

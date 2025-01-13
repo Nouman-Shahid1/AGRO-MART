@@ -97,11 +97,11 @@ func (user User) UpdateUser() error {
 }
 
 func (u *User) ValidateCredential() error {
-	query := "SELECT id, username, password FROM users WHERE email = ?"
+	query := "SELECT id, username, password, role FROM users WHERE email = ?"
 	row := db.DB.QueryRow(query, u.Email)
 
 	var retrievedPassword string
-	err := row.Scan(&u.ID, &u.Username, &retrievedPassword)
+	err := row.Scan(&u.ID, &u.Username, &retrievedPassword, &u.Role)
 	if err != nil {
 		log.Printf("error while retrieving password from database")
 	}
