@@ -61,15 +61,15 @@ func updateProductCategory(context *gin.Context){
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category id"})
 	}
-	userId := context.GetInt64("userId")
-	productcategory, err := models.GetProductCategoryByID(id)
-	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category", "error": err})
-	}
-	if productcategory.UserID != userId {
-		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to update product category"})
-		return
-	}
+	// userId := context.GetInt64("userId")
+	// productcategory, err := models.GetProductCategoryByID(id)
+	// if err != nil {
+	// 	context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category", "error": err})
+	// }
+	// if productcategory.UserID != userId {
+	// 	context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to update product category"})
+	// 	return
+	// }
 	var updatedproductcategory models.ProductCategory
 	err = context.ShouldBindJSON(&updatedproductcategory)
 	if err != nil{
@@ -90,18 +90,18 @@ func deleteProductCategory(context *gin.Context){
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category id"})
 	}
-	userId := context.GetInt64("userId")
-	productcategory, err := models.GetProductCategoryByID(id)
-	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category"})
-	}
-	if productcategory.UserID != userId {
-		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to delete product category"})
-		return
-	}
+	// userId := context.GetInt64("userId")
+    productcategory, err := models.GetProductCategoryByID(id)
+	// if err != nil {
+	// 	context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category"})
+	// }
+	// if productcategory.UserID != userId {
+	// 	context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to delete product category"})
+	// 	return
+	// }
 	err = productcategory.DeleteProductCategory()
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category"})
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category", "error": err.Error()})
 		return
 	}
 	context.JSON(http.StatusOK, gin.H{"message": "Product category deleted"})
