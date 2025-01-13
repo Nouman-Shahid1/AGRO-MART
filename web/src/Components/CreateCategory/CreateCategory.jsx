@@ -10,6 +10,7 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory }) => {
     name: "", // Matches `Name` in the backend
     description: "", // Matches `Description` in the backend
     image: null, // Matches `ImagePath` in the backend
+    user_id: 1, // Static user_id (replace with dynamic value if needed)
   });
 
   // Handle input change
@@ -31,12 +32,15 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory }) => {
       name: formData.name,
       description: formData.description,
       image: formData.image,
+      user_id: formData.user_id,
     };
+
+    console.log("Category Data Sent to Backend:", categoryData);
 
     dispatch(createCategory(categoryData))
       .unwrap()
       .then(() => {
-        setFormData({ name: "", description: "", image: null });
+        setFormData({ name: "", description: "", image: null, user_id: 1 });
         setShowAddCategory(false);
       })
       .catch((err) => {
