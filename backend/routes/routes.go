@@ -39,7 +39,7 @@ func RegisterRoutes(server *gin.Engine) {
 	authenticated.GET("/get-Product/:id", getProductsbyuserid)
 
 	categoryRoutes := server.Group("/category")
-	categoryRoutes.Use(middleware.Authenticate)
+	//categoryRoutes.Use(middleware.Authenticate)
 	{
 		categoryRoutes.POST("/new-category", createProductCategory)
 		categoryRoutes.PUT("/update-category/:id", updateProductCategory)
