@@ -85,7 +85,7 @@ const ProductTable = () => {
                   <td className="py-4 px-6">
                   <img
   src={
-    `../../../../backend/${category.imagepath}`
+    `http://localhost:8080/${category.imagepath}`
   }
   alt={category.name}
   className="w-10 h-10 rounded-full shadow-md"
