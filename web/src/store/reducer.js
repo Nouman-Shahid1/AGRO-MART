@@ -1,6 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import authReducer from "../reducers/Auth/authSlice";
-import productSlice from "@/reducers/Product/productSlice";
+import productSlice from "@/reducers/product/productSlice";
 import categorySlice from "@/reducers/Category/categorySlice";
 
 
