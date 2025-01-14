@@ -61,19 +61,21 @@ func updateProductCategory(context *gin.Context){
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category id"})
 	}
-	// userId := context.GetInt64("userId")
-	// productcategory, err := models.GetProductCategoryByID(id)
-	// if err != nil {
-	// 	context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category", "error": err})
-	// }
-	// if productcategory.UserID != userId {
-	// 	context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to update product category"})
-	// 	return
-	// }
 	var updatedproductcategory models.ProductCategory
-	err = context.ShouldBindJSON(&updatedproductcategory)
-	if err != nil{
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt bind json to product"})
+	updatedproductcategory.Name = context.PostForm("name")	
+	updatedproductcategory.Description = context.PostForm("description")
+
+	file, err := context.FormFile("image")
+	if err == nil {
+		randomFileName := fmt.Sprintf("%d_%s", time.Now().UnixNano(), file.Filename)
+		filePath := fmt.Sprintf("static/images/%s", randomFileName)
+		if err := context.SaveUploadedFile(file, filePath); err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to save image"})
+			return
+		}
+		updatedproductcategory.ImagePath = filePath
+	} else {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt handle image"})
 		return
 	}
 	updatedproductcategory.ID = id
