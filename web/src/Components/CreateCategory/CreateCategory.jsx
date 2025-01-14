@@ -1,18 +1,22 @@
 "use client";
 
 import { createCategory, updateCategory } from "@/reducers/Category/categorySlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 
 const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }) => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth); // Get user from auth state
+  const { loading, error } = useSelector((state) => state.category);
 
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     image: null,
-    user_id: 1, // Static user_id (replace with dynamic value if needed)
+    userId: user?.userId || null, // Use userId from Redux state
   });
+
+  const [preview, setPreview] = useState(null);
 
   // Load initialCategory data into form when editing
   useEffect(() => {
@@ -20,13 +24,20 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }
       setFormData({
         name: initialCategory.name,
         description: initialCategory.description,
-        image: null, // Keep it empty, the backend retains the old image if no new one is provided
-        user_id: initialCategory.user_id,
+        image: null, // No file preload
+        userId: user?.userId || null, // Retain userId
       });
+      setPreview(initialCategory.imagePath || null); // Show existing image as preview
     } else {
-      setFormData({ name: "", description: "", image: null, user_id: 1 });
+      setFormData({
+        name: "",
+        description: "",
+        image: null,
+        userId: user?.userId || null,
+      });
+      setPreview(null);
     }
-  }, [initialCategory]);
+  }, [initialCategory, user]);
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -36,58 +47,64 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }
 
   // Handle file change
   const handleFileChange = (e) => {
-    setFormData((prev) => ({ ...prev, image: e.target.files[0] }));
+    const file = e.target.files[0];
+    if (file && !file.type.startsWith("image/")) {
+      alert("Please upload a valid image file.");
+      return;
+    }
+    setFormData((prev) => ({ ...prev, image: file }));
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      setPreview(objectUrl);
+    }
   };
 
-  // Submit the form and dispatch the appropriate action
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    const categoryData = {
-      name: formData.name,
-      description: formData.description,
-      user_id: formData.user_id,
-    };
-  
-    // Check if there's a new image to upload
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("user_id", formData.userId);
+
     if (formData.image) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        categoryData.image = reader.result; // Base64-encoded image
-        submitData(categoryData);
-      };
-      reader.readAsDataURL(formData.image);
-    } else {
-      submitData(categoryData);
+      formDataToSend.append("image", formData.image);
+    } else if (initialCategory?.imagePath) {
+      formDataToSend.append("existingImage", initialCategory.imagePath);
     }
+
+    const action = initialCategory
+      ? updateCategory({ id: initialCategory.id, categoryData: formDataToSend })
+      : createCategory(formDataToSend);
+
+    dispatch(action)
+      .unwrap()
+      .then(() => {
+        alert(
+          initialCategory
+            ? "Category updated successfully!"
+            : "Category created successfully!"
+        );
+        resetForm();
+      })
+      .catch((err) => {
+        console.error("Error during category submission:", err);
+        alert(`Error: ${err?.message || "An unexpected error occurred."}`);
+      });
   };
-  
-  const submitData = (categoryData) => {
-    if (initialCategory) {
-      dispatch(updateCategory({ id: initialCategory.id, categoryData }))
-        .unwrap()
-        .then(() => {
-          alert("Category updated successfully!");
-          setFormData({ name: "", description: "", image: null, user_id: 1 });
-          setShowAddCategory(false);
-        })
-        .catch((err) => {
-          console.error("Failed to update category:", err);
-        });
-    } else {
-      dispatch(createCategory(categoryData))
-        .unwrap()
-        .then(() => {
-          alert("Category created successfully!");
-          setFormData({ name: "", description: "", image: null, user_id: 1 });
-          setShowAddCategory(false);
-        })
-        .catch((err) => {
-          console.error("Failed to create category:", err);
-        });
-    }
+
+  // Reset form and close modal
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      description: "",
+      image: null,
+      userId: user?.userId || null,
+    });
+    setPreview(null);
+    setShowAddCategory(false);
   };
-  
 
   return (
     <div
@@ -111,7 +128,6 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }
           {initialCategory ? "Edit Category" : "Add Category"}
         </h2>
 
-        {/* Name */}
         <div className="space-y-2">
           <label htmlFor="name" className="block text-sm font-semibold">
             Category Name
@@ -128,7 +144,6 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }
           />
         </div>
 
-        {/* Description */}
         <div className="space-y-2">
           <label htmlFor="description" className="block text-sm font-semibold">
             Description
@@ -144,7 +159,6 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }
           ></textarea>
         </div>
 
-        {/* Image */}
         <div className="space-y-2">
           <label htmlFor="image" className="block text-sm font-semibold">
             Category Image
@@ -157,17 +171,34 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }
             onChange={handleFileChange}
             className="w-full p-3 bg-white bg-opacity-20 text-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-pink-400 focus:bg-opacity-30 transition-all"
           />
+          {preview && (
+            <img
+              src={preview}
+              alt="Preview"
+              className="w-full h-40 object-cover rounded-lg"
+            />
+          )}
         </div>
 
-        {/* Submit Button */}
         <div className="text-end">
           <button
             type="submit"
             className="px-8 py-3 text-lg font-bold text-white rounded-lg bg-green-500 shadow-lg hover:shadow-xl hover:bg-green-600 focus:ring-4 focus:ring-green-500 transition-all"
+            disabled={loading}
           >
-            {initialCategory ? "Update Category" : "Add Category"}
+            {loading
+              ? "Processing..."
+              : initialCategory
+              ? "Update Category"
+              : "Add Category"}
           </button>
         </div>
+
+        {error && (
+          <p className="text-red-500 text-center mt-4">
+            {typeof error === "string" ? error : error?.message || "Something went wrong."}
+          </p>
+        )}
       </form>
     </div>
   );

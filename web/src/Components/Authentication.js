@@ -8,11 +8,12 @@ const Authentication = ({ children }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
-  const { accessToken } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   // Define protected routes
   const protectedRoutes = ["/buyer", "/seller-profile", "/admin"];
 
+  // Check for token and set it in Redux store
   useEffect(() => {
     if (typeof window !== "undefined") {
       setIsMounted(true);
@@ -23,19 +24,21 @@ const Authentication = ({ children }) => {
     }
   }, [dispatch]);
 
+  // Redirect if accessing protected routes without a token
   useEffect(() => {
-    if (isMounted && protectedRoutes.includes(pathname) && !accessToken) {
+    if (isMounted && protectedRoutes.includes(pathname) && !token) {
       router.push(`/login?redirect=${pathname}`);
     }
-  }, [accessToken, isMounted, pathname, router]);
+  }, [token, isMounted, pathname, router]);
 
-  if (!isMounted || (protectedRoutes.includes(pathname) && !accessToken)) {
+  // Render loading screen while authenticating or when accessing protected routes without a token
+  if (!isMounted || (protectedRoutes.includes(pathname) && !token)) {
     return (
       <div
         className="relative flex items-center justify-center h-screen bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('https://media.istockphoto.com/id/1296882154/vector/green-abstract-layers-background.jpg?s=612x612&w=0&k=20&c=GdVbshVWQXddCpjLdjMTpHvDK2s1C4p7BfhGtpqObEY=')", // Replace with your image path
+            "url('https://media.istockphoto.com/id/1296882154/vector/green-abstract-layers-background.jpg?s=612x612&w=0&k=20&c=GdVbshVWQXddCpjLdjMTpHvDK2s1C4p7BfhGtpqObEY=')",
         }}
       >
         {/* Dark Overlay */}
@@ -71,7 +74,8 @@ const Authentication = ({ children }) => {
     );
   }
 
-  return children;
+  // Render children once authentication is confirmed
+  return <>{children}</>;
 };
 
 export default Authentication;

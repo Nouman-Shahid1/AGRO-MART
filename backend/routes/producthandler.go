@@ -10,13 +10,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func getProducts(context *gin.Context){
-    products, err := models.GetAllProducts()
-    if err != nil{
-        context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch products", "error":err.Error()})
-        return
-    }
-    context.JSON(http.StatusOK, products) 
+func getProducts(context *gin.Context) {
+	products, err := models.GetAllProducts()
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch products", "error": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, products)
 }
 
 func createProduct(context *gin.Context) {
@@ -24,33 +24,33 @@ func createProduct(context *gin.Context) {
 	description := context.PostForm("description")
 	userId, err := strconv.ParseInt(context.PostForm("user_id"), 10, 64)
 	if err != nil {
-        context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid user_id"})
-        return
-    }
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid user_id"})
+		return
+	}
 	categoryId, err := strconv.ParseInt(context.PostForm("category_id"), 10, 64)
-	
+
 	if err != nil {
-        context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid category_id"})
-        return
-    }
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid category_id"})
+		return
+	}
 	file, err := context.FormFile("image")
 	if err != nil {
-        context.JSON(http.StatusBadRequest, gin.H{"message": "Image upload failed"})
-        return
-    }
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Image upload failed"})
+		return
+	}
 	randomFileName := fmt.Sprintf("%d_%s", time.Now().UnixNano(), file.Filename)
 	filePath := fmt.Sprintf("static/images/%s", randomFileName)
 	if err := context.SaveUploadedFile(file, filePath); err != nil {
-        context.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to save image"})
-        return
-    }
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to save image"})
+		return
+	}
 
 	product := models.Product{
-		Name: name,
+		Name:        name,
 		Description: description,
-		ImagePath: filePath,
-		UserID: userId,
-		Category_id: categoryId ,
+		ImagePath:   filePath,
+		UserID:      userId,
+		Category_id: categoryId,
 	}
 
 	err = product.Save()
@@ -61,9 +61,8 @@ func createProduct(context *gin.Context) {
 	context.JSON(http.StatusCreated, gin.H{"message": "Product created successfully", "product": product})
 }
 
-
-func updateProduct(context *gin.Context){
-	id, err := strconv.ParseInt(context.Param("id"),10,64)
+func updateProduct(context *gin.Context) {
+	id, err := strconv.ParseInt(context.Param("id"), 10, 64)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product id"})
 	}
@@ -103,7 +102,7 @@ func updateProduct(context *gin.Context){
 	context.JSON(http.StatusOK, gin.H{"message": "Product updated"})
 }
 
-func deleteProduct(context *gin.Context){
+func deleteProduct(context *gin.Context) {
 	id, err := strconv.ParseInt(context.Param("id"), 10, 64)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt convert parse product id for delete"})
@@ -114,7 +113,7 @@ func deleteProduct(context *gin.Context){
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product for delete"})
 	}
 	userID := context.GetInt64("userId")
-	if product.UserID != userID{
+	if product.UserID != userID {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to delete event"})
 		return
 	}
@@ -125,38 +124,37 @@ func deleteProduct(context *gin.Context){
 	}
 	context.JSON(http.StatusOK, gin.H{"message": "Product deleted"})
 
-}	
+}
 
-func getProductsbyuserid(context *gin.Context){
+func getProductsbyuserid(context *gin.Context) {
 	id, err := strconv.ParseInt(context.Param("id"), 10, 64)
-	if err != nil{
+	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt convert parse product id for read"})
 		return
 	}
 	products, err := models.GetProductsbyUserID(id)
-    if err != nil{
-        context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch products", "error":err.Error()})
-        return
-    }
-    context.JSON(http.StatusOK, products) 
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch products", "error": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, products)
 }
 
-func searchProduct(context *gin.Context){
-    var request struct {
-        Search string `json:"search" binding:"required"`
-    }
+func searchProduct(context *gin.Context) {
+	var request struct {
+		Search string `json:"search" binding:"required"`
+	}
 
-    // Bind JSON body to the struct
-    if err := context.ShouldBindJSON(&request); err != nil {
-        context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid input", "error": err.Error()})
-        return
-    }
+	// Bind JSON body to the struct
+	if err := context.ShouldBindJSON(&request); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid input", "error": err.Error()})
+		return
+	}
 
 	products, err := models.GetProductsbySearch(request.Search)
-	if err != nil{
-        context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch products", "error":err.Error()})
-        return
-    }
-    context.JSON(http.StatusOK, products)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch products", "error": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, products)
 }
-	

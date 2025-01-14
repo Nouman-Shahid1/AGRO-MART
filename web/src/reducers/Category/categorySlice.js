@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../axios/config";
 
-// Create a category
+// **Create a category**
 export const createCategory = createAsyncThunk(
   "category/createCategory",
   async (categoryData, { rejectWithValue }) => {
@@ -9,8 +9,10 @@ export const createCategory = createAsyncThunk(
       const formData = new FormData();
       formData.append("name", categoryData.name);
       formData.append("description", categoryData.description);
-      formData.append("image", categoryData.image);
-      formData.append("user_id", categoryData.user_id);
+      if (categoryData.image) {
+        formData.append("image", categoryData.image); // Include image if provided
+      }
+      formData.append("userId", categoryData.userId);
 
       const response = await axios.post("/category/new-category", formData, {
         headers: {
@@ -18,14 +20,41 @@ export const createCategory = createAsyncThunk(
         },
       });
 
-      return response.data.product; // Assuming response contains a `product` field
+      return response.data; // Assuming the backend returns the created category
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
-// Fetch all categories
+// **Update a category**
+export const updateCategory = createAsyncThunk(
+  "category/updateCategory",
+  async ({ id, categoryData }, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+      formData.append("name", categoryData.name);
+      formData.append("description", categoryData.description);
+      if (categoryData.image) {
+        formData.append("image", categoryData.image); // Include new image if provided
+      }
+      formData.append("user_id", categoryData.userId); // Correct userId key
+
+      const response = await axios.put(`/category/update-category/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return { id, ...response.data }; // Assuming the backend returns the updated category
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+
+// **Fetch all categories**
 export const fetchCategories = createAsyncThunk(
   "category/fetchCategories",
   async (_, { rejectWithValue }) => {
@@ -38,31 +67,7 @@ export const fetchCategories = createAsyncThunk(
   }
 );
 
-// Update a category
-export const updateCategory = createAsyncThunk(
-  "category/updateCategory",
-  async ({ id, categoryData }, { rejectWithValue }) => {
-    try {
-      const formData = new FormData();
-      formData.append("name", categoryData.name);
-      formData.append("description", categoryData.description);
-      formData.append("image", categoryData.image);
-      formData.append("user_id", categoryData.user_id);
-
-      const response = await axios.put(`/category/update-category/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      return { id, ...response.data }; // Assuming response contains the updated category
-    } catch (error) {
-      return rejectWithValue(error.response?.data || error.message);
-    }
-  }
-);
-
-// Delete a category
+// **Delete a category**
 export const deleteCategory = createAsyncThunk(
   "category/deleteCategory",
   async (id, { rejectWithValue }) => {
@@ -75,7 +80,7 @@ export const deleteCategory = createAsyncThunk(
   }
 );
 
-// Category Slice
+// **Category Slice**
 const categorySlice = createSlice({
   name: "category",
   initialState: {

@@ -1,88 +1,59 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios/config";
-import { setCookie, getCookie, deleteCookie } from "../../utilities/utils";
-
-const isBrowser = typeof window !== "undefined";
+import { jwtDecode } from "jwt-decode"; // Import jwtDecode as a named export
 
 const initialState = {
-  user: isBrowser
-    ? (() => {
-        try {
-          const rawUser = localStorage.getItem("user");
-          return rawUser && rawUser !== "undefined"
-            ? JSON.parse(rawUser)
-            : null;
-        } catch (error) {
-          console.error("Error parsing user from localStorage:", error);
-          return null;
-        }
-      })()
-    : null,
-  userRole: isBrowser ? localStorage.getItem("userRole") || null : null,
-  accessToken: getCookie("access_token") || null,
-  users: [],
+  user: null, // Decoded user information
+  token: null, // JWT token
+  role: null, // User role from the decoded token
+  users: [], // List of users
   loading: false,
   error: null,
-  isSuccess: false,
-  loggedOut: false,
 };
 
-// Thunk to log in a user
+// **Thunk to log in a user**
 export const loginUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post("/login", { email, password });
-      const { token, user, role } = response.data;
+      const { token } = response.data;
 
-      if (isBrowser) {
-        localStorage.setItem("access_token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("userRole", role);
-      }
+      // Decode the token
+      const decodedToken = jwtDecode(token);
 
-      setCookie("access_token", token, 1); // Set cookie for 1 day
+      // Store the token in localStorage
+      localStorage.setItem("access_token", token);
 
-      return { accessToken: token, user, userRole: role };
+      return { token, user: decodedToken, role: decodedToken.role };
     } catch (err) {
-      console.error("Error response from backend during login:", err.response);
-      return rejectWithValue(
-        err.response?.data || { message: "Login failed. Please try again." }
-      );
+      return rejectWithValue(err.response?.data || { message: "Login failed. Please try again." });
     }
   }
 );
 
-// Thunk to register a user
+// **Thunk to register a user**
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post("/signup", userData);
-      const { user, role, token } = response.data;
+      const { token } = response.data;
 
-      if (isBrowser) {
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("userRole", role);
-        localStorage.setItem("access_token", token);
-      }
+      // Decode the token
+      const decodedToken = jwtDecode(token);
 
-      setCookie("access_token", token, 1);
+      // Store the token in localStorage
+      localStorage.setItem("access_token", token);
 
-      return { user, userRole: role, accessToken: token };
+      return { token, user: decodedToken, role: decodedToken.role };
     } catch (err) {
-      console.error(
-        "Error response from backend during registration:",
-        err.response
-      );
-      return rejectWithValue(
-        err.response?.data || { message: "Registration failed" }
-      );
+      return rejectWithValue(err.response?.data || { message: "Registration failed. Please try again." });
     }
   }
 );
 
-// Thunk to fetch all users
+// **Thunk to fetch all users**
 export const fetchUsers = createAsyncThunk(
   "auth/fetchUsers",
   async (_, { rejectWithValue }) => {
@@ -90,123 +61,103 @@ export const fetchUsers = createAsyncThunk(
       const response = await axios.get("/users");
       return response.data;
     } catch (err) {
-      console.error("Error fetching users:", err.response);
-      return rejectWithValue(
-        err.response?.data || { message: "Failed to fetch users." }
-      );
+      return rejectWithValue(err.response?.data || { message: "Failed to fetch users." });
     }
   }
 );
 
+// **Thunk to update a user**
 export const updateUser = createAsyncThunk(
   "auth/updateUser",
   async ({ userId, userData }, { rejectWithValue }) => {
     try {
-      console.log("Updating user:", { userId, userData }); // Log the request
       const response = await axios.put(`/users/${userId}`, userData);
-      console.log("Update response:", response.data);
       return response.data;
     } catch (err) {
-      console.error("Error updating user:", err);
-      return rejectWithValue(
-        err.response?.data || { message: "Failed to update user." }
-      );
+      return rejectWithValue(err.response?.data || { message: "Failed to update user." });
     }
   }
 );
 
-// Thunk to delete a user
+// **Thunk to delete a user**
 export const deleteUser = createAsyncThunk(
   "auth/deleteUser",
   async (userId, { rejectWithValue }) => {
     try {
       await axios.delete(`/users/${userId}`);
-      return userId; // Returning userId to identify the deleted user in the reducer
+      return userId;
     } catch (err) {
-      console.error("Error deleting user:", err.response);
-      return rejectWithValue(
-        err.response?.data || { message: "Failed to delete user." }
-      );
+      return rejectWithValue(err.response?.data || { message: "Failed to delete user." });
     }
   }
 );
 
-// Thunk to log out a user
-export const logout = createAsyncThunk(
-  "auth/logout",
-  async (_, { dispatch }) => {
-    deleteCookie("access_token");
-
-    if (isBrowser) {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("user");
-      localStorage.removeItem("userRole");
-    }
-
-    dispatch(authSlice.actions.clearState());
-  }
-);
+// **Thunk to log out a user**
+export const logout = createAsyncThunk("auth/logout", async (_, { dispatch }) => {
+  localStorage.removeItem("access_token");
+  dispatch(authSlice.actions.clearState());
+});
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    // **Reducer to manually set the token and decode it**
     setToken: (state, action) => {
-      state.accessToken = action.payload;
+      state.token = action.payload;
+      try {
+        const decodedToken = jwtDecode(action.payload);
+        state.user = decodedToken;
+        state.role = decodedToken.role;
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
     },
-    setUser: (state, action) => {
-      state.user = action.payload.user;
-      state.userRole = action.payload.userRole;
-    },
+    // **Reducer to clear the state (used during logout)**
     clearState: (state) => {
       state.user = null;
-      state.userRole = null;
-      state.accessToken = null;
+      state.token = null;
+      state.role = null;
+      state.users = [];
       state.loading = false;
       state.error = null;
-      state.isSuccess = false;
     },
   },
   extraReducers: (builder) => {
     builder
-      // Login
+      // **Handle login**
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
-        state.isSuccess = false;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
+        state.token = action.payload.token;
         state.user = action.payload.user;
-        state.userRole = action.payload.userRole;
-        state.accessToken = action.payload.accessToken;
-        state.isSuccess = true;
-        state.loggedOut = false;
+        state.role = action.payload.role;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload.message;
       })
 
-      // Register
+      // **Handle registration**
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
-        state.isSuccess = false;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
+        state.token = action.payload.token;
         state.user = action.payload.user;
-        state.userRole = action.payload.userRole;
-        state.accessToken = action.payload.accessToken;
-        state.isSuccess = true;
+        state.role = action.payload.role;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload.message;
       })
 
-      // Fetch Users
+      // **Handle fetching users**
       .addCase(fetchUsers.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -217,42 +168,37 @@ const authSlice = createSlice({
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload.message;
       })
 
-      // Update User
+      // **Handle updating a user**
       .addCase(updateUser.fulfilled, (state, action) => {
-        const updatedIndex = state.users.findIndex(
-          (user) => user.id === action.payload.id
-        );
+        const updatedIndex = state.users.findIndex((user) => user.id === action.payload.id);
         if (updatedIndex !== -1) {
-          state.users[updatedIndex] = {
-            ...state.users[updatedIndex],
-            ...action.payload,
-          };
+          state.users[updatedIndex] = { ...state.users[updatedIndex], ...action.payload };
         }
       })
       .addCase(updateUser.rejected, (state, action) => {
-        state.error = action.payload;
+        state.error = action.payload.message;
       })
 
-      // Delete User
+      // **Handle deleting a user**
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.users = state.users.filter((user) => user.id !== action.payload);
       })
       .addCase(deleteUser.rejected, (state, action) => {
-        state.error = action.payload;
+        state.error = action.payload.message;
       })
 
-      // Logout
+      // **Handle logout**
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
-        state.userRole = null;
-        state.accessToken = null;
-        state.loggedOut = true;
+        state.token = null;
+        state.role = null;
+        state.users = [];
       });
   },
 });
 
-export const { setToken, setUser, clearState } = authSlice.actions;
+export const { setToken, clearState } = authSlice.actions;
 export default authSlice.reducer;

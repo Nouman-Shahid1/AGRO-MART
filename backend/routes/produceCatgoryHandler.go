@@ -13,15 +13,15 @@ import (
 func createProductCategory(context *gin.Context) {
 	name := context.PostForm("name")
 	description := context.PostForm("description")
-	userId, err := strconv.ParseInt(context.PostForm("user_id"), 10, 64)
+	userId, err := strconv.ParseInt(context.PostForm("userId"), 10, 64)
 	if err != nil {
-        context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid user_id"})
-        return
-    }
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid userId"})
+		return
+	}
 	file, err := context.FormFile("image")
 	var filePath string
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"message": "Image upload failed", "error":err})
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Image upload failed", "error": err})
 		return
 	}
 	randomFileName := fmt.Sprintf("%d_%s", time.Now().UnixNano(), file.Filename)
@@ -35,7 +35,7 @@ func createProductCategory(context *gin.Context) {
 		Name:        name,
 		Description: description,
 		ImagePath:   filePath,
-		UserID: userId,
+		UserID:      userId,
 	}
 
 	err = productcategory.SaveCategory()
@@ -46,23 +46,22 @@ func createProductCategory(context *gin.Context) {
 	context.JSON(http.StatusCreated, gin.H{"message": "Product category created successfully", "product": productcategory})
 }
 
-func getProductsCategories(context *gin.Context){
-    products, err := models.GetAllProductsCategory()
-    if err != nil{
-        context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch products categories", "error":err.Error()})
-        return
-    }
-    context.JSON(http.StatusOK, products) 
+func getProductsCategories(context *gin.Context) {
+	products, err := models.GetAllProductsCategory()
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch products categories", "error": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, products)
 }
 
-
-func updateProductCategory(context *gin.Context){
-	id, err := strconv.ParseInt(context.Param("id"),10,64)
+func updateProductCategory(context *gin.Context) {
+	id, err := strconv.ParseInt(context.Param("id"), 10, 64)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category id"})
 	}
 	var updatedproductcategory models.ProductCategory
-	updatedproductcategory.Name = context.PostForm("name")	
+	updatedproductcategory.Name = context.PostForm("name")
 	updatedproductcategory.Description = context.PostForm("description")
 
 	file, err := context.FormFile("image")
@@ -87,13 +86,13 @@ func updateProductCategory(context *gin.Context){
 	context.JSON(http.StatusOK, gin.H{"message": "Product Category updated"})
 }
 
-func deleteProductCategory(context *gin.Context){
-	id, err := strconv.ParseInt(context.Param("id"),10,64)
+func deleteProductCategory(context *gin.Context) {
+	id, err := strconv.ParseInt(context.Param("id"), 10, 64)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category id"})
 	}
 	// userId := context.GetInt64("userId")
-    productcategory, err := models.GetProductCategoryByID(id)
+	productcategory, err := models.GetProductCategoryByID(id)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product category"})
 	}
@@ -108,19 +107,18 @@ func deleteProductCategory(context *gin.Context){
 	}
 	context.JSON(http.StatusOK, gin.H{"message": "Product category deleted"})
 
-}	
+}
 
-
-func getProductCategorybyuserid(context *gin.Context){
+func getProductCategorybyuserid(context *gin.Context) {
 	id, err := strconv.ParseInt(context.Param("id"), 10, 64)
-	if err != nil{
+	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt convert parse product id for read"})
 		return
 	}
 	products, err := models.GetProductsCategorybyUserID(id)
-    if err != nil{
-        context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product categories", "error":err.Error()})
-        return
-    }
-    context.JSON(http.StatusOK, products) 
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt fetch product categories", "error": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, products)
 }
