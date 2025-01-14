@@ -104,8 +104,6 @@ func (productcategory ProductCategory) UpdateProductCategory() error {
 		query += "user_id = ?, "
 		params = append(params, productcategory.UserID )
 	}
-
-
 	query = query[:len(query)-2]
 	query += " WHERE id = ?"
 	params = append(params, productcategory.ID)

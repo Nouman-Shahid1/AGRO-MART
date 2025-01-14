@@ -1,11 +1,8 @@
 PUT http://localhost:8080/products/update-product/1
 Content-type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlckB0ZXN0LmNvbSIsImV4cCI6MTczNTIxMzEzMiwidXNlcklkIjoxfQ.MyS8EBudzbEGZR4dlWXJLAWHKkLawngM1xs9tVWWLOQ
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY4NDM0NTAsInJvbGUiOiJjdXN0b21lciIsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJUZXN0ZXIyIn0.RlhyO0le627JHe_VWBR1x_xEPqZg7XmCSdkJ3tQ5alY
 
 {
-    "name":"",
-    "description": "", 
-    "imagepath" : "xc",
-    "userId" : 0,
-    "categoryId" : 0
+    "name":"machinery for farming"
+
 }

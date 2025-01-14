@@ -76,11 +76,22 @@ func updateProduct(context *gin.Context){
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to update product"})
 		return
 	}
-	
+
 	var updatedproduct models.Product
-	err = context.ShouldBindJSON(&updatedproduct)
-	if err != nil{
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt bind json to product"})
+	updatedproduct.Name = context.PostForm("name")
+	updatedproduct.Description = context.PostForm("description")
+
+	file, err := context.FormFile("image")
+	if err == nil {
+		randomFileName := fmt.Sprintf("%d_%s", time.Now().UnixNano(), file.Filename)
+		filePath := fmt.Sprintf("static/images/%s", randomFileName)
+		if err := context.SaveUploadedFile(file, filePath); err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to save image"})
+			return
+		}
+		updatedproduct.ImagePath = filePath
+	} else {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt handle image"})
 		return
 	}
 	updatedproduct.ID = id

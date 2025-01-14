@@ -5,7 +5,7 @@ import { CiSearch, CiEdit } from "react-icons/ci";
 import { FaTrash, FaPlusCircle } from "react-icons/fa";
 import { fetchCategories } from "@/reducers/Category/categorySlice";
 import CreateCategory from "../CreateCategory/CreateCategory";
-
+// import images from "../../../../backend/"
 const ProductTable = () => {
   const dispatch = useDispatch();
   const { categories, status } = useSelector((state) => state.category);
@@ -85,7 +85,7 @@ const ProductTable = () => {
                   <td className="py-4 px-6">
                   <img
   src={
-    category.imagepath
+    `http://localhost:8080/${category.imagepath}`
   }
   alt={category.name}
   className="w-10 h-10 rounded-full shadow-md"
