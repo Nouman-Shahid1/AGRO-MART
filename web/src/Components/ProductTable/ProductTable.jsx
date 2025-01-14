@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CiSearch, CiEdit } from "react-icons/ci";
@@ -7,16 +6,19 @@ import { FaTrash, FaPlusCircle } from "react-icons/fa";
 import {
   fetchCategories,
   deleteCategory,
-  updateCategory,
 } from "@/reducers/Category/categorySlice";
 import CreateCategory from "../CreateCategory/CreateCategory";
+import DeleteModal from "../DeleteProduct/DeleteProduct";
 
 const ProductTable = () => {
   const dispatch = useDispatch();
   const { categories, status } = useSelector((state) => state.category);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddCategory, setShowAddCategory] = useState(false);
-  const [editCategory, setEditCategory] = useState(null); // To hold category being edited
+  const [editCategory, setEditCategory] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   // Fetch categories on component load
   useEffect(() => {
@@ -24,28 +26,29 @@ const ProductTable = () => {
   }, [dispatch]);
 
   // Filter categories based on search term
-  const filteredCategories = categories.filter((category) =>
-    category.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredCategories = categories
+    ? categories.filter((category) =>
+        category?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
 
-  // Handle delete category
-  const handleDeleteCategory = (id) => {
-    if (confirm("Are you sure you want to delete this category?")) {
-      dispatch(deleteCategory(id))
+  // Handle delete confirmation
+  const confirmDelete = () => {
+    if (deleteId) {
+      dispatch(deleteCategory(deleteId))
         .unwrap()
         .then(() => {
           alert("Category deleted successfully!");
         })
         .catch((err) => {
           console.error("Error deleting category:", err);
+          alert("Failed to delete category.");
+        })
+        .finally(() => {
+          setShowDeleteModal(false);
+          setDeleteId(null);
         });
     }
-  };
-
-  // Handle edit category
-  const handleEditCategory = (category) => {
-    setEditCategory(category); // Set the category to be edited
-    setShowAddCategory(true); // Open the modal
   };
 
   return (
@@ -60,7 +63,7 @@ const ProductTable = () => {
           <button
             className="py-2 px-4 bg-white text-green-600 rounded-lg shadow-md hover:bg-green-100 transition duration-150 flex items-center space-x-2"
             onClick={() => {
-              setEditCategory(null); // Reset edit category
+              setEditCategory(null);
               setShowAddCategory(true);
             }}
           >
@@ -74,8 +77,8 @@ const ProductTable = () => {
               type="text"
               placeholder="Search categories"
               className="w-[200px] md:w-[250px] px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              value={searchTerm || ""}
+              onChange={(e) => setSearchTerm(e.target.value || "")}
             />
             <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-r-lg">
               <CiSearch size={22} />
@@ -99,13 +102,7 @@ const ProductTable = () => {
 
           {/* Table Body */}
           <tbody>
-            {status === "loading" ? (
-              <tr>
-                <td colSpan="4" className="text-center py-6">
-                  Loading...
-                </td>
-              </tr>
-            ) : filteredCategories.length > 0 ? (
+            {filteredCategories.length > 0 ? (
               filteredCategories.map((category) => (
                 <tr
                   key={category.id}
@@ -114,7 +111,7 @@ const ProductTable = () => {
                   <td className="py-4 px-6">
                     <img
                       src={`http://localhost:8080/${category.imagepath}`}
-                      alt={category.name}
+                      alt={category.name || "No name"}
                       className="w-10 h-10 rounded-full shadow-md"
                     />
                   </td>
@@ -125,7 +122,10 @@ const ProductTable = () => {
                       {/* Edit Button */}
                       <button
                         className="bg-green-500 text-white p-2 rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
-                        onClick={() => handleEditCategory(category)}
+                        onClick={() => {
+                          setEditCategory(category);
+                          setShowAddCategory(true);
+                        }}
                       >
                         <CiEdit size={18} />
                       </button>
@@ -133,7 +133,10 @@ const ProductTable = () => {
                       {/* Delete Button */}
                       <button
                         className="bg-red-500 text-white p-2 rounded-full shadow-lg hover:bg-red-600 hover:shadow-xl transition duration-300"
-                        onClick={() => handleDeleteCategory(category.id)}
+                        onClick={() => {
+                          setDeleteId(category.id);
+                          setShowDeleteModal(true);
+                        }}
                       >
                         <FaTrash size={18} />
                       </button>
@@ -144,7 +147,7 @@ const ProductTable = () => {
             ) : (
               <tr>
                 <td colSpan="4" className="text-center py-6">
-                  No categories found.
+                  No categories found. Try adding one!
                 </td>
               </tr>
             )}
@@ -156,7 +159,14 @@ const ProductTable = () => {
       <CreateCategory
         showAddCategory={showAddCategory}
         setShowAddCategory={setShowAddCategory}
-        initialCategory={editCategory} // Pass the category being edited
+        initialCategory={editCategory}
+      />
+
+      {/* Delete Confirmation Modal */}
+      <DeleteModal
+        showDeleteModal={showDeleteModal}
+        setShowDeleteModal={setShowDeleteModal}
+        confirmDelete={confirmDelete}
       />
     </div>
   );
