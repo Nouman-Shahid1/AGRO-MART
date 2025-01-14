@@ -15,7 +15,7 @@ func createProductCategory(context *gin.Context) {
 	description := context.PostForm("description")
 	userId, err := strconv.ParseInt(context.PostForm("userId"), 10, 64)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid userId"})
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid userId", "error:": err.Error()})
 		return
 	}
 	file, err := context.FormFile("image")
