@@ -1,17 +1,32 @@
 "use client";
 
-import { createCategory } from "@/reducers/Category/categorySlice"; // Redux action for creating a category
+import { createCategory, updateCategory } from "@/reducers/Category/categorySlice";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const CreateCategory = ({ showAddCategory, setShowAddCategory }) => {
+const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }) => {
   const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
-    name: "", // Matches `Name` in the backend
-    description: "", // Matches `Description` in the backend
-    image: null, // Matches `ImagePath` in the backend
+    name: "",
+    description: "",
+    image: null,
     user_id: 1, // Static user_id (replace with dynamic value if needed)
   });
+
+  // Load initialCategory data into form when editing
+  useEffect(() => {
+    if (initialCategory) {
+      setFormData({
+        name: initialCategory.name,
+        description: initialCategory.description,
+        image: null, // Keep it empty, the backend retains the old image if no new one is provided
+        user_id: initialCategory.user_id,
+      });
+    } else {
+      setFormData({ name: "", description: "", image: null, user_id: 1 });
+    }
+  }, [initialCategory]);
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -24,29 +39,55 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory }) => {
     setFormData((prev) => ({ ...prev, image: e.target.files[0] }));
   };
 
-  // Submit the form and dispatch the createCategory action
-  const handleAddCategory = (e) => {
+  // Submit the form and dispatch the appropriate action
+  const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     const categoryData = {
       name: formData.name,
       description: formData.description,
-      image: formData.image,
       user_id: formData.user_id,
     };
-
-    console.log("Category Data Sent to Backend:", categoryData);
-
-    dispatch(createCategory(categoryData))
-      .unwrap()
-      .then(() => {
-        setFormData({ name: "", description: "", image: null, user_id: 1 });
-        setShowAddCategory(false);
-      })
-      .catch((err) => {
-        console.error("Failed to create category:", err);
-      });
+  
+    // Check if there's a new image to upload
+    if (formData.image) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        categoryData.image = reader.result; // Base64-encoded image
+        submitData(categoryData);
+      };
+      reader.readAsDataURL(formData.image);
+    } else {
+      submitData(categoryData);
+    }
   };
+  
+  const submitData = (categoryData) => {
+    if (initialCategory) {
+      dispatch(updateCategory({ id: initialCategory.id, categoryData }))
+        .unwrap()
+        .then(() => {
+          alert("Category updated successfully!");
+          setFormData({ name: "", description: "", image: null, user_id: 1 });
+          setShowAddCategory(false);
+        })
+        .catch((err) => {
+          console.error("Failed to update category:", err);
+        });
+    } else {
+      dispatch(createCategory(categoryData))
+        .unwrap()
+        .then(() => {
+          alert("Category created successfully!");
+          setFormData({ name: "", description: "", image: null, user_id: 1 });
+          setShowAddCategory(false);
+        })
+        .catch((err) => {
+          console.error("Failed to create category:", err);
+        });
+    }
+  };
+  
 
   return (
     <div
@@ -55,7 +96,7 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory }) => {
       }`}
     >
       <form
-        onSubmit={handleAddCategory}
+        onSubmit={handleSubmit}
         className="relative max-w-4xl w-[600px] bg-gradient-to-br from-green-900 via-emerald-700 to-lime-500 text-white rounded-xl shadow-2xl p-8 space-y-6 animate-fade-in"
       >
         <button
@@ -67,7 +108,7 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory }) => {
         </button>
 
         <h2 className="text-3xl font-bold text-center text-green-300">
-          Add Category
+          {initialCategory ? "Edit Category" : "Add Category"}
         </h2>
 
         {/* Name */}
@@ -115,7 +156,6 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory }) => {
             accept="image/*"
             onChange={handleFileChange}
             className="w-full p-3 bg-white bg-opacity-20 text-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-pink-400 focus:bg-opacity-30 transition-all"
-            required
           />
         </div>
 
@@ -125,7 +165,7 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory }) => {
             type="submit"
             className="px-8 py-3 text-lg font-bold text-white rounded-lg bg-green-500 shadow-lg hover:shadow-xl hover:bg-green-600 focus:ring-4 focus:ring-green-500 transition-all"
           >
-            Add Category
+            {initialCategory ? "Update Category" : "Add Category"}
           </button>
         </div>
       </form>

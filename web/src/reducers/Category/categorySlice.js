@@ -10,7 +10,7 @@ export const createCategory = createAsyncThunk(
       formData.append("name", categoryData.name);
       formData.append("description", categoryData.description);
       formData.append("image", categoryData.image);
-      formData.append("user_id", categoryData.user_id); // Add user_id to FormData
+      formData.append("user_id", categoryData.user_id);
 
       const response = await axios.post("/category/new-category", formData, {
         headers: {
@@ -32,6 +32,43 @@ export const fetchCategories = createAsyncThunk(
     try {
       const response = await axios.get("/getallcategories");
       return response.data; // Assuming response contains an array of categories
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+// Update a category
+export const updateCategory = createAsyncThunk(
+  "category/updateCategory",
+  async ({ id, categoryData }, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+      formData.append("name", categoryData.name);
+      formData.append("description", categoryData.description);
+      formData.append("image", categoryData.image);
+      formData.append("user_id", categoryData.user_id);
+
+      const response = await axios.put(`/category/update-category/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return { id, ...response.data }; // Assuming response contains the updated category
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+// Delete a category
+export const deleteCategory = createAsyncThunk(
+  "category/deleteCategory",
+  async (id, { rejectWithValue }) => {
+    try {
+      await axios.delete(`/category/delete-category/${id}`);
+      return id; // Return the ID of the deleted category
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
@@ -73,6 +110,37 @@ const categorySlice = createSlice({
         state.categories = action.payload; // Update state with fetched categories
       })
       .addCase(fetchCategories.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // Update Category
+      .addCase(updateCategory.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateCategory.fulfilled, (state, action) => {
+        state.loading = false;
+        const index = state.categories.findIndex((cat) => cat.id === action.payload.id);
+        if (index !== -1) {
+          state.categories[index] = action.payload;
+        }
+      })
+      .addCase(updateCategory.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // Delete Category
+      .addCase(deleteCategory.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteCategory.fulfilled, (state, action) => {
+        state.loading = false;
+        state.categories = state.categories.filter((cat) => cat.id !== action.payload);
+      })
+      .addCase(deleteCategory.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

@@ -1,16 +1,22 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CiSearch, CiEdit } from "react-icons/ci";
 import { FaTrash, FaPlusCircle } from "react-icons/fa";
-import { fetchCategories } from "@/reducers/Category/categorySlice";
+import {
+  fetchCategories,
+  deleteCategory,
+  updateCategory,
+} from "@/reducers/Category/categorySlice";
 import CreateCategory from "../CreateCategory/CreateCategory";
-// import images from "../../../../backend/"
+
 const ProductTable = () => {
   const dispatch = useDispatch();
   const { categories, status } = useSelector((state) => state.category);
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddCategory, setShowAddCategory] = useState(false);
+  const [editCategory, setEditCategory] = useState(null); // To hold category being edited
 
   // Fetch categories on component load
   useEffect(() => {
@@ -21,6 +27,26 @@ const ProductTable = () => {
   const filteredCategories = categories.filter((category) =>
     category.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Handle delete category
+  const handleDeleteCategory = (id) => {
+    if (confirm("Are you sure you want to delete this category?")) {
+      dispatch(deleteCategory(id))
+        .unwrap()
+        .then(() => {
+          alert("Category deleted successfully!");
+        })
+        .catch((err) => {
+          console.error("Error deleting category:", err);
+        });
+    }
+  };
+
+  // Handle edit category
+  const handleEditCategory = (category) => {
+    setEditCategory(category); // Set the category to be edited
+    setShowAddCategory(true); // Open the modal
+  };
 
   return (
     <div className="p-6">
@@ -33,7 +59,10 @@ const ProductTable = () => {
         <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
           <button
             className="py-2 px-4 bg-white text-green-600 rounded-lg shadow-md hover:bg-green-100 transition duration-150 flex items-center space-x-2"
-            onClick={() => setShowAddCategory(true)}
+            onClick={() => {
+              setEditCategory(null); // Reset edit category
+              setShowAddCategory(true);
+            }}
           >
             <FaPlusCircle />
             <span>Add New Category</span>
@@ -83,25 +112,29 @@ const ProductTable = () => {
                   className="border-b bg-white hover:bg-green-50 transition duration-300"
                 >
                   <td className="py-4 px-6">
-                  <img
-  src={
-    `http://localhost:8080/${category.imagepath}`
-  }
-  alt={category.name}
-  className="w-10 h-10 rounded-full shadow-md"
-/>
+                    <img
+                      src={`http://localhost:8080/${category.imagepath}`}
+                      alt={category.name}
+                      className="w-10 h-10 rounded-full shadow-md"
+                    />
                   </td>
                   <td className="py-4 px-6">{category.name}</td>
                   <td className="py-4 px-6">{category.description}</td>
                   <td className="py-4 px-6 text-center">
                     <div className="flex justify-center items-center gap-4">
                       {/* Edit Button */}
-                      <button className="bg-green-500 text-white p-2 rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300">
+                      <button
+                        className="bg-green-500 text-white p-2 rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
+                        onClick={() => handleEditCategory(category)}
+                      >
                         <CiEdit size={18} />
                       </button>
 
                       {/* Delete Button */}
-                      <button className="bg-red-500 text-white p-2 rounded-full shadow-lg hover:bg-red-600 hover:shadow-xl transition duration-300">
+                      <button
+                        className="bg-red-500 text-white p-2 rounded-full shadow-lg hover:bg-red-600 hover:shadow-xl transition duration-300"
+                        onClick={() => handleDeleteCategory(category.id)}
+                      >
                         <FaTrash size={18} />
                       </button>
                     </div>
@@ -119,10 +152,11 @@ const ProductTable = () => {
         </table>
       </div>
 
-      {/* Add Category Modal */}
+      {/* Add/Edit Category Modal */}
       <CreateCategory
         showAddCategory={showAddCategory}
         setShowAddCategory={setShowAddCategory}
+        initialCategory={editCategory} // Pass the category being edited
       />
     </div>
   );
