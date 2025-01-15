@@ -10,7 +10,6 @@ func RegisterRoutes(server *gin.Engine) {
 	{
 		// Fetch all users
 		userRoutes.GET("", getUsers)
-		z
 		// Fetch a user by ID
 		userRoutes.GET("/:id", getUser)
 
