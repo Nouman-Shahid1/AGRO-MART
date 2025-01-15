@@ -11,26 +11,31 @@ const initialState = {
   error: null,
 };
 
-// **Thunk to log in a user**
 export const loginUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post("/login", { email, password });
-      const { token } = response.data;
+      if (response.status === 200 || response.status === 204) {
+        const { accessToken, refreshToken } = response.data;
 
-      // Decode the token
-      const decodedToken = jwtDecode(token);
+        // Decode the accessToken
+        const decodedToken = jwtDecode(accessToken);
 
-      // Store the token in localStorage
-      localStorage.setItem("access_token", token);
+        // Store tokens in localStorage
+        localStorage.setItem("access_token", accessToken);
+        localStorage.setItem("refresh_token", refreshToken);
 
-      return { token, user: decodedToken, role: decodedToken.role };
+        return { token: accessToken, user: decodedToken, role: decodedToken.role };
+      } else {
+        return rejectWithValue({ message: "Unexpected response status." });
+      }
     } catch (err) {
       return rejectWithValue(err.response?.data || { message: "Login failed. Please try again." });
     }
   }
 );
+
 
 // **Thunk to register a user**
 export const registerUser = createAsyncThunk(

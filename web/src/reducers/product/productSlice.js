@@ -4,12 +4,30 @@ import axios from "../../axios/config";
 // Create Product
 export const createProduct = createAsyncThunk(
   "product/createProduct",
-  async (formData, { rejectWithValue }) => {
+  async (formData, { rejectWithValue, getState }) => {
     try {
-      const response = await axios.post("/products/new-product", formData);
+      // Get the token from the Redux state
+      const token = getState().auth.token;
+
+      if (!token) {
+        throw new Error("Authorization token is missing. Please log in again.");
+      }
+
+      // Make the API request with the Authorization header
+      const response = await axios.post("/products/new-product", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || error.message);
+      return rejectWithValue(
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to create product. Please try again."
+      );
     }
   }
 );

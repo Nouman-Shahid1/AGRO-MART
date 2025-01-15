@@ -26,21 +26,23 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Check if formData is valid
     if (!formData.email || !formData.password) {
       setError("Please fill in both email and password.");
       return;
     }
-
+  
+    // Create loginData from formData
     const loginData = {
       email: formData.email.trim(),
       password: formData.password.trim(),
     };
-
+  
     try {
       const result = await dispatch(loginUser(loginData)).unwrap();
-      console.log("Login successful, backend response:", result);
-   
-      
+      console.log("Login successful, response:", result);
+  
       // Navigate based on role
       router.push(activeForm === "buyer" ? "/buyer" : "/seller-profile");
     } catch (err) {
@@ -48,6 +50,8 @@ export default function LoginPage() {
       setError(err.message || "Login failed. Please check your credentials.");
     }
   };
+  
+  
 
   const formVariants = {
     initial: { opacity: 0, x: -50 },

@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +7,7 @@ import { fetchCategories } from "@/reducers/Category/categorySlice";
 const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.category);
+  const [error, setError] = useState(null); // State to hold error messages
 
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
@@ -33,7 +32,8 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    debugger
+    setError(null); // Reset error state before submission
+
     const data = new FormData();
     data.append("name", formData.name);
     data.append("description", formData.description);
@@ -55,7 +55,7 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
       }
       setShowAddProduct(false);
     } catch (err) {
-      alert(`Error: ${err.message || "Something went wrong!"}`);
+      setError(err); // Set error to display below the form
     }
   };
 
@@ -152,6 +152,13 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
             className="w-full p-3 bg-white bg-opacity-20 text-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-pink-400 focus:bg-opacity-30 transition-all"
           />
         </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="text-red-500 text-sm mt-2">
+            {error}
+          </div>
+        )}
 
         {/* Submit Button */}
         <div className="text-right">
