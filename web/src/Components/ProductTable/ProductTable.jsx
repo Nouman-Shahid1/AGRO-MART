@@ -12,9 +12,8 @@ import DeleteModal from "../DeleteProduct/DeleteProduct";
 
 const ProductTable = () => {
   const dispatch = useDispatch();
-  const { products, selectedProduct, loading, error } = useSelector(
-    (state) => state.product
-  );
+  const { products, loading, error } = useSelector((state) => state.product);
+  const { token } = useSelector((state) => state.auth); // Get token from auth state
 
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddProduct, setShowAddProduct] = useState(false);
@@ -37,7 +36,7 @@ const ProductTable = () => {
   // Handle delete confirmation
   const confirmDelete = () => {
     if (deleteId) {
-      dispatch(deleteProduct(deleteId))
+      dispatch(deleteProduct(deleteId)) // Pass the `deleteId` directly
         .unwrap()
         .then(() => {
           alert("Product deleted successfully!");
@@ -52,7 +51,7 @@ const ProductTable = () => {
         });
     }
   };
-
+  
   return (
     <div className="p-6">
       {/* Header Section */}
@@ -98,6 +97,8 @@ const ProductTable = () => {
               <th className="py-4 px-6 text-left font-semibold">Icon</th>
               <th className="py-4 px-6 text-left font-semibold">Name</th>
               <th className="py-4 px-6 text-left font-semibold">Description</th>
+              <th className="py-4 px-6 text-left font-semibold">Price</th>
+              <th className="py-4 px-6 text-left font-semibold">Category</th>
               <th className="py-4 px-6 text-center font-semibold">Actions</th>
             </tr>
           </thead>
@@ -119,6 +120,8 @@ const ProductTable = () => {
                   </td>
                   <td className="py-4 px-6">{product.name}</td>
                   <td className="py-4 px-6">{product.description}</td>
+                  <td className="py-4 px-6">{product.price}</td>
+                  <td className="py-4 px-6">{product.category}</td>
                   <td className="py-4 px-6 text-center">
                     <div className="flex justify-center items-center gap-4">
                       {/* Edit Button */}
@@ -148,7 +151,7 @@ const ProductTable = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="text-center py-6">
+                <td colSpan="6" className="text-center py-6">
                   No products found. Try adding one!
                 </td>
               </tr>
@@ -158,18 +161,22 @@ const ProductTable = () => {
       </div>
 
       {/* Add/Edit Product Modal */}
-      <CreateProduct
-        showAddProduct={showAddProduct}
-        setShowAddProduct={setShowAddProduct}
-        initialProduct={editProduct}
-      />
+      {showAddProduct && (
+        <CreateProduct
+          showAddProduct={showAddProduct}
+          setShowAddProduct={setShowAddProduct}
+          initialData={editProduct}
+        />
+      )}
 
       {/* Delete Confirmation Modal */}
-      <DeleteModal
-        showDeleteModal={showDeleteModal}
-        setShowDeleteModal={setShowDeleteModal}
-        confirmDelete={confirmDelete}
-      />
+      {showDeleteModal && (
+        <DeleteModal
+          showDeleteModal={showDeleteModal}
+          setShowDeleteModal={setShowDeleteModal}
+          confirmDelete={confirmDelete}
+        />
+      )}
     </div>
   );
 };

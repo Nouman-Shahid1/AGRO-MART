@@ -7,7 +7,6 @@ import { fetchCategories } from "@/reducers/Category/categorySlice";
 const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.category);
-  const [error, setError] = useState(null); // State to hold error messages
   const { user } = useSelector((state) => state.auth); // Get user from auth state
 
   const [formData, setFormData] = useState({
@@ -18,6 +17,8 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
     image: null,
     userId: user?.userId || "3", // Fallback userId
   });
+
+  const [error, setError] = useState(null); // State to hold error messages
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -62,7 +63,7 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
         await dispatch(createProduct(data)).unwrap();
         alert("Product created successfully!");
       }
-      setShowAddProduct(false);
+      setShowAddProduct(false); // Close the modal on success
     } catch (err) {
       setError(err.message || "Failed to create or update the product. Please try again.");
     }
@@ -89,7 +90,7 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
 
         {/* Header */}
         <h2 className="text-3xl font-bold text-center text-green-300">
-          {initialData ? "Edit Product" : "Add Product"}
+          {initialData?.id ? "Edit Product" : "Add Product"}
         </h2>
 
         {/* Product Name */}
@@ -175,7 +176,7 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
             type="submit"
             className="px-8 py-3 text-lg font-bold text-white rounded-lg bg-gradient-to-r from-green-500 to-green-700 shadow-lg hover:shadow-xl hover:from-green-600 hover:to-green-800 focus:ring-4 focus:ring-green-500 transition-all"
           >
-            {initialData ? "Update Product" : "Add Product"}
+            {initialData?.id ? "Update Product" : "Add Product"}
           </button>
         </div>
       </form>
