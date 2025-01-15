@@ -1,28 +1,28 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import ProfileImage from "../../assets/images/blank.png";
-import { logout } from "../../reducers/Auth/authSlice"; // Adjust the path to your Redux slice
+import { logout } from "../../reducers/Auth/authSlice";
 
 const Profile = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
 
+  // Access user and role from Redux state
+  const user = useSelector((state) => state.auth.user);
+  const role = useSelector((state) => state.auth.role);
+
   // Toggle the dropdown visibility
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
-  // Logout function
   const handleLogout = async () => {
     try {
-      // Dispatch the logout action (if using Redux)
       await dispatch(logout());
-
-      // Redirect to login page
       router.push("/login");
     } catch (err) {
       console.error("Error during logout:", err);
@@ -36,7 +36,7 @@ const Profile = () => {
 
       {/* Welcome Text */}
       <h1 className="relative z-10 text-3xl md:text-4xl font-bold text-white drop-shadow-lg mb-4 md:mb-0">
-        Welcome!
+        Welcome, {user?.name || "Guest"}!
       </h1>
 
       {/* Profile Section */}
@@ -59,7 +59,7 @@ const Profile = () => {
               type="button"
               className="flex items-center text-base font-medium text-white hover:text-lime-300 transition"
             >
-              Nouman
+              {user?.username || "User"}
               <svg
                 className={`w-4 h-4 ms-3 transform transition-transform ${
                   isDropdownOpen ? "rotate-180" : "rotate-0"
@@ -100,7 +100,9 @@ const Profile = () => {
           </div>
 
           {/* User Role */}
-          <p className="text-sm font-normal text-lime-300 mt-1">Buyer</p>
+          <p className="text-sm font-normal text-lime-300 mt-1">
+            {role || "Role not assigned"}
+          </p>
         </div>
       </div>
     </div>

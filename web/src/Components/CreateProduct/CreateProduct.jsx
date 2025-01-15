@@ -31,8 +31,9 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
     setFormData({ ...formData, image: e.target.files[0] });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    debugger
     const data = new FormData();
     data.append("name", formData.name);
     data.append("description", formData.description);
@@ -42,21 +43,20 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
       data.append("image", formData.image);
     }
 
-    if (initialData?.id) {
-      // Update product
-      dispatch(updateProduct({ id: initialData.id, formData: data }))
-        .unwrap()
-        .then(() => alert("Product updated successfully!"))
-        .catch((err) => alert(`Error updating product: ${err}`));
-    } else {
-      // Create product
-      dispatch(createProduct(data))
-        .unwrap()
-        .then(() => alert("Product created successfully!"))
-        .catch((err) => alert(`Error creating product: ${err}`));
+    try {
+      if (initialData?.id) {
+        // Update product
+        await dispatch(updateProduct({ id: initialData.id, formData: data })).unwrap();
+        alert("Product updated successfully!");
+      } else {
+        // Create product
+        await dispatch(createProduct(data)).unwrap();
+        alert("Product created successfully!");
+      }
+      setShowAddProduct(false);
+    } catch (err) {
+      alert(`Error: ${err.message || "Something went wrong!"}`);
     }
-
-    setShowAddProduct(false);
   };
 
   return (
@@ -66,7 +66,7 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
       }`}
     >
       <form
-        className="relative max-w-4xl w-[600px] bg-gradient-to-br from-green-900 via-emerald-700 to-lime-500 text-white rounded-3xl shadow-2xl p-8 space-y-6 animate-fade-in"
+        className="relative max-w-4xl w-[600px] bg-gradient-to-br from-green-900 via-emerald-700 to-lime-500 text-white rounded-3xl shadow-2xl p-8 space-y-6"
         onSubmit={handleSubmit}
       >
         {/* Close Button */}
@@ -122,11 +122,7 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
               Select category
             </option>
             {categories.map((cat) => (
-              <option
-                key={cat.id}
-                className="bg-green-800"
-                value={cat.name}
-              >
+              <option key={cat.id} className="bg-green-800" value={cat.name}>
                 {cat.name}
               </option>
             ))}

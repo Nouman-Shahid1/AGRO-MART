@@ -11,8 +11,7 @@ export default function SignupPage() {
   const [activeForm, setActiveForm] = useState("buyer");
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    username:"",
     email: "",
     password: "",
     confirmPassword: "",
@@ -41,10 +40,9 @@ export default function SignupPage() {
       alert("Passwords do not match.");
       return;
     }
-
+debugger
     const userData = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
+      username: formData.username,
       email: formData.email,
       password: formData.password,
       role,
@@ -131,17 +129,17 @@ export default function SignupPage() {
               <div className="flex gap-2 justify-between">
                 <div className="w-full">
                   <label className="block text-left text-white font-semibold mb-1">
-                    First Name
+                    User Name
                   </label>
                   <input
                     type="text"
-                    name="firstName"
-                    value={formData.firstName}
+                    name="username"
+                    value={formData.username}
                     onChange={handleInputChange}
                     className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
                   />
                 </div>
-                <div className="w-full">
+                {/* <div className="w-full">
                   <label className="block text-left text-white font-semibold mb-1">
                     Last Name
                   </label>
@@ -152,7 +150,7 @@ export default function SignupPage() {
                     onChange={handleInputChange}
                     className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
                   />
-                </div>
+                </div> */}
               </div>
               <div>
                 <label className="block text-left text-blue-100 font-semibold mb-1">

@@ -4,14 +4,14 @@ import { refreshToken, logout } from "../reducers/Auth/authSlice";
 import { getCookie } from "../utilities/utils";
 
 export const addAccessToken = async (config) => {
-  const accessToken =
-    store.getState().auth.accessToken || getCookie("access_token");
+  const accessToken = store.getState().auth.accessToken || getCookie("access_token");
 
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
   return config;
 };
+
 
 export const handleRequestError = (error) => {
   return Promise.reject(error);
