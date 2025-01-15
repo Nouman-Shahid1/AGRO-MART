@@ -26,6 +26,7 @@ func RegisterRoutes(server *gin.Engine) {
 	// Authentication routes
 	server.POST("/signup", signUp) // Endpoint for user signup
 	server.POST("/login", login)   // Endpoint for user login
+	server.POST("/refresh-token", refreshToken)
 
 	server.GET("/search-bar", searchProduct)
 	server.GET("/getallcategories", getProductsCategories)

@@ -46,11 +46,12 @@ func login(context *gin.Context) {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Couldnt authenticate user"})
 		return
 	}
-	token, err := utils.GenerateToken(user.Username, user.ID, user.Role)
+	accesstoken, refreshtoken , err := utils.GenerateToken(user.Username, user.ID, user.Role)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Couldnt generate user token"})
 	}
-	context.JSON(http.StatusOK, gin.H{"message": "Login succesful", "token": token})
+
+	context.JSON(http.StatusOK, gin.H{"message": "Login succesful", "accessToken": accesstoken, "refreshToken": refreshtoken})
 }
 
 func deleteUser(context *gin.Context) {
@@ -108,4 +109,37 @@ func getUser(context *gin.Context) {
 	}
 	context.JSON(http.StatusOK, user)
 
+}
+
+
+func refreshToken(context *gin.Context) {
+	var body struct {
+		RefreshToken string `json:"refreshToken"`
+	}
+
+	if err := context.ShouldBindJSON(&body); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request"})
+		return
+	}
+
+	userID, err := utils.VerifyRefreshToken(body.RefreshToken)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid or expired refresh token"})
+		return
+	}
+	user, err := models.GetUserbyID(userID)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid user ID"})
+		return
+	}
+	accessToken, refreshToken, err := utils.GenerateToken(user.Username, userID, user.Role)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not generate new tokens"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{
+		"accessToken":  accessToken,
+		"refreshToken": refreshToken,
+	})
 }
