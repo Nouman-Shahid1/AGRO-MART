@@ -8,6 +8,7 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.category);
   const [error, setError] = useState(null); // State to hold error messages
+  const { user } = useSelector((state) => state.auth); // Get user from auth state
 
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
@@ -15,6 +16,7 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
     category: initialData?.category || "",
     price: initialData?.price || "",
     image: null,
+    userId: user?.userId || "3", // Fallback userId
   });
 
   useEffect(() => {
@@ -24,6 +26,11 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleCategoryChange = (e) => {
+    const selectedCategoryId = e.target.value;
+    setFormData({ ...formData, category: selectedCategoryId });
   };
 
   const handleFileChange = (e) => {
@@ -37,8 +44,10 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
     const data = new FormData();
     data.append("name", formData.name);
     data.append("description", formData.description);
-    data.append("category", formData.category);
+    data.append("category_id", formData.category); // Pass the category ID
     data.append("price", formData.price);
+    data.append("userId", formData.userId);
+
     if (formData.image) {
       data.append("image", formData.image);
     }
@@ -55,7 +64,7 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
       }
       setShowAddProduct(false);
     } catch (err) {
-      setError(err); // Set error to display below the form
+      setError(err.message || "Failed to create or update the product. Please try again.");
     }
   };
 
@@ -115,14 +124,14 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
           <select
             name="category"
             value={formData.category}
-            onChange={handleInputChange}
+            onChange={handleCategoryChange}
             className="w-full p-3 bg-white bg-opacity-20 text-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-opacity-30 transition-all"
           >
             <option className="bg-green-800" value="">
               Select category
             </option>
             {categories.map((cat) => (
-              <option key={cat.id} className="bg-green-800" value={cat.name}>
+              <option key={cat.id} className="bg-green-800" value={cat.id}>
                 {cat.name}
               </option>
             ))}
