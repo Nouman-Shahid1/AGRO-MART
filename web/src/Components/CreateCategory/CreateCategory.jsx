@@ -13,7 +13,7 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }
     name: "",
     description: "",
     image: null,
-    userId: user?.userId || null, // Use userId from Redux state
+    userId: user?.userId || "3", // Fallback userId
   });
 
   const [preview, setPreview] = useState(null);
@@ -25,17 +25,11 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }
         name: initialCategory.name,
         description: initialCategory.description,
         image: null, // No file preload
-        userId: user?.userId || null, // Retain userId
+        userId: user?.userId || "3",
       });
       setPreview(initialCategory.imagePath || null); // Show existing image as preview
     } else {
-      setFormData({
-        name: "",
-        description: "",
-        image: null,
-        userId: user?.userId || null,
-      });
-      setPreview(null);
+      resetForm();
     }
   }, [initialCategory, user]);
 
@@ -60,38 +54,36 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formDataToSend = new FormData();
     formDataToSend.append("name", formData.name);
     formDataToSend.append("description", formData.description);
-    formDataToSend.append("user_id", formData.userId);
+    formDataToSend.append("userId", formData.userId);
 
     if (formData.image) {
-      formDataToSend.append("image", formData.image);
+      formDataToSend.append("image", formData.image); // Add new image if provided
     } else if (initialCategory?.imagePath) {
-      formDataToSend.append("existingImage", initialCategory.imagePath);
+      formDataToSend.append("existingImagePath", initialCategory.imagePath); // Send existing image path if no new image
     }
 
     const action = initialCategory
       ? updateCategory({ id: initialCategory.id, categoryData: formDataToSend })
       : createCategory(formDataToSend);
 
-    dispatch(action)
-      .unwrap()
-      .then(() => {
-        alert(
-          initialCategory
-            ? "Category updated successfully!"
-            : "Category created successfully!"
-        );
-        resetForm();
-      })
-      .catch((err) => {
-        console.error("Error during category submission:", err);
-        alert(`Error: ${err?.message || "An unexpected error occurred."}`);
-      });
+    try {
+      await dispatch(action).unwrap();
+      alert(
+        initialCategory
+          ? "Category updated successfully!"
+          : "Category created successfully!"
+      );
+      resetForm();
+    } catch (err) {
+      console.error("Error during category submission:", err);
+      alert(`Error: ${err?.message || "An unexpected error occurred."}`);
+    }
   };
 
   // Reset form and close modal
@@ -100,7 +92,7 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }
       name: "",
       description: "",
       image: null,
-      userId: user?.userId || null,
+      userId: user?.userId || "3",
     });
     setPreview(null);
     setShowAddCategory(false);

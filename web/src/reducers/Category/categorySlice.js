@@ -6,52 +6,39 @@ export const createCategory = createAsyncThunk(
   "category/createCategory",
   async (categoryData, { rejectWithValue }) => {
     try {
-      const formData = new FormData();
-      formData.append("name", categoryData.name);
-      formData.append("description", categoryData.description);
-      if (categoryData.image) {
-        formData.append("image", categoryData.image); // Include image if provided
-      }
-      formData.append("userId", categoryData.userId);
-
-      const response = await axios.post("/category/new-category", formData, {
+      const response = await axios.post("/category/new-category", categoryData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      return response.data; // Assuming the backend returns the created category
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || error.message);
+      console.error("Error in createCategory thunk:", error.response?.data || error.message);
+      return rejectWithValue(error.response?.data || { message: error.message });
     }
   }
 );
+
 
 // **Update a category**
 export const updateCategory = createAsyncThunk(
   "category/updateCategory",
   async ({ id, categoryData }, { rejectWithValue }) => {
     try {
-      const formData = new FormData();
-      formData.append("name", categoryData.name);
-      formData.append("description", categoryData.description);
-      if (categoryData.image) {
-        formData.append("image", categoryData.image); // Include new image if provided
-      }
-      formData.append("user_id", categoryData.userId); // Correct userId key
-
-      const response = await axios.put(`/category/update-category/${id}`, formData, {
+      const response = await axios.put(`/category/update-category/${id}`, categoryData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      return { id, ...response.data }; // Assuming the backend returns the updated category
+      return { id, ...response.data };
     } catch (error) {
-      return rejectWithValue(error.response?.data || error.message);
+      console.error("Error in updateCategory thunk:", error.response || error.message);
+      return rejectWithValue(error.response?.data || { message: error.message });
     }
   }
 );
+
+
 
 
 // **Fetch all categories**
