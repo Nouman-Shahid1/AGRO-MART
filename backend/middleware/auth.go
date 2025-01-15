@@ -8,17 +8,25 @@ import (
 )
 
 func Authenticate(context *gin.Context) {
-	token := context.Request.Header.Get("Authorization")
-	if token == "" {
+	authheader := context.Request.Header.Get("Authorization")
+	if authheader == "" {
 		context.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "Not authorized"})
 		return
 	}
-	id, err := utils.VerifyToken(token)
+
+	const bearerPrefix = "Bearer "
+    if len(authheader) < len(bearerPrefix) || authheader[:len(bearerPrefix)] != bearerPrefix {
+        context.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "Invalid token format"})
+        return
+    }
+	token := authheader[len(bearerPrefix):]
+	id, role, err := utils.VerifyToken(token)
 	if err != nil {
 		context.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "Wrong token"})
 		return
 	}
 	context.Set("userId", id)
+	context.Set("role", role)
 	context.Next()
 
 }

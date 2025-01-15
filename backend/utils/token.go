@@ -18,7 +18,7 @@ func GenerateToken(userName string, userID int64, role string) (string, error){
 	return token.SignedString([]byte(secretKey))
 }
 
-func VerifyToken(token string) (int64, error){
+func VerifyToken(token string) (int64, string, error){
 	parsed, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error){
 		_, ok := token.Method.(*jwt.SigningMethodHMAC)
 		if !ok {
@@ -27,16 +27,19 @@ func VerifyToken(token string) (int64, error){
 		return []byte(secretKey), nil
 	})
 	if err != nil{
-		return 0, errors.New("couldnt parse token")
+		return 0, "", errors.New("couldnt parse token")
 	}
 	tokenisValid := parsed.Valid
 	if !tokenisValid{
-		return 0, errors.New("Invalid token")
+		return 0, "", errors.New("INVALID TOKEN")
 	}
 	claims, ok := parsed.Claims.(jwt.MapClaims)
 	if !ok {
-		return 0, errors.New("Invalid token claims")
+		return 0, "", errors.New("INVALID TOKEN CLAIMS")
 	}
+
 	userId := int64(claims["userId"].(float64))
-	return userId, nil
+	role := claims["role"].(string)
+
+	return userId, role,  nil
 }
