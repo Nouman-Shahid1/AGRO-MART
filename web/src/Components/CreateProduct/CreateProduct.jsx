@@ -6,13 +6,13 @@ import { fetchCategories } from "@/reducers/Category/categorySlice";
 
 const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.category);
+  const { categories = [] } = useSelector((state) => state.category);
   const { user } = useSelector((state) => state.auth); // Get user from auth state
 
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
     description: initialData?.description || "",
-    category: initialData?.category || "",
+    categoryName: initialData?.category_name || "",
     price: initialData?.price || "",
     image: null,
     userId: user?.userId || "3", // Fallback userId
@@ -21,7 +21,9 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
   const [error, setError] = useState(null); // State to hold error messages
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetchCategories())
+      .then(() => console.log("Categories fetched"))
+      .catch((err) => console.error("Error fetching categories:", err));
   }, [dispatch]);
 
   const handleInputChange = (e) => {
@@ -30,8 +32,8 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
   };
 
   const handleCategoryChange = (e) => {
-    const selectedCategoryId = e.target.value;
-    setFormData({ ...formData, category: selectedCategoryId });
+    const selectedCategoryName = e.target.value;
+    setFormData({ ...formData, categoryName: selectedCategoryName });
   };
 
   const handleFileChange = (e) => {
@@ -45,7 +47,7 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
     const data = new FormData();
     data.append("name", formData.name);
     data.append("description", formData.description);
-    data.append("category_id", formData.category); // Pass the category ID
+    data.append("categoryName", formData.categoryName); // Pass the category name
     data.append("price", formData.price);
     data.append("userId", formData.userId);
 
@@ -123,19 +125,25 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
         <div className="space-y-2">
           <label className="block text-sm font-semibold">Category</label>
           <select
-            name="category"
-            value={formData.category}
+            name="categoryName"
+            value={formData.categoryName}
             onChange={handleCategoryChange}
             className="w-full p-3 bg-white bg-opacity-20 text-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-opacity-30 transition-all"
           >
             <option className="bg-green-800" value="">
               Select category
             </option>
-            {categories.map((cat) => (
-              <option key={cat.id} className="bg-green-800" value={cat.id}>
-                {cat.name}
+            {categories?.length > 0 ? (
+              categories.map((cat) => (
+                <option key={cat.id} className="bg-green-800" value={cat.name}>
+                  {cat.name}
+                </option>
+              ))
+            ) : (
+              <option className="bg-green-800" disabled>
+                No categories available
               </option>
-            ))}
+            )}
           </select>
         </div>
 

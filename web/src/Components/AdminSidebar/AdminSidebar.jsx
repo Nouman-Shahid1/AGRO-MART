@@ -2,16 +2,25 @@
 import React, { useState } from 'react';
 import { FaTruck, FaCog, FaSeedling, FaCogs, FaUserAlt, FaHome, FaWarehouse, FaBars, FaTimes,FaThLarge } from "react-icons/fa";
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Logo from "../../assets/images/logo.png";
-
+import { logout } from '../../reducers/Auth/authSlice';
+import { useDispatch } from 'react-redux';
 const AdminSidebar = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
+  const router = useRouter();
 
+  const dispatch = useDispatch();
+
+  const handleSignOut = () => {
+    dispatch(logout());
+    router.push('/login');// Dispatch the logout action
+  };
   const menuItems = [
     { label: "Categories", icon: <FaThLarge />, path: "/admin/categories" },
     { label: "Machines", icon: <FaCogs />, path: "/admin/machines" },
@@ -77,9 +86,7 @@ const AdminSidebar = () => {
 
         <div className="absolute bottom-4 left-0 w-full flex justify-center">
           <button
-            onClick={() => {
-              window.location.href = "/login";
-            }}
+            onClick={handleSignOut}
             className="flex items-center justify-center gap-4 p-4 w-[90%] rounded-lg bg-red-500 text-white hover:bg-red-700 transition-all duration-300 shadow-lg"
           >
             <svg

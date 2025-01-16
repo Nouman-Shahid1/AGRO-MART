@@ -137,7 +137,6 @@ const productSlice = createSlice({
       .addCase(createProduct.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        action.asyncDispatch(getProducts());
       })
       .addCase(createProduct.rejected, (state, action) => {
         state.loading = false;
@@ -152,7 +151,6 @@ const productSlice = createSlice({
       .addCase(updateProduct.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        action.asyncDispatch(getProducts());
       })
       .addCase(updateProduct.rejected, (state, action) => {
         state.loading = false;
@@ -194,7 +192,6 @@ const productSlice = createSlice({
       .addCase(deleteProduct.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        action.asyncDispatch(getProducts());
       })
       
       .addCase(deleteProduct.rejected, (state, action) => {

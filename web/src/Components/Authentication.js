@@ -5,60 +5,55 @@ import { setToken } from "../reducers/Auth/authSlice";
 
 const Authentication = ({ children }) => {
   const [isMounted, setIsMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
-  const { token, role } = useSelector((state) => state.auth); // Assume role is stored in Redux state
 
-  // Define role-based protected routes
+  const { token, role } = useSelector((state) => state.auth);
+
   const roleBasedRoutes = {
     admin: ["/admin"],
     seller: ["/seller-profile"],
     buyer: ["/buyer"],
   };
 
-  const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       setIsMounted(true);
+
       const savedToken = localStorage.getItem("access_token");
       const savedRole = localStorage.getItem("user_role");
-  
+
       if (savedToken) {
         dispatch(setToken(savedToken));
       }
-      setIsLoading(false); // Mark loading complete
+
+      setIsLoading(false);
     }
   }, [dispatch]);
-  
+
   useEffect(() => {
-    if (!isMounted) return;
-  
-    if (token && role) {
-      const normalizedRole = role.toLowerCase(); // Normalize role to lowercase
-      const allowedRoutes = roleBasedRoutes[normalizedRole] || [];
-      if (allowedRoutes.length === 0) {
-        console.error(`No routes defined for role: ${role}`);
-        router.push('/default-route'); // Redirect to a safe default route
-        return;
-      }
-  
-      if (!allowedRoutes.includes(pathname)) {
-        router.push(allowedRoutes[0]); // Redirect to the first allowed route for the role
-      }
-    } else if (!token) {
-      // Redirect only if not already on the login page
-      if (pathname !== '/login') {
-        router.push(`/login?redirect=${pathname}`); // Redirect to login if no token
+    if (!isMounted || isLoading) return;
+
+    const isProtectedRoute = Object.values(roleBasedRoutes).flat().includes(pathname);
+
+    if (isProtectedRoute) {
+      if (token && role) {
+        const normalizedRole = role.toLowerCase();
+        const allowedRoutes = roleBasedRoutes[normalizedRole] || [];
+
+        if (!allowedRoutes.includes(pathname)) {
+          router.push(allowedRoutes[0]);
+        }
+      } else if (!token) {
+        router.push(`/login?redirect=${pathname}`);
       }
     }
-  }, [token, role, pathname, isMounted, router]);
-  
-  
-  
-  // Render loading screen while authenticating
-  if (!isMounted || !token || !role) {
+  }, [token, role, pathname, isMounted, isLoading, router]);
+
+  if (!isMounted || isLoading) {
     return (
       <div
         className="relative flex items-center justify-center h-screen bg-cover bg-center"
@@ -67,11 +62,9 @@ const Authentication = ({ children }) => {
             "url('https://media.istockphoto.com/id/1296882154/vector/green-abstract-layers-background.jpg?s=612x612&w=0&k=20&c=GdVbshVWQXddCpjLdjMTpHvDK2s1C4p7BfhGtpqObEY=')",
         }}
       >
-        {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black bg-opacity-60"></div>
 
         <div className="relative z-10 flex flex-col items-center text-center p-8 rounded-lg">
-          {/* Rotating Leaf Animation */}
           <div className="relative flex items-center justify-center h-32 w-32 mb-6">
             <div className="absolute h-full w-full rounded-full border-8 border-green-400 border-t-transparent animate-spin-slow"></div>
             <svg
@@ -100,7 +93,6 @@ const Authentication = ({ children }) => {
     );
   }
 
-  // Render children if authentication and authorization pass
   return <>{children}</>;
 };
 

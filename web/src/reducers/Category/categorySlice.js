@@ -86,7 +86,6 @@ const categorySlice = createSlice({
       .addCase(createCategory.fulfilled, (state, action) => {
         state.loading = false;
         state.categories.push(action.payload); 
-        action.asyncDispatch(fetchCategories());
       })
       .addCase(createCategory.rejected, (state, action) => {
         state.loading = false;
@@ -118,7 +117,6 @@ const categorySlice = createSlice({
         if (index !== -1) {
           state.categories[index] = action.payload;
         }
-        action.asyncDispatch(fetchCategories());
 
       })
       .addCase(updateCategory.rejected, (state, action) => {
@@ -134,7 +132,6 @@ const categorySlice = createSlice({
       .addCase(deleteCategory.fulfilled, (state, action) => {
         state.loading = false;
         state.categories = state.categories.filter((cat) => cat.id !== action.payload);
-        action.asyncDispatch(fetchCategories());
 
       })
       .addCase(deleteCategory.rejected, (state, action) => {

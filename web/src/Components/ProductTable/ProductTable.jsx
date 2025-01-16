@@ -121,7 +121,7 @@ const ProductTable = () => {
                   <td className="py-4 px-6">{product.name}</td>
                   <td className="py-4 px-6">{product.description}</td>
                   <td className="py-4 px-6">{product.price}</td>
-                  <td className="py-4 px-6">{product.category}</td>
+                  <td className="py-4 px-6">{product.categoryName}</td>
                   <td className="py-4 px-6 text-center">
                     <div className="flex justify-center items-center gap-4">
                       {/* Edit Button */}

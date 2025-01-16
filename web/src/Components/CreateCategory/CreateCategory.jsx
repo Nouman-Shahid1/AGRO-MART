@@ -20,12 +20,13 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }
 
   // Load initialCategory data into form when editing
   useEffect(() => {
+    debugger
     if (initialCategory) {
       setFormData({
         name: initialCategory.name,
         description: initialCategory.description,
         image: null, // No file preload
-        userId: user?.userId || "3",
+        userId: user?.userId || "2",
       });
       setPreview(initialCategory.imagePath || null); // Show existing image as preview
     } else {
@@ -56,7 +57,7 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+debugger
     const formDataToSend = new FormData();
     formDataToSend.append("name", formData.name);
     formDataToSend.append("description", formData.description);
