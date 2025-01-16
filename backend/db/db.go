@@ -81,9 +81,9 @@ CREATE TABLE IF NOT EXISTS products(
     description TEXT NOT NULL,
     imagepath TEXT NOT NULL,
 	user_id INTEGER NOT NULL,
-	category_id INTEGER NOT NULL,
-	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-	FOREIGN KEY (category_id) REFERENCES productscategories(id) 
+	category_name TEXT NOT NULL,
+	price INTEGER NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 )
 `
 _, err = DB.Exec(createProductsTable)

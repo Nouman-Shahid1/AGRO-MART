@@ -2,5 +2,5 @@ GET http://localhost:8080/search-bar
 Content-type: application/json
 
 {
-    "search":"Tr"
+    "search":"s"
 }

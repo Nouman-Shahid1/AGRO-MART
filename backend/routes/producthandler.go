@@ -22,15 +22,15 @@ func getProducts(context *gin.Context) {
 func createProduct(context *gin.Context) {
 	name := context.PostForm("name")
 	description := context.PostForm("description")
+	categoryName := context.PostForm("categoryName")
 	userId, err := strconv.ParseInt(context.PostForm("userId"), 10, 64)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid user_id"})
 		return
 	}
-	categoryId, err := strconv.ParseInt(context.PostForm("category_id"), 10, 64)
-
+	price, err := strconv.ParseInt(context.PostForm("price"), 10, 64)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid category_id"})
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid price"})
 		return
 	}
 	file, err := context.FormFile("image")
@@ -50,7 +50,8 @@ func createProduct(context *gin.Context) {
 		Description: description,
 		ImagePath:   filePath,
 		UserID:      userId,
-		Category_id: categoryId,
+		Category_name: categoryName,
+		Price: price,
 	}
 
 	err = product.Save()
@@ -81,6 +82,12 @@ func updateProduct(context *gin.Context) {
 	var updatedproduct models.Product
 	updatedproduct.Name = context.PostForm("name")
 	updatedproduct.Description = context.PostForm("description")
+	updatedproduct.Category_name = context.PostForm("categoryName")
+	updatedproduct.Price, err = strconv.ParseInt(context.PostForm("price"), 10, 64)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid price"})
+		return
+	}
 
 	file, err := context.FormFile("image")
 	if err == nil {
@@ -151,7 +158,6 @@ func searchProduct(context *gin.Context) {
 		Search string `json:"search" binding:"required"`
 	}
 
-	// Bind JSON body to the struct
 	if err := context.ShouldBindJSON(&request); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid input", "error": err.Error()})
 		return

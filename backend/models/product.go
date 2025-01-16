@@ -12,7 +12,8 @@ type Product struct{
 	Description string `json:"description"`
 	ImagePath string `json:"imagepath"`
 	UserID int64 `json:"userId"`
-	Category_id int64 `json:"categoryId"`
+	Category_name string `json:"categoryName"`
+	Price int64 `json:"price"`
 }
 
 func GetAllProducts() ([]Product, error){
@@ -25,7 +26,7 @@ func GetAllProducts() ([]Product, error){
 	var products []Product
 	for rows.Next(){
 		var product Product
-		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, &product.Category_id)
+		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, &product.Category_name, &product.Price)
 		if err != nil{
 			log.Printf("Error scanning rows: %v\n", err)
 			return nil, err
@@ -38,14 +39,14 @@ func GetAllProducts() ([]Product, error){
 
 
 func (u *Product) Save() error {
-	query := "INSERT INTO products(name, description, imagepath, user_id, category_id) VALUES(?,?,?,?,?)"
+	query := "INSERT INTO products(name, description, imagepath, user_id, category_name, price) VALUES(?,?,?,?,?,?)"
 	stmt, err := db.DB.Prepare(query)
 	if err != nil {
 		log.Printf("Error preparing while saving product query: %v\n", err)
 	}
 
 	defer stmt.Close()
-	result, err := stmt.Exec(u.Name, u.Description, u.ImagePath, u.UserID, u.Category_id)
+	result, err := stmt.Exec(u.Name, u.Description, u.ImagePath, u.UserID, u.Category_name, u.Price)
 	
 	if err != nil {
 		log.Printf("Error executing save product query: %v\n", err)
@@ -59,7 +60,7 @@ func GetProductByID(id int64) (*Product, error){
 	query := "SELECT * FROM products WHERE id = ?"
 	row := db.DB.QueryRow(query, id)
 	var product Product
-	err := row.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, &product.Category_id)
+	err := row.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, &product.Category_name, &product.Price)
 	if err != nil {
 		return nil, err
 	}
@@ -86,9 +87,13 @@ func (product Product) UpdateProduct() error {
 		query += "user_id = ?, "
 		params = append(params, product.UserID )
 	}
-	if product.Category_id != 0 {
-		query += "category_id = ?, "
-		params = append(params, product.Category_id)
+	if product.Category_name != "" {
+		query += "category_name = ?, "
+		params = append(params, product.Category_name)
+	}
+	if product.Price != 0 {
+		query += "price = ?, "
+		params = append(params, product.Price)
 	}
 
 
@@ -128,7 +133,7 @@ func GetProductsbyUserID(id int64) ([]Product, error){
 	var products []Product
 	for rows.Next(){
 		var product Product
-		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, &product.Category_id)
+		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, &product.Category_name, &product.Price)
 		if err != nil{
 			log.Printf("Error scanning rows: %v\n", err)
 			return nil, err
@@ -150,7 +155,7 @@ func GetProductsbySearch(search string) ([]Product, error){
 	var products []Product
 	for rows.Next(){
 		var product Product
-		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, &product.Category_id)
+		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.ImagePath, &product.UserID, &product.Category_name, &product.Price)
 		if err != nil{
 			log.Printf("Error scanning rows for searchbar: %v\n", err)
 			return nil, err
