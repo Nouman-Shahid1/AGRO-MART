@@ -20,11 +20,15 @@ export const loginUser = createAsyncThunk(
         const { accessToken } = response.data;
         const decodedToken = jwtDecode(accessToken);
 
+        // Log decoded token details to the console
+        console.log("Decoded Token Details:", decodedToken);
+
         // Store in localStorage
         localStorage.setItem("access_token", accessToken);
         localStorage.setItem("user_role", decodedToken.role); // Save the role
+        localStorage.setItem("userId", decodedToken.Id); // Save the role
 
-        return { token: accessToken, role: decodedToken.role };
+        return { token: accessToken, role: decodedToken.role, user: decodedToken };
       } else {
         return rejectWithValue({ message: "Unexpected response status." });
       }
@@ -33,6 +37,7 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
 
 
 
@@ -49,7 +54,9 @@ export const registerUser = createAsyncThunk(
 
       // Store the token in localStorage
       localStorage.setItem("access_token", token);
-
+      console.log("Decoded Token:", decodedToken); // Check for userId or id key
+      localStorage.setItem("userId", decodedToken.id || decodedToken.Id);
+      
       return { token, user: decodedToken, role: decodedToken.role };
     } catch (err) {
       return rejectWithValue(err.response?.data || { message: "Registration failed. Please try again." });
@@ -150,6 +157,8 @@ const authSlice = createSlice({
         state.token = action.payload.token;
         state.user = action.payload.user;
         state.role = action.payload.role;
+        localStorage.setItem("userId", action.payload.user.userId); 
+        console.log("User ID from localStorage:", localStorage.getItem("userId"));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;

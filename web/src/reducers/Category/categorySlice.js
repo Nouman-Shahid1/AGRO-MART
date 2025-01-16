@@ -13,14 +13,11 @@ export const createCategory = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      console.error("Error in createCategory thunk:", error.response?.data || error.message);
       return rejectWithValue(error.response?.data || { message: error.message });
     }
   }
 );
 
-
-// **Update a category**
 export const updateCategory = createAsyncThunk(
   "category/updateCategory",
   async ({ id, categoryData }, { rejectWithValue }) => {
@@ -32,7 +29,6 @@ export const updateCategory = createAsyncThunk(
       });
       return { id, ...response.data };
     } catch (error) {
-      console.error("Error in updateCategory thunk:", error.response || error.message);
       return rejectWithValue(error.response?.data || { message: error.message });
     }
   }

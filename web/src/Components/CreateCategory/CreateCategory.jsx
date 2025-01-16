@@ -1,46 +1,66 @@
+// CreateCategory Component
 "use client";
 
-import { createCategory, updateCategory } from "@/reducers/Category/categorySlice";
+import {
+  createCategory,
+  updateCategory,
+} from "@/reducers/Category/categorySlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 
-const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }) => {
+const CreateCategory = ({
+  showAddCategory,
+  setShowAddCategory,
+  initialCategory,
+}) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth); // Get user from auth state
+  const [preview, setPreview] = useState(null);
   const { loading, error } = useSelector((state) => state.category);
+  useEffect(() => {
+    if (user?.userId) {
+      console.log("Setting userId from Redux:", user.userId);
+      setFormData((prev) => ({ ...prev, userId: user.userId }));
+    } else if (localStorage.getItem("userId")) {
+      console.log(
+        "Setting userId from localStorage:",
+        localStorage.getItem("userId")
+      );
+      setFormData((prev) => ({
+        ...prev,
+        userId: localStorage.getItem("userId"),
+      }));
+    } else {
+      console.error("User ID is missing in both Redux and localStorage!");
+    }
+  }, [user]);
 
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     image: null,
-    userId: user?.userId || "3", // Fallback userId
+    userId: user?.userId || localStorage.getItem("userId") || null, // Handle fallback
   });
 
-  const [preview, setPreview] = useState(null);
-
-  // Load initialCategory data into form when editing
   useEffect(() => {
-    debugger
     if (initialCategory) {
       setFormData({
         name: initialCategory.name,
         description: initialCategory.description,
-        image: null, // No file preload
-        userId: user?.userId || "2",
+        image: null,
+        userId: user?.userId || initialCategory.userId || null,
       });
-      setPreview(initialCategory.imagePath || null); // Show existing image as preview
+      setPreview(initialCategory.imagePath || null);
     } else {
       resetForm();
     }
   }, [initialCategory, user]);
 
-  // Handle input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle file change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file && !file.type.startsWith("image/")) {
@@ -53,47 +73,56 @@ const CreateCategory = ({ showAddCategory, setShowAddCategory, initialCategory }
       setPreview(objectUrl);
     }
   };
-
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-debugger
+
+    if (!formData.userId) {
+      const storedUserId = localStorage.getItem("userId");
+      if (storedUserId) {
+        console.log("Falling back to localStorage for userId:", storedUserId);
+        setFormData((prev) => ({ ...prev, userId: storedUserId }));
+      } else {
+        alert("User ID is missing. Please log in again.");
+        return;
+      }
+    }
+
+    // Ensure `userId` is available
+    console.log("Final formData before submission:", formData);
+
     const formDataToSend = new FormData();
     formDataToSend.append("name", formData.name);
     formDataToSend.append("description", formData.description);
-    formDataToSend.append("userId", formData.userId);
+
+    const userId = formData.userId || localStorage.getItem("userId");
+    formDataToSend.append("userId", userId);
 
     if (formData.image) {
-      formDataToSend.append("image", formData.image); // Add new image if provided
-    } else if (initialCategory?.imagePath) {
-      formDataToSend.append("existingImagePath", initialCategory.imagePath); // Send existing image path if no new image
+      formDataToSend.append("image", formData.image);
     }
 
-    const action = initialCategory
-      ? updateCategory({ id: initialCategory.id, categoryData: formDataToSend })
-      : createCategory(formDataToSend);
-
     try {
+      const action = initialCategory
+        ? updateCategory({
+            id: initialCategory.id,
+            categoryData: formDataToSend,
+          })
+        : createCategory(formDataToSend);
+
       await dispatch(action).unwrap();
-      alert(
-        initialCategory
-          ? "Category updated successfully!"
-          : "Category created successfully!"
-      );
+      alert("Category submitted successfully!");
       resetForm();
     } catch (err) {
       console.error("Error during category submission:", err);
-      alert(`Error: ${err?.message || "An unexpected error occurred."}`);
     }
   };
 
-  // Reset form and close modal
   const resetForm = () => {
     setFormData({
       name: "",
       description: "",
       image: null,
-      userId: user?.userId || "3",
+      userId: user?.userId || null,
     });
     setPreview(null);
     setShowAddCategory(false);
@@ -189,7 +218,9 @@ debugger
 
         {error && (
           <p className="text-red-500 text-center mt-4">
-            {typeof error === "string" ? error : error?.message || "Something went wrong."}
+            {typeof error === "string"
+              ? error
+              : error?.message || "Something went wrong."}
           </p>
         )}
       </form>
