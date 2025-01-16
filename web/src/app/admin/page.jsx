@@ -1,14 +1,8 @@
 "use client";
+
 import React from "react";
 import AdminDashboardCard from "@/Components/AdminDashboardCard/AdminDashboardCard";
-import {
-  FaTruck,
-  FaCog,
-  FaSeedling,
-  FaCogs,
-  FaUserAlt,
-  FaWarehouse,
-} from "react-icons/fa";
+import { FaTruck, FaCog, FaSeedling, FaCogs, FaUserAlt, FaWarehouse } from "react-icons/fa";
 import Profile from "@/Components/ProfileCard/ProfileCard";
 
 const categories = [
@@ -20,20 +14,18 @@ const categories = [
   { label: "Users", icon: FaUserAlt, path: "/admin/users" },
 ];
 
-export default function page() {
+export default function Page() {
   return (
     <div className="min-h-screen bg-gradient-to-br p-4 md:p-8 from-green-50 to-green-100 overflow-auto">
       <Profile />
-      {/* Main Content */}
-      <main className="container mx-auto  md:px-6 py-10">
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 ">
+      <main className="container mx-auto md:px-6 py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2">
           {categories.map((category) => (
             <AdminDashboardCard
               key={category.label}
               details={{
                 name: category.label,
-                icon: category.icon,
+                icon: category.icon, // Ensure proper rendering
                 url: category.path,
               }}
             />

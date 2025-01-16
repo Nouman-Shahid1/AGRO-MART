@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +7,7 @@ import { fetchCategories } from "@/reducers/Category/categorySlice";
 const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.category);
+  const { user } = useSelector((state) => state.auth); // Get user from auth state
 
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
@@ -16,7 +15,10 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
     category: initialData?.category || "",
     price: initialData?.price || "",
     image: null,
+    userId: user?.userId || "3", // Fallback userId
   });
+
+  const [error, setError] = useState(null); // State to hold error messages
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -27,18 +29,26 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleCategoryChange = (e) => {
+    const selectedCategoryId = e.target.value;
+    setFormData({ ...formData, category: selectedCategoryId });
+  };
+
   const handleFileChange = (e) => {
     setFormData({ ...formData, image: e.target.files[0] });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    debugger
+    setError(null); // Reset error state before submission
+
     const data = new FormData();
     data.append("name", formData.name);
     data.append("description", formData.description);
-    data.append("category", formData.category);
+    data.append("category_id", formData.category); // Pass the category ID
     data.append("price", formData.price);
+    data.append("userId", formData.userId);
+
     if (formData.image) {
       data.append("image", formData.image);
     }
@@ -53,9 +63,9 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
         await dispatch(createProduct(data)).unwrap();
         alert("Product created successfully!");
       }
-      setShowAddProduct(false);
+      setShowAddProduct(false); // Close the modal on success
     } catch (err) {
-      alert(`Error: ${err.message || "Something went wrong!"}`);
+      setError(err.message || "Failed to create or update the product. Please try again.");
     }
   };
 
@@ -80,7 +90,7 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
 
         {/* Header */}
         <h2 className="text-3xl font-bold text-center text-green-300">
-          {initialData ? "Edit Product" : "Add Product"}
+          {initialData?.id ? "Edit Product" : "Add Product"}
         </h2>
 
         {/* Product Name */}
@@ -115,14 +125,14 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
           <select
             name="category"
             value={formData.category}
-            onChange={handleInputChange}
+            onChange={handleCategoryChange}
             className="w-full p-3 bg-white bg-opacity-20 text-white rounded-lg border border-gray-400 outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-opacity-30 transition-all"
           >
             <option className="bg-green-800" value="">
               Select category
             </option>
             {categories.map((cat) => (
-              <option key={cat.id} className="bg-green-800" value={cat.name}>
+              <option key={cat.id} className="bg-green-800" value={cat.id}>
                 {cat.name}
               </option>
             ))}
@@ -153,13 +163,20 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
           />
         </div>
 
+        {/* Error Message */}
+        {error && (
+          <div className="text-red-500 text-sm mt-2">
+            {error}
+          </div>
+        )}
+
         {/* Submit Button */}
         <div className="text-right">
           <button
             type="submit"
             className="px-8 py-3 text-lg font-bold text-white rounded-lg bg-gradient-to-r from-green-500 to-green-700 shadow-lg hover:shadow-xl hover:from-green-600 hover:to-green-800 focus:ring-4 focus:ring-green-500 transition-all"
           >
-            {initialData ? "Update Product" : "Add Product"}
+            {initialData?.id ? "Update Product" : "Add Product"}
           </button>
         </div>
       </form>

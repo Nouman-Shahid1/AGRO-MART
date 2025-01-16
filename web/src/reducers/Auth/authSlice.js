@@ -11,26 +11,30 @@ const initialState = {
   error: null,
 };
 
-// **Thunk to log in a user**
 export const loginUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post("/login", { email, password });
-      const { token } = response.data;
+      if (response.status === 200) {
+        const { accessToken } = response.data;
+        const decodedToken = jwtDecode(accessToken);
 
-      // Decode the token
-      const decodedToken = jwtDecode(token);
+        // Store in localStorage
+        localStorage.setItem("access_token", accessToken);
+        localStorage.setItem("user_role", decodedToken.role); // Save the role
 
-      // Store the token in localStorage
-      localStorage.setItem("access_token", token);
-
-      return { token, user: decodedToken, role: decodedToken.role };
+        return { token: accessToken, role: decodedToken.role };
+      } else {
+        return rejectWithValue({ message: "Unexpected response status." });
+      }
     } catch (err) {
       return rejectWithValue(err.response?.data || { message: "Login failed. Please try again." });
     }
   }
 );
+
+
 
 // **Thunk to register a user**
 export const registerUser = createAsyncThunk(
@@ -95,7 +99,9 @@ export const deleteUser = createAsyncThunk(
 // **Thunk to log out a user**
 export const logout = createAsyncThunk("auth/logout", async (_, { dispatch }) => {
   localStorage.removeItem("access_token");
+  localStorage.removeItem("user_role"); // Clear the role from localStorage
   dispatch(authSlice.actions.clearState());
+  window.location.href = "/login"; // Force redirect to the login page
 });
 
 const authSlice = createSlice({
@@ -104,15 +110,24 @@ const authSlice = createSlice({
   reducers: {
     // **Reducer to manually set the token and decode it**
     setToken: (state, action) => {
-      state.token = action.payload;
-      try {
-        const decodedToken = jwtDecode(action.payload);
-        state.user = decodedToken;
-        state.role = decodedToken.role;
-      } catch (error) {
-        console.error("Error decoding token:", error);
+      const token = action.payload;
+      if (typeof token === "string" && token.trim() !== "") {
+        try {
+          const decodedToken = jwtDecode(token);
+          state.token = token;
+          state.role = decodedToken.role || null; // Ensure role is set
+        } catch (error) {
+          console.error("Error decoding token:", error);
+          state.token = null;
+          state.role = null;
+        }
+      } else {
+        console.error("Invalid token provided:", token);
+        state.token = null;
+        state.role = null;
       }
     },
+    
     // **Reducer to clear the state (used during logout)**
     clearState: (state) => {
       state.user = null;

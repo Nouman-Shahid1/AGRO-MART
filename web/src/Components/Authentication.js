@@ -8,31 +8,57 @@ const Authentication = ({ children }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
-  const { token } = useSelector((state) => state.auth);
+  const { token, role } = useSelector((state) => state.auth); // Assume role is stored in Redux state
 
-  // Define protected routes
-  const protectedRoutes = ["/buyer", "/seller-profile", "/admin"];
+  // Define role-based protected routes
+  const roleBasedRoutes = {
+    admin: ["/admin"],
+    seller: ["/seller-profile"],
+    buyer: ["/buyer"],
+  };
 
-  // Check for token and set it in Redux store
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       setIsMounted(true);
       const savedToken = localStorage.getItem("access_token");
+      const savedRole = localStorage.getItem("user_role");
+  
       if (savedToken) {
         dispatch(setToken(savedToken));
       }
+      setIsLoading(false); // Mark loading complete
     }
   }, [dispatch]);
-
-  // Redirect if accessing protected routes without a token
+  
   useEffect(() => {
-    if (isMounted && protectedRoutes.includes(pathname) && !token) {
-      router.push(`/login?redirect=${pathname}`);
+    if (!isMounted) return;
+  
+    if (token && role) {
+      const normalizedRole = role.toLowerCase(); // Normalize role to lowercase
+      const allowedRoutes = roleBasedRoutes[normalizedRole] || [];
+      if (allowedRoutes.length === 0) {
+        console.error(`No routes defined for role: ${role}`);
+        router.push('/default-route'); // Redirect to a safe default route
+        return;
+      }
+  
+      if (!allowedRoutes.includes(pathname)) {
+        router.push(allowedRoutes[0]); // Redirect to the first allowed route for the role
+      }
+    } else if (!token) {
+      // Redirect only if not already on the login page
+      if (pathname !== '/login') {
+        router.push(`/login?redirect=${pathname}`); // Redirect to login if no token
+      }
     }
-  }, [token, isMounted, pathname, router]);
-
-  // Render loading screen while authenticating or when accessing protected routes without a token
-  if (!isMounted || (protectedRoutes.includes(pathname) && !token)) {
+  }, [token, role, pathname, isMounted, router]);
+  
+  
+  
+  // Render loading screen while authenticating
+  if (!isMounted || !token || !role) {
     return (
       <div
         className="relative flex items-center justify-center h-screen bg-cover bg-center"
@@ -74,7 +100,7 @@ const Authentication = ({ children }) => {
     );
   }
 
-  // Render children once authentication is confirmed
+  // Render children if authentication and authorization pass
   return <>{children}</>;
 };
 
