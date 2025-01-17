@@ -3,14 +3,15 @@ import store from "../store/store";
 import { refreshToken, logout } from "../reducers/Auth/authSlice";
 import { getCookie } from "../utilities/utils";
 
-export const addAccessToken = async (config) => {
-  const accessToken = store.getState().auth.accessToken || getCookie("access_token");
-
+const addAccessToken = async (config) => {
+  const accessToken = store.getState().auth.token || getCookie("access_token");
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
+    console.log("Interceptor added token:", accessToken);
   }
   return config;
 };
+
 
 
 export const handleRequestError = (error) => {
