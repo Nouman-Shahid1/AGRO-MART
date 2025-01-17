@@ -2,16 +2,16 @@ import ProductTable from '@/Components/ProductTable/ProductTable';
 import Profile from '@/Components/ProfileCard/ProfileCard';
 import React from 'react';
 
-const Machines = () => {
+const Fertilizers = () => {
   return (
     <div className="p-2 md:p-8 min-h-screen">
       <Profile />
       <div className="z-20">
-        {/* Passing category filter as a prop */}
-        <ProductTable name="Farm Machinery" category="Farm Machinery" />
+        {/* Passing the category as "fertilizers" for filtering */}
+        <ProductTable name="Fertilizers" category="Fertilizer" />
       </div>
     </div>
   );
 };
 
-export default Machines;
+export default Fertilizers;

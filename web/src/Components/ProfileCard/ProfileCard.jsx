@@ -59,7 +59,7 @@ const Profile = () => {
               type="button"
               className="flex items-center text-base font-medium text-white hover:text-lime-300 transition"
             >
-              {user?.username || "User"}
+              {user?.username || "N"}
               <svg
                 className={`w-4 h-4 ms-3 transform transition-transform ${
                   isDropdownOpen ? "rotate-180" : "rotate-0"

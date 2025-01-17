@@ -10,7 +10,7 @@ import {
 import CreateProduct from "../CreateProduct/CreateProduct";
 import DeleteModal from "../DeleteProduct/DeleteProduct";
 
-const ProductTable = () => {
+const ProductTable = ({ name = "Products", category })=> {
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector((state) => state.product);
   const { token } = useSelector((state) => state.auth); // Get token from auth state
@@ -28,8 +28,10 @@ const ProductTable = () => {
 
   // Filter products based on search term
   const filteredProducts = products
-    ? products.filter((product) =>
-        product?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+    ? products.filter(
+        (product) =>
+          (!category || product.categoryName === category) &&
+          product?.name?.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : [];
 

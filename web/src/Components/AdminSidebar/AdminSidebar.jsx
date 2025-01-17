@@ -25,7 +25,7 @@ const AdminSidebar = () => {
     { label: "Categories", icon: <FaThLarge />, path: "/admin/categories" },
     { label: "Machines", icon: <FaCogs />, path: "/admin/machines" },
     { label: "Seeds", icon: <FaSeedling />, path: "/admin/seeds" },
-    { label: "Crops", icon: <FaWarehouse />, path: "/admin/crops" },
+    { label: "Fertilizers", icon: <FaWarehouse />, path: "/admin/fertilizer" },
     { label: "Pesticides", icon: <FaCog />, path: "/admin/pesticides" },
     { label: "Rentals", icon: <FaTruck />, path: "/admin/rentals" },
     { label: "Users", icon: <FaUserAlt />, path: "/admin/users" },
