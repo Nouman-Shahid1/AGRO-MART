@@ -15,7 +15,7 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
     categoryName: initialData?.category_name || "",
     price: initialData?.price || "",
     image: null,
-    userId: user?.userId || "3", // Fallback userId
+    userId: user?.userId || localStorage.getItem("userId") || null, // Handle fallback
   });
 
   const [error, setError] = useState(null); // State to hold error messages
@@ -25,6 +25,19 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
       .then(() => console.log("Categories fetched"))
       .catch((err) => console.error("Error fetching categories:", err));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user?.userId) {
+      setFormData((prev) => ({ ...prev, userId: user.userId }));
+    } else if (localStorage.getItem("userId")) {
+      setFormData((prev) => ({
+        ...prev,
+        userId: localStorage.getItem("userId"),
+      }));
+    } else {
+      console.error("User ID is missing in both Redux and localStorage!");
+    }
+  }, [user]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -44,10 +57,15 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
     e.preventDefault();
     setError(null); // Reset error state before submission
 
+    if (!formData.userId) {
+      alert("User ID is missing. Please log in again.");
+      return;
+    }
+
     const data = new FormData();
     data.append("name", formData.name);
     data.append("description", formData.description);
-    data.append("categoryName", formData.categoryName); // Pass the category name
+    data.append("categoryName", formData.categoryName);
     data.append("price", formData.price);
     data.append("userId", formData.userId);
 
@@ -172,11 +190,7 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
         </div>
 
         {/* Error Message */}
-        {error && (
-          <div className="text-red-500 text-sm mt-2">
-            {error}
-          </div>
-        )}
+        {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
 
         {/* Submit Button */}
         <div className="text-right">

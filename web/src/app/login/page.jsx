@@ -45,9 +45,9 @@ export default function LoginPage() {
       const { role } = result;
       if (role === "Admin") {
         router.push("/admin");
-      } else if (role === "buyer") {
+      } else if (role === "Buyer"|| "buyer") {
         router.push("/buyer");
-      } else if (role === "seller") {
+      } else if (role === "Seller" || "seller") {
         router.push("/seller-profile");
       } else {
         setError("Unauthorized role. Please contact support.");

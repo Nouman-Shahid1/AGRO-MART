@@ -113,7 +113,31 @@ export const deleteProduct = createAsyncThunk(
   }
 );
 
+export const getProductByUserId = createAsyncThunk(
+  "product/getProductByUserId",
+  async (userId, { rejectWithValue, getState }) => {
+    try {
+      const token = getState().auth.token; // Get token from Redux state
 
+      if (!token) {
+        throw new Error("Authorization token is missing. Please log in again.");
+      }
+
+      // Make the API request with the Authorization header
+      const response = await axios.get(`/products/get-Product/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || error.message || "Failed to get product by user ID."
+      );
+    }
+  }
+);
 
 const productSlice = createSlice({
   name: "product",
@@ -194,7 +218,20 @@ const productSlice = createSlice({
       .addCase(deleteProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+         // Get Product by User ID
+         .addCase(getProductByUserId.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+        })
+        .addCase(getProductByUserId.fulfilled, (state, action) => {
+          state.loading = false;
+          state.products = action.payload; // Ensure this updates the state
+        })
+        .addCase(getProductByUserId.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        });
   },
 });
 

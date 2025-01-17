@@ -1,4 +1,4 @@
-import ProductTable from "@/Components/ProductTable/ProductTable";
+import ProductTable from "@/Components/ProductTableSeller/ProductTable";
 import Profile from "@/Components/ProfileCard/ProfileCard";
 
 export default function Dashboard() {
@@ -16,7 +16,7 @@ export default function Dashboard() {
       <div className="absolute inset-0 bg-black/50"></div>
       <div className="relative z-10">
         <Profile />
-        <ProductTable name={'My Products'} product={true}/>
+        <ProductTable/>
     </div>
     </div>
   );
