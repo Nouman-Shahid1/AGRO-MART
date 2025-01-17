@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { createProduct, updateProduct } from "@/reducers/product/productSlice";
+import { createProduct, updateProduct,getProducts } from "@/reducers/product/productSlice";
 import { fetchCategories } from "@/reducers/Category/categorySlice";
 
 const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
@@ -83,6 +83,7 @@ const CreateProduct = ({ showAddProduct, setShowAddProduct, initialData }) => {
         await dispatch(createProduct(data)).unwrap();
         alert("Product created successfully!");
       }
+      await dispatch(getProducts()).unwrap();
       setShowAddProduct(false); // Close the modal on success
     } catch (err) {
       setError(err.message || "Failed to create or update the product. Please try again.");

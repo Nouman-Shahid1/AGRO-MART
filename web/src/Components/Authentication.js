@@ -1,12 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter, usePathname } from "next/navigation";
 import { setToken } from "../reducers/Auth/authSlice";
 
 const Authentication = ({ children }) => {
-  const [isAuthenticating, setIsAuthenticating] = useState(true);
-
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
@@ -29,13 +27,16 @@ const Authentication = ({ children }) => {
         dispatch(setToken(savedToken));
       }
 
-      setIsAuthenticating(false); // Authentication check complete
+      // Redirect immediately if the token is invalid or missing
+      if (!savedToken) {
+        router.push("/login");
+      }
     }
-  }, [dispatch]);
+  }, [dispatch, router]);
 
   // Redirect user based on role and protected routes
   useEffect(() => {
-    if (isAuthenticating || !token || !role) return;
+    if (!token || !role) return;
 
     const normalizedRole = role.toLowerCase();
     const allowedRoutes = roleBasedRoutes[normalizedRole] || [];
@@ -44,10 +45,10 @@ const Authentication = ({ children }) => {
     if (isProtectedRoute && !allowedRoutes.includes(pathname)) {
       router.push(allowedRoutes.length > 0 ? allowedRoutes[0] : "/login");
     }
-  }, [token, role, pathname, isAuthenticating, router]);
+  }, [token, role, pathname, router]);
 
-  // Show loading screen during authentication
-  if (isAuthenticating) {
+  // Skip the loading screen entirely if the token is valid
+  if (!token) {
     return (
       <div
         className="relative flex items-center justify-center h-screen bg-cover bg-center"

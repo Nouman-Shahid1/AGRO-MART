@@ -4,6 +4,7 @@
 import {
   createCategory,
   updateCategory,
+  fetchCategories
 } from "@/reducers/Category/categorySlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
@@ -111,6 +112,7 @@ const CreateCategory = ({
 
       await dispatch(action).unwrap();
       alert("Category submitted successfully!");
+      await dispatch(fetchCategories()).unwrap();
       resetForm();
     } catch (err) {
       console.error("Error during category submission:", err);

@@ -158,6 +158,7 @@ const productSlice = createSlice({
       .addCase(createProduct.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
+        state.products.push(action.payload);
       })
       .addCase(createProduct.rejected, (state, action) => {
         state.loading = false;
@@ -170,6 +171,8 @@ const productSlice = createSlice({
         state.error = null;
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
+        const index = state.products.findIndex(product => product.id === action.payload.id);
+        state.products[index] = action.payload; // Update the product in the state
         state.loading = false;
         state.error = null;
       })
@@ -211,6 +214,7 @@ const productSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.products = state.products.filter(product => product.id !== action.payload.productId);
         state.loading = false;
         state.error = null;
       })
@@ -226,7 +230,7 @@ const productSlice = createSlice({
         })
         .addCase(getProductByUserId.fulfilled, (state, action) => {
           state.loading = false;
-          state.products = action.payload; // Ensure this updates the state
+          state.products = action.payload;
         })
         .addCase(getProductByUserId.rejected, (state, action) => {
           state.loading = false;
