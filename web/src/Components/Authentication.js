@@ -1,11 +1,11 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter, usePathname } from "next/navigation";
 import { setToken } from "../reducers/Auth/authSlice";
 
 const Authentication = ({ children }) => {
-  const [isMounted, setIsMounted] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticating, setIsAuthenticating] = useState(true);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -19,10 +19,9 @@ const Authentication = ({ children }) => {
     buyer: ["/buyer"],
   };
 
+  // Load token and role from localStorage on initial mount
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setIsMounted(true);
-
       const savedToken = localStorage.getItem("access_token");
       const savedRole = localStorage.getItem("user_role");
 
@@ -30,31 +29,25 @@ const Authentication = ({ children }) => {
         dispatch(setToken(savedToken));
       }
 
-      setIsLoading(false);
+      setIsAuthenticating(false); // Authentication check complete
     }
   }, [dispatch]);
 
+  // Redirect user based on role and protected routes
   useEffect(() => {
-    if (!isMounted || isLoading) return;
+    if (isAuthenticating || !token || !role) return;
 
+    const normalizedRole = role.toLowerCase();
+    const allowedRoutes = roleBasedRoutes[normalizedRole] || [];
     const isProtectedRoute = Object.values(roleBasedRoutes).flat().includes(pathname);
 
-    if (isProtectedRoute) {
-      if (token && role) {
-        const normalizedRole = role.toLowerCase();
-        const allowedRoutes = roleBasedRoutes[normalizedRole] || [];
-
-        if (!allowedRoutes.includes(pathname)) {
-          // Redirect to the first allowed route for the user role
-          router.push(allowedRoutes.length > 0 ? allowedRoutes[0] : "/login");
-        }
-      } else if (!token) {
-        router.push(`/login?redirect=${pathname}`);
-      }
+    if (isProtectedRoute && !allowedRoutes.includes(pathname)) {
+      router.push(allowedRoutes.length > 0 ? allowedRoutes[0] : "/login");
     }
-  }, [token, role, pathname, isMounted, isLoading, router]);
+  }, [token, role, pathname, isAuthenticating, router]);
 
-  if (!isMounted || isLoading) {
+  // Show loading screen during authentication
+  if (isAuthenticating) {
     return (
       <div
         className="relative flex items-center justify-center h-screen bg-cover bg-center"

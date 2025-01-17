@@ -1,13 +1,29 @@
-import Testimonial from "@/Components/Testimonial/Testimonial";
+"use client"
 
-import Footer from "@/Components/Footer/Footer";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories } from "@/reducers/Category/categorySlice";
+import { getProducts } from "@/reducers/product/productSlice";
 import Navbar from "@/Components/Navbar/Navbar";
+import Footer from "@/Components/Footer/Footer";
 import Newsletter from "@/Components/NewsLetter/Newsletter";
 import ProductCard from "@/Components/ProductCard/ProductCard";
 import CategoryCard from "@/Components/CategoryCard/CategoryCard";
 import Benifits from "@/Components/Benifites/Benifits";
+import Testimonial from "@/Components/Testimonial/Testimonial";
 import { GiBarbedSpear } from "react-icons/gi";
 export default function Page() {
+  const dispatch = useDispatch();
+  const { categories, loading: categoriesLoading, error: categoriesError } = useSelector(
+    (state) => state.category
+  );
+  const { products, loading: productsLoading, error: productsError } = useSelector(
+    (state) => state.product
+  );
+  useEffect(() => {
+    dispatch(fetchCategories()); // Fetch categories on component mount
+    dispatch(getProducts()); // Fetch products on component mount
+  }, [dispatch]);
   return (
     <>
       <div className="min-h-screen relative overflow-hidden font-sans">
@@ -94,28 +110,24 @@ export default function Page() {
             />
             <div className="w-16 h-1 bg-[#47b881] rounded-full"></div>
           </div>
-          <div className="flex flex-wrap gap-10 justify-center">
-            <CategoryCard
-              name="Fertilizer"
-              src="https://image.made-in-china.com/202f0j00zlprGMCoYkqP/Herbicide-Bensulfuron-Methyl-10-Bentazole-45-Wp-Hot-Sales-Keep-Grass-Products.webp"
-              description="Boost crop yields with eco-friendly fertilizers for healthier farms."
-            />
-            <CategoryCard
-              name="Pesticide"
-              src="https://image.made-in-china.com/2f0j00RfLqdFvkCgpV/Best-Selling-Agriculture-Pesticides-Emamectin-Benzoate-Abamectin-Insektisida-Abamectin-95-Tc-1-8c.webp"
-              description="Keep pests at bay with effective and sustainable pesticides."
-            />
-            <CategoryCard
-              name="Farm Machinery"
-              src="https://image.made-in-china.com/2f0j00gvHqFsQlEhbe/Agricultural-Machine-and-Farm-Equipment-Rice-Wheat-Combine-Harvester.webp"
-              description="Modern machinery designed to save time and increase efficiency."
-            />
-            <CategoryCard
-              name="Seeds"
-              src="https://i.brecorder.com/large/2024/03/6604aab2bf8c4.jpg"
-              description="High-quality seeds for sustainable farming and better harvests."
-            />
-          </div>
+          {categoriesLoading ? (
+            <p>Loading categories...</p>
+          ) : categoriesError ? (
+            <p className="text-red-500">{categoriesError}</p>
+          ) : (
+            <div className="flex flex-wrap gap-10 justify-center">
+              {categories.map((category) => (
+                <CategoryCard
+                  key={category.id}
+                  name={category.name}
+                  // src={category.imageUrl}
+                  src={`http://localhost:8080/${category.imagepath}`}
+
+                  description={category.description}
+                />
+              ))}
+            </div>
+          )}
           <div className="mt-16">
             <button className="bg-[#47b881] hover:bg-[#3a9149] text-white font-bold py-4 px-14 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 hover:shadow-[#66bb6a]/50">
               View All Categories
@@ -144,34 +156,24 @@ export default function Page() {
             <div className="w-16 h-1 bg-[#47b881] rounded-full"></div>
           </div>
           <div className="flex flex-wrap gap-10 justify-center">
-            <ProductCard
-              src="https://img.freepik.com/free-photo/close-up-box-with-vegetables-hands-mature-man_329181-4600.jpg"
-              title="Fresh Veggies Pack"
-              cat="Vegetables"
-              price="39.99"
-              rating="4.5"
-            />
-            <ProductCard
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhJPsEXB2wfWSZD5DAD98sHzPct0q1JAAkZQ&s"
-              title="Organic Fertilizer"
-              cat="Fertilizers"
-              price="29.99"
-              rating="4.8"
-            />
-            <ProductCard
-              src="https://in.thedollarbusiness.com/assets/articles/2015/12/shutterstock_231916573_650.jpg"
-              title="Farm Equipment"
-              cat="Tools"
-              price="149.99"
-              rating="4.2"
-            />
-            <ProductCard
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK_nIaZR3vC-_Yz5NKSlYYsE26XSVCaWAlww&s"
-              title="Pest Control Spray"
-              cat="Pesticides"
-              price="19.99"
-              rating="4.0"
-            />
+          {productsLoading ? (
+          <p>Loading products...</p>
+        ) :  productsError ? (
+          <p className="text-red-500">{ productsError}</p>
+        ) : (
+          <div className="flex flex-wrap gap-10 justify-center">
+            {products.map((product) => (
+              <ProductCard
+                key={product.id}
+                src={`http://localhost:8080/${product.imagepath}`}
+                title={product.name}
+                cat={product.category}
+                price={product.price}
+                rating={product.rating}
+              />
+            ))}
+          </div>
+        )}
           </div>
           <div className="mt-16">
             <button className="bg-[#47b881] hover:bg-[#3a9149] text-white font-bold py-4 px-8 md:px-14 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 hover:shadow-[#66bb6a]/50">

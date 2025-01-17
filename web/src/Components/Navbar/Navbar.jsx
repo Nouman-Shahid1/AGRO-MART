@@ -165,9 +165,9 @@ const Navbar = () => {
                 <strong>HOME</strong>
               </li>
             </Link>
-            <Link href="/products">
+            <Link href="/pesticides">
               <li className="hover:border-b-2 border-current p-2">
-                <strong>PRODUCTS</strong>
+                <strong>PESTICIDES</strong>
               </li>
             </Link>
             <Link href="/seeds">
