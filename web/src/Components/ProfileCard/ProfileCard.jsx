@@ -1,3 +1,4 @@
+// Profile Component
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -11,11 +12,9 @@ const Profile = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // Access user and role from Redux state
   const user = useSelector((state) => state.auth.user);
   const role = useSelector((state) => state.auth.role);
 
-  // Toggle the dropdown visibility
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
@@ -36,7 +35,7 @@ const Profile = () => {
 
       {/* Welcome Text */}
       <h1 className="relative z-10 text-3xl md:text-4xl font-bold text-white drop-shadow-lg mb-4 md:mb-0">
-        Welcome, {user?.name || "Guest"}!
+        Welcome, {user?.username || "Guest"}!
       </h1>
 
       {/* Profile Section */}

@@ -2,7 +2,6 @@ import Profile from "../../Components/ProfileCard/ProfileCard";
 import DashboardCard from "../../Components/DashboardCard/DashboardCard";
 import Services from "../../assets/images/services.png";
 import Amenities from "../../assets/images/amenities.png";
-import Sidebar from "@/Components/Sidebar/Sidebar";
 
 export default function Dashboard() {
   return (

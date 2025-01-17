@@ -11,13 +11,10 @@ export default function SignupPage() {
   const [activeForm, setActiveForm] = useState("buyer");
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    username:"",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
-    businessName: "",
-    phoneNumber: "",
-    address: "",
   });
   const dispatch = useDispatch();
   const router = useRouter();
@@ -34,32 +31,31 @@ export default function SignupPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const role = activeForm === "buyer" ? "buyer" : "seller";
-
-    // Validate passwords match
+  
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match.");
       return;
     }
-debugger
+  
     const userData = {
-      username: formData.username,
       email: formData.email,
       password: formData.password,
+      username: formData.username || null,
       role,
-      ...(role === "seller" && {
-        businessName: formData.businessName,
-        phoneNumber: formData.phoneNumber,
-        address: formData.address,
-      }),
     };
-
+  
     try {
-      await dispatch(registerUser(userData)).unwrap();
+      const result = await dispatch(registerUser(userData)).unwrap();
+      console.log("Registration Success:", result); // Log success
+      alert("Registration successful! Redirecting to login...");
       router.push("/login");
     } catch (err) {
-      alert(err.message || "Registration failed. Please try again.");
+      console.error("Registration Failed:", err); // Log error
+      alert(err?.message || "Registration failed. Please try again.");
     }
   };
+  
+  
 
   const formVariants = {
     initial: { opacity: 0, y: -50 },
@@ -126,31 +122,17 @@ debugger
               {activeForm === "buyer" ? "Join as a Buyer" : "Join as a Seller"}
             </h2>
             <form className="space-y-3" onSubmit={handleSubmit}>
-              <div className="flex gap-2 justify-between">
-                <div className="w-full">
-                  <label className="block text-left text-white font-semibold mb-1">
-                    User Name
-                  </label>
-                  <input
-                    type="text"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleInputChange}
-                    className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
-                  />
-                </div>
-                {/* <div className="w-full">
-                  <label className="block text-left text-white font-semibold mb-1">
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
-                  />
-                </div> */}
+              <div>
+                <label className="block text-left text-white font-semibold mb-1">
+                  User Name
+                </label>
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleInputChange}
+                  className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
+                />
               </div>
               <div>
                 <label className="block text-left text-blue-100 font-semibold mb-1">
@@ -203,48 +185,6 @@ debugger
                   className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
                 />
               </div>
-
-              {/* Additional Seller Fields */}
-              {activeForm === "seller" && (
-                <>
-                  <div>
-                    <label className="block text-left text-white font-semibold mb-1">
-                      Business Name
-                    </label>
-                    <input
-                      type="text"
-                      name="businessName"
-                      value={formData.businessName}
-                      onChange={handleInputChange}
-                      className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-left text-white font-semibold mb-1">
-                      Phone Number
-                    </label>
-                    <input
-                      type="text"
-                      name="phoneNumber"
-                      value={formData.phoneNumber}
-                      onChange={handleInputChange}
-                      className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-left text-white font-semibold mb-1">
-                      Address
-                    </label>
-                    <textarea
-                      rows="3"
-                      name="address"
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      className="w-full text-gray-800 bg-transparent text-white border-b-2 border-white shadow-4xl focus:py-2 focus:outline-none"
-                    ></textarea>
-                  </div>
-                </>
-              )}
 
               <button
                 type="submit"

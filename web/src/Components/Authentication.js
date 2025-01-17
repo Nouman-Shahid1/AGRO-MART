@@ -45,7 +45,8 @@ const Authentication = ({ children }) => {
         const allowedRoutes = roleBasedRoutes[normalizedRole] || [];
 
         if (!allowedRoutes.includes(pathname)) {
-          router.push(allowedRoutes[0]);
+          // Redirect to the first allowed route for the user role
+          router.push(allowedRoutes.length > 0 ? allowedRoutes[0] : "/login");
         }
       } else if (!token) {
         router.push(`/login?redirect=${pathname}`);

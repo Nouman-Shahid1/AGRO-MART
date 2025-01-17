@@ -3,13 +3,38 @@ import axios from "../../axios/config";
 import { jwtDecode } from "jwt-decode"; // Import jwtDecode as a named export
 
 const initialState = {
-  user: null, // Decoded user information
-  token: null, // JWT token
-  role: null, // User role from the decoded token
-  users: [], // List of users
+  user: null,
+  token: null,
+  role: null,
+  users: [],
   loading: false,
   error: null,
 };
+
+const loadStateFromLocalStorage = () => {
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("access_token");
+    const role = localStorage.getItem("user_role");
+    const userId = localStorage.getItem("userId");
+
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        return {
+          user: { ...decodedToken, userId }, // Include the user ID from localStorage
+          token,
+          role,
+        };
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
+  }
+  return { user: null, token: null, role: null };
+};
+
+// Initialize state with persisted data from localStorage
+const persistedState = typeof window !== "undefined" ? loadStateFromLocalStorage() : {};
 
 export const loginUser = createAsyncThunk(
   "auth/login",
@@ -38,31 +63,41 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-
-
-
-// **Thunk to register a user**
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post("/signup", userData);
-      const { token } = response.data;
+      console.log("Backend Response:", response.data); // Debug response
 
-      // Decode the token
-      const decodedToken = jwtDecode(token);
+      // Extract user details from the response
+      const { event } = response.data;
 
-      // Store the token in localStorage
-      localStorage.setItem("access_token", token);
-      console.log("Decoded Token:", decodedToken); // Check for userId or id key
-      localStorage.setItem("userId", decodedToken.id || decodedToken.Id);
-      
-      return { token, user: decodedToken, role: decodedToken.role };
+      if (!event) {
+        throw new Error("User details not found in response.");
+      }
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("userId", event.ID);
+        localStorage.setItem("userRole", event.Role);
+      }
+
+      return {
+        user: {
+          id: event.ID,
+          email: event.Email,
+          username: event.Username,
+          role: event.Role,
+        },
+      };
     } catch (err) {
+      console.error("Error Response:", err.response?.data || err.message);
       return rejectWithValue(err.response?.data || { message: "Registration failed. Please try again." });
     }
   }
 );
+
+
 
 // **Thunk to fetch all users**
 export const fetchUsers = createAsyncThunk(
@@ -113,29 +148,28 @@ export const logout = createAsyncThunk("auth/logout", async (_, { dispatch }) =>
 
 const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: {
+    ...initialState,
+    ...persistedState,
+  },
+
   reducers: {
-    // **Reducer to manually set the token and decode it**
     setToken: (state, action) => {
       const token = action.payload;
-      if (typeof token === "string" && token.trim() !== "") {
+      if (token) {
         try {
           const decodedToken = jwtDecode(token);
           state.token = token;
-          state.role = decodedToken.role || null; // Ensure role is set
+          state.role = decodedToken.role || null;
+          state.user = decodedToken;
         } catch (error) {
           console.error("Error decoding token:", error);
           state.token = null;
           state.role = null;
         }
-      } else {
-        console.error("Invalid token provided:", token);
-        state.token = null;
-        state.role = null;
       }
     },
     
-    // **Reducer to clear the state (used during logout)**
     clearState: (state) => {
       state.user = null;
       state.token = null;
@@ -154,11 +188,9 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload.token;
-        state.user = action.payload.user;
-        state.role = action.payload.role;
-        localStorage.setItem("userId", action.payload.user.userId); 
-        console.log("User ID from localStorage:", localStorage.getItem("userId"));
+          state.token = action.payload.token;
+          state.user = action.payload.user;
+          state.role = action.payload.role;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;

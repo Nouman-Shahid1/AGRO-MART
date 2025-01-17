@@ -1,4 +1,4 @@
-import ProductTable from "@/Components/CategoryTable/ProductTable";
+import ProductTable from "@/Components/ProductTable/ProductTable";
 import Profile from "@/Components/ProfileCard/ProfileCard";
 
 export default function Dashboard() {
