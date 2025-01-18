@@ -116,6 +116,7 @@ export default function SeedsPage() {
               {seedsProducts.map((product) => (
                 <ProductCard
                   key={product.id}
+                id={product.id}
                   src={`http://localhost:8080/${product.imagepath}`} // Assuming product.imagepath contains the image path
                   title={product.name}
                   cat={product.category}

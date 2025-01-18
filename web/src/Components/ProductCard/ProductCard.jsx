@@ -1,9 +1,23 @@
 "use client";
 import React from "react";
+import { useCart } from "../../utilities/CartContext";
+import Link from "next/link";
+const ProductCard = ({ title, src, price, description, rating,id }) => {
+  const { addToCart } = useCart();
 
-const ProductCard = ({ title, src, price, description, rating }) => {
+  const handleAddToCart = () => {
+    const product = {
+      id,
+      name: title,
+      image: src,
+      price: parseFloat(price), // Ensure price is numeric
+    };
+    addToCart(product);
+  };
+
   return (
     <div className="relative bg-gradient-to-b from-green-50 via-white to-[#baf8cc] p-6 rounded-3xl shadow-lg hover:shadow-2xl hover:scale-105 transform transition-transform duration-300 w-[80%] sm:w-[320px] flex flex-col">
+       <Link href={`/products/${id}`}>
       <div className="absolute top-4 left-4 bg-gradient-to-r from-green-600 to-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
         Bestseller
       </div>
@@ -15,6 +29,8 @@ const ProductCard = ({ title, src, price, description, rating }) => {
           alt={title || "Product"}
         />
       </div>
+      </Link>
+      <Link href={`/products/${id}`}>
 
       <div className="text-center mt-6">
         <h3 className="text-xl font-bold text-green-700 truncate">
@@ -27,7 +43,7 @@ const ProductCard = ({ title, src, price, description, rating }) => {
           ${price || "0.00"}
         </p>
       </div>
-
+</Link>
       <div className="flex justify-center items-center mt-4">
         {Array.from({ length: 5 }, (_, index) => (
           <svg
@@ -67,7 +83,7 @@ const ProductCard = ({ title, src, price, description, rating }) => {
         <div className="w-10 h-[2px] bg-green-500"></div>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-8" onClick={handleAddToCart}>
         <button className="w-full bg-gradient-to-r from-green-600 to-green-500 text-white py-3 px-6 rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300">
           Add to Cart
         </button>

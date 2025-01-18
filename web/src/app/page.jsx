@@ -165,6 +165,7 @@ export default function Page() {
             {products.map((product) => (
               <ProductCard
                 key={product.id}
+                id={product.id}
                 src={`http://localhost:8080/${product.imagepath}`}
                 title={product.name}
                 cat={product.category}
