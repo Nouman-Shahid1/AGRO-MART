@@ -206,9 +206,10 @@ const Navbar = () => {
             >
               Clear Cart
             </button>
+            <Link href="/checkout" passHref>
             <button className="py-2 px-4 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition-transform transform hover:scale-105">
               Checkout
-            </button>
+            </button></Link>
           </div>
         </>
       ) : (
